@@ -1,0 +1,47 @@
+
+==== 2026-10-25T05:06:20.097Z launcher bat=D:\hyperframes-studio\irena-video\iren-video-render-run.bat ====
+[err schtasks /delete /tn hf_detached_21756_mvnd7q6a /f]
+STDOUT: 
+STDERR: Error: El sistema no puede encontrar el archivo especificado.
+
+task create rc=0 st=01:08
+
+task run rc=0
+
+==== 2026-10-25T05:17:29.465Z launcher bat=D:\hyperframes-studio\irena-video\fine-encode.bat ====
+[err schtasks /delete /tn hf_detached_21676_mvndm2nu /f]
+STDOUT: 
+STDERR: Error: El sistema no puede encontrar el archivo especificado.
+
+task create rc=0 st=01:19
+
+task run rc=0
+
+==== 2026-10-25T05:25:34.938Z launcher bat=D:\hyperframes-studio\irena-video2\transcribe-run.bat ====
+[err schtasks /delete /tn hf_detached_7308_mvndwh97 /f]
+STDOUT: 
+STDERR: Error: El sistema no puede encontrar el archivo especificado.
+
+task create rc=0 st=01:27
+
+task run rc=0
+
+==== 2026-10-25T05:47:32.386Z launcher bat=D:\hyperframes-studio\irena-video2\lint-check-run.bat ====
+[err schtasks /delete /tn hf_detached_15012_mvneopsz /f]
+STDOUT: 
+STDERR: Error: El sistema no puede encontrar el archivo especificado.
+
+task create rc=0 st=01:49
+
+task run rc=0
+
+==== 2026-10-25T05:49:38.375Z launcher bat=D:\hyperframes-studio\irena-video2\render-b-run.bat ====
+[err schtasks /delete /tn hf_detached_17120_mvnerf0n /f]
+STDOUT: 
+STDERR: Error: El sistema no puede encontrar el archivo especificado.
+
+task create rc=0 st=01:51
+
+task run rc=0
+
+task delete rc=0

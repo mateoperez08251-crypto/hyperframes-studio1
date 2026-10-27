@@ -1,0 +1,794 @@
+[
+  {
+    "id": "w0",
+    "text": "En",
+    "start": 0,
+    "end": 0.32
+  },
+  {
+    "id": "w1",
+    "text": "medio",
+    "start": 0.32,
+    "end": 0.72
+  },
+  {
+    "id": "w2",
+    "text": "de",
+    "start": 0.72,
+    "end": 0.88
+  },
+  {
+    "id": "w3",
+    "text": "una",
+    "start": 0.88,
+    "end": 1.12
+  },
+  {
+    "id": "w4",
+    "text": "de",
+    "start": 1.12,
+    "end": 1.28
+  },
+  {
+    "id": "w5",
+    "text": "las",
+    "start": 1.28,
+    "end": 1.44
+  },
+  {
+    "id": "w6",
+    "text": "épocas",
+    "start": 1.44,
+    "end": 2.16
+  },
+  {
+    "id": "w7",
+    "text": "más",
+    "start": 2.16,
+    "end": 2.48
+  },
+  {
+    "id": "w8",
+    "text": "oscuras",
+    "start": 2.48,
+    "end": 3.12
+  },
+  {
+    "id": "w9",
+    "text": "de",
+    "start": 3.12,
+    "end": 3.28
+  },
+  {
+    "id": "w10",
+    "text": "la",
+    "start": 3.28,
+    "end": 3.52
+  },
+  {
+    "id": "w11",
+    "text": "historia,",
+    "start": 3.52,
+    "end": 4.32
+  },
+  {
+    "id": "w12",
+    "text": "hubo",
+    "start": 4.32,
+    "end": 4.8
+  },
+  {
+    "id": "w13",
+    "text": "una",
+    "start": 4.8,
+    "end": 5.04
+  },
+  {
+    "id": "w14",
+    "text": "mujer",
+    "start": 5.04,
+    "end": 5.44
+  },
+  {
+    "id": "w15",
+    "text": "que",
+    "start": 5.44,
+    "end": 5.68
+  },
+  {
+    "id": "w16",
+    "text": "decidió",
+    "start": 5.68,
+    "end": 6.32
+  },
+  {
+    "id": "w17",
+    "text": "desafiar",
+    "start": 6.32,
+    "end": 7.12
+  },
+  {
+    "id": "w18",
+    "text": "a",
+    "start": 7.12,
+    "end": 7.2
+  },
+  {
+    "id": "w19",
+    "text": "la",
+    "start": 7.2,
+    "end": 7.36
+  },
+  {
+    "id": "w20",
+    "text": "muerte.",
+    "start": 7.36,
+    "end": 8.24
+  },
+  {
+    "id": "w21",
+    "text": "Su",
+    "start": 8.24,
+    "end": 8.56
+  },
+  {
+    "id": "w22",
+    "text": "nombre",
+    "start": 8.56,
+    "end": 8.88
+  },
+  {
+    "id": "w23",
+    "text": "era",
+    "start": 9.04,
+    "end": 9.36
+  },
+  {
+    "id": "w24",
+    "text": "Irena",
+    "start": 9.36,
+    "end": 10.08
+  },
+  {
+    "id": "w25",
+    "text": "Sendler.",
+    "start": 10.08,
+    "end": 10.96
+  },
+  {
+    "id": "w26",
+    "text": "En",
+    "start": 10.96,
+    "end": 11.28
+  },
+  {
+    "id": "w27",
+    "text": "1940,",
+    "start": 11.28,
+    "end": 13.12
+  },
+  {
+    "id": "w28",
+    "text": "miles",
+    "start": 13.12,
+    "end": 13.68
+  },
+  {
+    "id": "w29",
+    "text": "de",
+    "start": 13.68,
+    "end": 13.84
+  },
+  {
+    "id": "w30",
+    "text": "familias",
+    "start": 13.84,
+    "end": 14.4
+  },
+  {
+    "id": "w31",
+    "text": "judíaron",
+    "start": 14.4,
+    "end": 15.84
+  },
+  {
+    "id": "w32",
+    "text": "encerradas",
+    "start": 15.84,
+    "end": 16.48
+  },
+  {
+    "id": "w33",
+    "text": "en",
+    "start": 16.48,
+    "end": 16.56
+  },
+  {
+    "id": "w34",
+    "text": "el",
+    "start": 16.56,
+    "end": 16.72
+  },
+  {
+    "id": "w35",
+    "text": "gueto",
+    "start": 16.72,
+    "end": 17.12
+  },
+  {
+    "id": "w36",
+    "text": "de",
+    "start": 17.12,
+    "end": 17.2
+  },
+  {
+    "id": "w37",
+    "text": "Varsovia,",
+    "start": 17.2,
+    "end": 18.24
+  },
+  {
+    "id": "w38",
+    "text": "en",
+    "start": 18.24,
+    "end": 18.4
+  },
+  {
+    "id": "w39",
+    "text": "Polonia.",
+    "start": 18.4,
+    "end": 19.28
+  },
+  {
+    "id": "w40",
+    "text": "El",
+    "start": 19.28,
+    "end": 19.52
+  },
+  {
+    "id": "w41",
+    "text": "hambre,",
+    "start": 19.52,
+    "end": 20.16
+  },
+  {
+    "id": "w42",
+    "text": "las",
+    "start": 20.16,
+    "end": 20.4
+  },
+  {
+    "id": "w43",
+    "text": "enfermedades",
+    "start": 20.4,
+    "end": 21.12
+  },
+  {
+    "id": "w44",
+    "text": "y",
+    "start": 21.12,
+    "end": 21.36
+  },
+  {
+    "id": "w45",
+    "text": "el",
+    "start": 21.36,
+    "end": 21.6
+  },
+  {
+    "id": "w46",
+    "text": "miedo",
+    "start": 21.6,
+    "end": 22.16
+  },
+  {
+    "id": "w47",
+    "text": "se",
+    "start": 22.32,
+    "end": 22.48
+  },
+  {
+    "id": "w48",
+    "text": "habían",
+    "start": 22.48,
+    "end": 22.88
+  },
+  {
+    "id": "w49",
+    "text": "convertido",
+    "start": 22.88,
+    "end": 23.6
+  },
+  {
+    "id": "w50",
+    "text": "en",
+    "start": 23.6,
+    "end": 23.84
+  },
+  {
+    "id": "w51",
+    "text": "parte",
+    "start": 23.84,
+    "end": 24.16
+  },
+  {
+    "id": "w52",
+    "text": "de",
+    "start": 24.16,
+    "end": 24.24
+  },
+  {
+    "id": "w53",
+    "text": "la",
+    "start": 24.24,
+    "end": 24.48
+  },
+  {
+    "id": "w54",
+    "text": "vida",
+    "start": 24.48,
+    "end": 24.72
+  },
+  {
+    "id": "w55",
+    "text": "cotidiana.",
+    "start": 24.72,
+    "end": 25.92
+  },
+  {
+    "id": "w56",
+    "text": "Pero",
+    "start": 26.24,
+    "end": 26.56
+  },
+  {
+    "id": "w57",
+    "text": "Irena",
+    "start": 26.56,
+    "end": 27.36
+  },
+  {
+    "id": "w58",
+    "text": "no",
+    "start": 27.6,
+    "end": 27.92
+  },
+  {
+    "id": "w59",
+    "text": "estaba",
+    "start": 27.92,
+    "end": 28.24
+  },
+  {
+    "id": "w60",
+    "text": "dispuesta",
+    "start": 28.32,
+    "end": 28.8
+  },
+  {
+    "id": "w61",
+    "text": "a",
+    "start": 28.96,
+    "end": 29.12
+  },
+  {
+    "id": "w62",
+    "text": "quedarse",
+    "start": 29.12,
+    "end": 29.68
+  },
+  {
+    "id": "w63",
+    "text": "mirando.",
+    "start": 29.68,
+    "end": 30.56
+  },
+  {
+    "id": "w64",
+    "text": "Aprovechando",
+    "start": 30.56,
+    "end": 31.44
+  },
+  {
+    "id": "w65",
+    "text": "su",
+    "start": 31.44,
+    "end": 31.68
+  },
+  {
+    "id": "w66",
+    "text": "trabajo",
+    "start": 31.68,
+    "end": 32.08
+  },
+  {
+    "id": "w67",
+    "text": "como",
+    "start": 32.08,
+    "end": 32.4
+  },
+  {
+    "id": "w68",
+    "text": "asistente",
+    "start": 32.4,
+    "end": 33.2
+  },
+  {
+    "id": "w69",
+    "text": "social,",
+    "start": 33.2,
+    "end": 33.92
+  },
+  {
+    "id": "w70",
+    "text": "logró",
+    "start": 33.92,
+    "end": 34.48
+  },
+  {
+    "id": "w71",
+    "text": "entrar",
+    "start": 34.48,
+    "end": 34.88
+  },
+  {
+    "id": "w72",
+    "text": "al",
+    "start": 34.88,
+    "end": 35.04
+  },
+  {
+    "id": "w73",
+    "text": "gueto",
+    "start": 35.04,
+    "end": 35.52
+  },
+  {
+    "id": "w74",
+    "text": "para",
+    "start": 35.52,
+    "end": 35.68
+  },
+  {
+    "id": "w75",
+    "text": "llevar",
+    "start": 35.68,
+    "end": 36.08
+  },
+  {
+    "id": "w76",
+    "text": "ayuda",
+    "start": 36.08,
+    "end": 36.56
+  },
+  {
+    "id": "w77",
+    "text": "a",
+    "start": 36.56,
+    "end": 36.72
+  },
+  {
+    "id": "w78",
+    "text": "quienes",
+    "start": 36.72,
+    "end": 37.12
+  },
+  {
+    "id": "w79",
+    "text": "estaban",
+    "start": 37.12,
+    "end": 37.6
+  },
+  {
+    "id": "w80",
+    "text": "atrapados,",
+    "start": 37.6,
+    "end": 38.64
+  },
+  {
+    "id": "w81",
+    "text": "y",
+    "start": 38.64,
+    "end": 38.88
+  },
+  {
+    "id": "w82",
+    "text": "junto",
+    "start": 38.88,
+    "end": 39.2
+  },
+  {
+    "id": "w83",
+    "text": "a",
+    "start": 39.2,
+    "end": 39.36
+  },
+  {
+    "id": "w84",
+    "text": "una",
+    "start": 39.36,
+    "end": 39.68
+  },
+  {
+    "id": "w85",
+    "text": "red",
+    "start": 39.68,
+    "end": 40
+  },
+  {
+    "id": "w86",
+    "text": "clandestina,",
+    "start": 40,
+    "end": 41.28
+  },
+  {
+    "id": "w87",
+    "text": "comenzó",
+    "start": 41.28,
+    "end": 41.92
+  },
+  {
+    "id": "w88",
+    "text": "una",
+    "start": 41.92,
+    "end": 42.24
+  },
+  {
+    "id": "w89",
+    "text": "misión",
+    "start": 42.24,
+    "end": 42.88
+  },
+  {
+    "id": "w90",
+    "text": "extremadamente",
+    "start": 42.88,
+    "end": 44
+  },
+  {
+    "id": "w91",
+    "text": "peligrosa.",
+    "start": 44,
+    "end": 45.28
+  },
+  {
+    "id": "w92",
+    "text": "Sacar",
+    "start": 45.28,
+    "end": 45.84
+  },
+  {
+    "id": "w93",
+    "text": "a",
+    "start": 45.84,
+    "end": 45.92
+  },
+  {
+    "id": "w94",
+    "text": "los",
+    "start": 45.92,
+    "end": 46.16
+  },
+  {
+    "id": "w95",
+    "text": "niños",
+    "start": 46.16,
+    "end": 46.64
+  },
+  {
+    "id": "w96",
+    "text": "de",
+    "start": 46.64,
+    "end": 46.8
+  },
+  {
+    "id": "w97",
+    "text": "aquel",
+    "start": 46.8,
+    "end": 47.28
+  },
+  {
+    "id": "w98",
+    "text": "lugar.",
+    "start": 47.28,
+    "end": 47.68
+  },
+  {
+    "id": "w99",
+    "text": "Muchos",
+    "start": 48,
+    "end": 48.48
+  },
+  {
+    "id": "w100",
+    "text": "fueron",
+    "start": 48.48,
+    "end": 48.96
+  },
+  {
+    "id": "w101",
+    "text": "escondidos",
+    "start": 48.96,
+    "end": 49.6
+  },
+  {
+    "id": "w102",
+    "text": "en",
+    "start": 49.6,
+    "end": 49.84
+  },
+  {
+    "id": "w103",
+    "text": "hogares,",
+    "start": 49.84,
+    "end": 50.64
+  },
+  {
+    "id": "w104",
+    "text": "conventos",
+    "start": 50.64,
+    "end": 51.36
+  },
+  {
+    "id": "w105",
+    "text": "y",
+    "start": 51.36,
+    "end": 51.6
+  },
+  {
+    "id": "w106",
+    "text": "orfanatos,",
+    "start": 51.6,
+    "end": 52.88
+  },
+  {
+    "id": "w107",
+    "text": "lejos",
+    "start": 52.88,
+    "end": 53.44
+  },
+  {
+    "id": "w108",
+    "text": "de",
+    "start": 53.44,
+    "end": 53.6
+  },
+  {
+    "id": "w109",
+    "text": "la",
+    "start": 53.6,
+    "end": 53.76
+  },
+  {
+    "id": "w110",
+    "text": "persecución",
+    "start": 53.76,
+    "end": 54.48
+  },
+  {
+    "id": "w111",
+    "text": "nazi.",
+    "start": 54.48,
+    "end": 55.28
+  },
+  {
+    "id": "w112",
+    "text": "Pero",
+    "start": 55.28,
+    "end": 55.6
+  },
+  {
+    "id": "w113",
+    "text": "había",
+    "start": 55.6,
+    "end": 55.92
+  },
+  {
+    "id": "w114",
+    "text": "algo",
+    "start": 55.92,
+    "end": 56.16
+  },
+  {
+    "id": "w115",
+    "text": "que",
+    "start": 56.16,
+    "end": 56.4
+  },
+  {
+    "id": "w116",
+    "text": "Irene",
+    "start": 56.4,
+    "end": 56.8
+  },
+  {
+    "id": "w117",
+    "text": "se",
+    "start": 56.96,
+    "end": 57.12
+  },
+  {
+    "id": "w118",
+    "text": "negaba",
+    "start": 57.12,
+    "end": 57.68
+  },
+  {
+    "id": "w119",
+    "text": "a",
+    "start": 57.68,
+    "end": 57.84
+  },
+  {
+    "id": "w120",
+    "text": "permitir:",
+    "start": 57.84,
+    "end": 58.72
+  },
+  {
+    "id": "w121",
+    "text": "que",
+    "start": 58.72,
+    "end": 58.88
+  },
+  {
+    "id": "w122",
+    "text": "aquellos",
+    "start": 58.96,
+    "end": 59.44
+  },
+  {
+    "id": "w123",
+    "text": "pequeños",
+    "start": 59.44,
+    "end": 60.08
+  },
+  {
+    "id": "w124",
+    "text": "olvidaran",
+    "start": 60.08,
+    "end": 60.8
+  },
+  {
+    "id": "w125",
+    "text": "quiénes",
+    "start": 60.8,
+    "end": 61.28
+  },
+  {
+    "id": "w126",
+    "text": "eran.",
+    "start": 61.28,
+    "end": 61.84
+  },
+  {
+    "id": "w127",
+    "text": "Por",
+    "start": 61.95,
+    "end": 62.27
+  },
+  {
+    "id": "w128",
+    "text": "eso,",
+    "start": 62.27,
+    "end": 62.99
+  },
+  {
+    "id": "w129",
+    "text": "conservaba",
+    "start": 62.99,
+    "end": 63.87
+  },
+  {
+    "id": "w130",
+    "text": "registros",
+    "start": 63.87,
+    "end": 64.35
+  },
+  {
+    "id": "w131",
+    "text": "secretos.",
+    "start": 64.35,
+    "end": 64.99
+  }
+]

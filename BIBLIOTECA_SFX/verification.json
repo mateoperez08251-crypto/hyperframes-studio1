@@ -1,0 +1,19 @@
+{
+  "selectedWav": 82,
+  "categories": {
+    "pasos": 11,
+    "foley": 20,
+    "impactos": 13,
+    "transiciones": 4,
+    "ui": 18,
+    "retro": 9,
+    "ambientes": 7
+  },
+  "sourcePacks": 5,
+  "uniqueOriginalPaths": 445,
+  "demoOriginals": 2,
+  "selectedHashesAndFormatsVerified": true,
+  "sourceArchiveCrcVerified": true,
+  "libraryBytes": 33614161,
+  "auditoryReview": false
+}

@@ -1,0 +1,31 @@
+﻿◆  Checking qwen
+
+Lint
+  ⚠ composition_file_too_large: This HTML composition file has 303 lines. Smaller sub-compositions are easier to read, iterate on, and diff.
+    D:\hyperframes-studio\qwen\compositions\kinetic.html [data-composition-id] t=0s
+    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.
+  0 error(s), 1 warning(s), 0 info(s)
+
+Runtime
+  ◇ 0 errors, 0 warnings
+
+Layout
+  ◇ 0 issues across 9 sample(s)
+
+Motion
+  ◇ 0 errors, 0 warnings
+
+Contrast
+  ◇ 10/10 text checks pass WCAG AA
+
+Craft
+  ⚠ first_frame_empty: Frame 0 shows only the background, and the first frame is the thumbnail on social players: have the title or key image already on screen at 0 s instead of entering from nothing; see references/review.md.
+    index.html [data-composition-id] t=0s
+  0 error(s), 1 warning(s), 0 info(s)
+
+Snapshots
+  ◇ disabled
+
+◇  Check passed
+Report: D:\hyperframes-studio\qwen\.hyperframes\artifacts\checks\a126ef59-2fac-42e7-9fe4-6dab19c394a6.json
+Revision: 27971e66-c58e-48f3-a179-371c1d3d2ec5 (recorded-revision)

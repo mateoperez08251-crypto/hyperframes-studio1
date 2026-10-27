@@ -1,0 +1,56 @@
+{
+  "tap": {
+    "file": "assets/sfx/tap.wav",
+    "peak": 0.085,
+    "duration": 0.22,
+    "maxDb": -6.000054206113875
+  },
+  "pop": {
+    "file": "assets/sfx/pop.wav",
+    "peak": 0.065,
+    "duration": 0.34,
+    "maxDb": -10.000077824421776
+  },
+  "pop-low": {
+    "file": "assets/sfx/pop-low.wav",
+    "peak": 0.085,
+    "duration": 0.32,
+    "maxDb": -9.000310612120671
+  },
+  "message": {
+    "file": "assets/sfx/message.wav",
+    "peak": 0.065,
+    "duration": 1.1,
+    "maxDb": -11.99978281228168
+  },
+  "digital": {
+    "file": "assets/sfx/digital.wav",
+    "peak": 0.065,
+    "duration": 0.747506,
+    "maxDb": -9.999919018729123
+  },
+  "shine": {
+    "file": "assets/sfx/shine.wav",
+    "peak": 0.065,
+    "duration": 1.35,
+    "maxDb": -13.999776033693587
+  },
+  "sweep": {
+    "file": "assets/sfx/sweep.wav",
+    "peak": 0.065,
+    "duration": 0.896009,
+    "maxDb": -11.00025611118845
+  },
+  "click": {
+    "file": "assets/sfx/click.wav",
+    "peak": 0.045,
+    "duration": 0.25,
+    "maxDb": -8.000303649886886
+  },
+  "thump": {
+    "file": "assets/sfx/thump.wav",
+    "peak": 0.035,
+    "duration": 0.615011,
+    "maxDb": -5.000274246027091
+  }
+}

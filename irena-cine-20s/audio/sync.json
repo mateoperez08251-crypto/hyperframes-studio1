@@ -1,0 +1,198 @@
+{
+  "assets": {
+    "trailer-boom": {
+      "file": "assets/sfx/trailer-boom.wav",
+      "peak": 0.075,
+      "duration": 1.6,
+      "peakDb": -7
+    },
+    "impact-bass-1": {
+      "file": "assets/sfx/impact-bass-1.wav",
+      "peak": 0.075,
+      "duration": 0.85,
+      "peakDb": -8
+    },
+    "impact-bass-2": {
+      "file": "assets/sfx/impact-bass-2.wav",
+      "peak": 0.075,
+      "duration": 0.6012083333333333,
+      "peakDb": -7
+    },
+    "body-fall": {
+      "file": "assets/sfx/body-fall.wav",
+      "peak": 0.075,
+      "duration": 0.6,
+      "peakDb": -5
+    },
+    "swosh": {
+      "file": "assets/sfx/swosh.wav",
+      "peak": 0.05479166666666667,
+      "duration": 0.3,
+      "peakDb": -10
+    },
+    "whoosh": {
+      "file": "assets/sfx/whoosh.wav",
+      "peak": 0.075,
+      "duration": 0.48520833333333335,
+      "peakDb": -9
+    },
+    "whoosh-short": {
+      "file": "assets/sfx/whoosh-short.wav",
+      "peak": 0.075,
+      "duration": 0.45,
+      "peakDb": -10
+    },
+    "punch-snare": {
+      "file": "assets/sfx/punch-snare.wav",
+      "peak": 0.060020833333333336,
+      "duration": 0.35,
+      "peakDb": -7
+    }
+  },
+  "cues": [
+    {
+      "id": "thunder",
+      "asset": "trailer-boom",
+      "visualHit": 2.42,
+      "start": 2.378333333333333,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.75
+    },
+    {
+      "id": "spot",
+      "asset": "impact-bass-1",
+      "visualHit": 4.32,
+      "start": 4.278333333333333,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.4
+    },
+    {
+      "id": "reaper",
+      "asset": "whoosh",
+      "visualHit": 6.5,
+      "start": 6.458333333333333,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.75
+    },
+    {
+      "id": "step",
+      "asset": "body-fall",
+      "visualHit": 7.36,
+      "start": 7.318333333333333,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.7
+    },
+    {
+      "id": "defy",
+      "asset": "impact-bass-2",
+      "visualHit": 7.36,
+      "start": 7.318333333333333,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.45
+    },
+    {
+      "id": "portrait",
+      "asset": "swosh",
+      "visualHit": 8.4,
+      "start": 8.378541666666667,
+      "peak": 0.05479166666666667,
+      "peakOffsetFrames": 1,
+      "volume": 0.7
+    },
+    {
+      "id": "page1",
+      "asset": "swosh",
+      "visualHit": 11.1,
+      "start": 11.078541666666666,
+      "peak": 0.05479166666666667,
+      "peakOffsetFrames": 1,
+      "volume": 0.45
+    },
+    {
+      "id": "page2",
+      "asset": "swosh",
+      "visualHit": 11.24,
+      "start": 11.218541666666667,
+      "peak": 0.05479166666666667,
+      "peakOffsetFrames": 1,
+      "volume": 0.45
+    },
+    {
+      "id": "page3",
+      "asset": "swosh",
+      "visualHit": 11.38,
+      "start": 11.358541666666667,
+      "peak": 0.05479166666666667,
+      "peakOffsetFrames": 1,
+      "volume": 0.45
+    },
+    {
+      "id": "page4",
+      "asset": "swosh",
+      "visualHit": 11.52,
+      "start": 11.498541666666666,
+      "peak": 0.05479166666666667,
+      "peakOffsetFrames": 1,
+      "volume": 0.45
+    },
+    {
+      "id": "year",
+      "asset": "impact-bass-1",
+      "visualHit": 11.56,
+      "start": 11.518333333333334,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.65
+    },
+    {
+      "id": "wall-left",
+      "asset": "body-fall",
+      "visualHit": 15.9,
+      "start": 15.858333333333334,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.9
+    },
+    {
+      "id": "wall-right",
+      "asset": "body-fall",
+      "visualHit": 16.02,
+      "start": 15.978333333333335,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.9
+    },
+    {
+      "id": "wall-weight",
+      "asset": "impact-bass-2",
+      "visualHit": 16.02,
+      "start": 15.978333333333335,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.6
+    },
+    {
+      "id": "map",
+      "asset": "whoosh-short",
+      "visualHit": 16.65,
+      "start": 16.608333333333334,
+      "peak": 0.075,
+      "peakOffsetFrames": 1,
+      "volume": 0.55
+    },
+    {
+      "id": "pin",
+      "asset": "punch-snare",
+      "visualHit": 17.42,
+      "start": 17.393312500000004,
+      "peak": 0.060020833333333336,
+      "peakOffsetFrames": 1,
+      "volume": 0.7
+    }
+  ]
+}

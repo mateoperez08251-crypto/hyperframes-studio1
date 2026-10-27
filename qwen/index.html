@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>¡QWEN 3.8, LO MEJOR!</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #0a0e1a;
+        --ink: #eef2ff;
+        --accent: #7c5cff;
+        --accent2: #22d3ee;
+        --font-display: "Archivo Black", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 1920px; height: 1080px;
+        overflow: hidden; background: var(--ground);
+      }
+      #root { position: relative; width: 100%; height: 100%; font-family: var(--font-display); }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="10"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div
+        id="kinetic"
+        data-composition-id="kinetic"
+        data-composition-src="compositions/kinetic.html"
+        data-start="0"
+        data-duration="10"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- SFX: pico de cada sonido = golpe visual + 1 frame (0.033 s) -->
+      <!-- Frase 1: ¡GOG!  (0.30, 0.50, 0.70) -->
+      <audio id="sfx-g1"    class="clip" src="assets/sfx/punch-snare.mp3"  data-start="0.237" data-duration="0.5"  data-track-index="10" data-volume="0.32"></audio>
+      <audio id="sfx-g2"    class="clip" src="assets/sfx/pipe-hit.mp3"     data-start="0.45"  data-duration="0.5"  data-track-index="11" data-volume="0.50"></audio>
+      <audio id="sfx-g2-b"  class="clip" src="assets/sfx/body-fall.mp3"    data-start="0.433" data-duration="0.9"  data-track-index="12" data-volume="2.0"></audio>
+      <audio id="sfx-g3"    class="clip" src="assets/sfx/trailer-boom.mp3" data-start="0.652" data-duration="1.2"  data-track-index="16" data-volume="0.55" data-fade-out="0.4"></audio>
+      <audio id="sfx-g3-b"  class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="0.637" data-duration="1.6" data-track-index="13" data-volume="0.40" data-fade-out="0.5"></audio>
+      <audio id="sfx-g3-p"  class="clip" src="assets/sfx/punch-snare.mp3"  data-start="0.637" data-duration="0.5"  data-track-index="17" data-volume="0.35"></audio>
+
+      <!-- Frase 2: ¿QWEN 3.8? (1.45, 1.57, 1.71) -->
+      <audio id="sfx-p2-w"   class="clip" src="assets/sfx/whoosh.mp3"        data-start="1.42"  data-duration="0.5"  data-track-index="15" data-volume="0.55"></audio>
+      <audio id="sfx-w"      class="clip" src="assets/sfx/punch-snare.mp3"   data-start="1.387" data-duration="0.5"  data-track-index="10" data-volume="0.32"></audio>
+      <audio id="sfx-q"      class="clip" src="assets/sfx/pipe-hit.mp3"      data-start="1.504" data-duration="0.5"  data-track-index="11" data-volume="0.50"></audio>
+      <audio id="sfx-3b"     class="clip" src="assets/sfx/body-fall.mp3"     data-start="1.637" data-duration="0.9"  data-track-index="12" data-volume="2.0"></audio>
+      <audio id="sfx-point"  class="clip" src="assets/sfx/impact-bass-2.mp3" data-start="1.652" data-duration="1.0"  data-track-index="14" data-volume="0.35" data-fade-out="0.3"></audio>
+      <audio id="sfx-glitch" class="clip" src="assets/sfx/glitch-1.mp3"      data-start="1.662" data-duration="1.2"  data-track-index="18" data-volume="0.30" data-fade-out="0.4"></audio>
+
+      <!-- Frase 3: ¡LO MEJOR! (2.55, 2.85) -->
+      <audio id="sfx-p3-w"    class="clip" src="assets/sfx/whoosh-short.mp3" data-start="2.52"  data-duration="0.5"  data-track-index="15" data-volume="0.60"></audio>
+      <audio id="sfx-lo"      class="clip" src="assets/sfx/punch-snare.mp3"  data-start="2.487" data-duration="0.5"  data-track-index="10" data-volume="0.32"></audio>
+      <audio id="sfx-mejor"   class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="2.787" data-duration="1.6" data-track-index="13" data-volume="0.45" data-fade-out="0.5"></audio>
+      <audio id="sfx-mejor-b" class="clip" src="assets/sfx/body-fall.mp3"    data-start="2.773" data-duration="0.9"  data-track-index="12" data-volume="2.2"></audio>
+      <audio id="sfx-mejor-p" class="clip" src="assets/sfx/punch-snare.mp3"  data-start="2.787" data-duration="0.5"  data-track-index="17" data-volume="0.32"></audio>
+
+      <!-- Frase 4: SOLO CÓDIGO (4.20, 4.45) -->
+      <audio id="sfx-p4-w"     class="clip" src="assets/sfx/whoosh.mp3"        data-start="4.17"  data-duration="0.5"  data-track-index="15" data-volume="0.60"></audio>
+      <audio id="sfx-solo"     class="clip" src="assets/sfx/punch-snare.mp3"   data-start="4.137" data-duration="0.5"  data-track-index="10" data-volume="0.32"></audio>
+      <audio id="sfx-codigo"   class="clip" src="assets/sfx/impact-bass-2.mp3" data-start="4.387" data-duration="2.2"  data-track-index="14" data-volume="0.45" data-fade-out="0.7"></audio>
+      <audio id="sfx-codigo-b" class="clip" src="assets/sfx/body-fall.mp3"     data-start="4.373" data-duration="0.9"  data-track-index="12" data-volume="2.2"></audio>
+      <audio id="sfx-codigo-g" class="clip" src="assets/sfx/glitch-1.mp3"      data-start="4.402" data-duration="1.4"  data-track-index="16" data-volume="0.30" data-fade-out="0.5"></audio>
+      <audio id="sfx-codigo-p" class="clip" src="assets/sfx/punch-snare.mp3"   data-start="4.387" data-duration="0.5"  data-track-index="17" data-volume="0.32"></audio>
+    </div>
+    <script>
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

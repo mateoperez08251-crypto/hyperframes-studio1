@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="es" data-composition-variables='[{"id":"linea1","type":"string","label":"Texto principal","default":"LAS IDEAS"},{"id":"linea2","type":"string","label":"Texto destacado","default":"COBRAN VIDA"},{"id":"firma","type":"string","label":"Texto final","default":"IMAGINA. CREA. IMPACTA."}]'>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Texto animado — HyperFrames</title>
+</head>
+<body style="margin:0;background:#080b16;">
+  <div id="root" data-composition-id="main" data-start="0" data-duration="8" data-width="1080" data-height="1920">
+    <div id="texto-animado" data-composition-id="texto-animado" data-composition-src="compositions/texto-animado.html" data-start="0" data-duration="8" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = gsap.timeline({ paused: true });
+  </script>
+</body>
+</html>

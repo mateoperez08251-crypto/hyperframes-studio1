@@ -1,0 +1,58 @@
+{
+  "file": "irena-vector-20s.mp4",
+  "probe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "30/1",
+        "nb_frames": "600"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "939"
+      }
+    ],
+    "format": {
+      "duration": "20.000000",
+      "size": "19686058"
+    }
+  },
+  "loudness": {
+    "input_i": "-14.01",
+    "input_tp": "-2.70",
+    "input_lra": "4.20",
+    "input_thresh": "-24.48",
+    "output_i": "-14.13",
+    "output_tp": "-3.05",
+    "output_lra": "2.30",
+    "output_thresh": "-24.53",
+    "normalization_type": "dynamic",
+    "target_offset": "0.13"
+  },
+  "voiceSync": {
+    "expectedStart": 0,
+    "measuredStart": 0.0,
+    "correlation": 0.972730385164711
+  },
+  "effectsPresenceBeforeMastering": [
+    {
+      "event": "verja",
+      "fxRelativeToVoiceDb": 2.29
+    },
+    {
+      "event": "papel del año",
+      "fxRelativeToVoiceDb": -12.1
+    },
+    {
+      "event": "cambio de plano",
+      "fxRelativeToVoiceDb": 55.8
+    }
+  ],
+  "notes": "Voz original a velocidad natural. Mezcla medida, no escuchada. Las relaciones RMS son una comprobación técnica de presencia, no una evaluación perceptiva."
+}

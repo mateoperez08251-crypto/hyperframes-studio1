@@ -1,0 +1,61 @@
+# Imágenes: no subir archivos de imagen de ninguna subcarpeta.
+*.[pP][nN][gG]
+*.[jJ][pP][gG]
+*.[jJ][pP][eE][gG]
+*.[gG][iI][fF]
+*.[wW][eE][bB][pP]
+*.[aA][vV][iI][fF]
+*.[bB][mM][pP]
+*.[tT][iI][fF]
+*.[tT][iI][fF][fF]
+*.[iI][cC][oO]
+*.[sS][vV][gG]
+*.[sS][vV][gG][zZ]
+*.[hH][eE][iI][cC]
+*.[hH][eE][iI][fF]
+*.[pP][sS][dD]
+*.[xX][cC][fF]
+*.[eE][xX][rR]
+*.[hH][dD][rR]
+*.[rR][aA][wW]
+*.[dD][nN][gG]
+
+# Videos y animaciones exportadas.
+*.[mM][pP]4
+*.[mM][oO][vV]
+*.[mM][kK][vV]
+*.[wW][eE][bB][mM]
+*.[aA][vV][iI]
+*.[mM]4[vV]
+*.[mM][pP][eE][gG]
+*.[mM][pP][gG]
+*.[wW][mM][vV]
+*.[fF][lL][vV]
+*.3[gG][pP]
+*.3[gG]2
+*.[mM][tT][sS]
+*.[mM]2[tT][sS]
+*.mp4.partial
+*.mp4.assembling
+
+# Paquetes que pueden contener los medios anteriores.
+*.zip
+*.tar
+*.tgz
+*.tar.gz
+*.7z
+*.rar
+
+# Dependencias, cachés y temporales generados.
+node_modules/
+.hyperframes/
+__pycache__/
+*.pyc
+
+# Credenciales locales: nunca incluirlas en un commit.
+/colab/colab_key
+*.local.json
+bootstrap.local.py
+.env
+.env.*
+!.env.example

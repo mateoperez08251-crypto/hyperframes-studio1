@@ -1,0 +1,1268 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #07060c;
+    }
+    #vt-canvas {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    /* Carga la fuente que usa el canvas */
+    #vt-fontload {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: "Playfair Display", serif;
+      font-weight: 900;
+      font-size: 20px;
+      color: rgba(0, 0, 0, 0.01);
+      pointer-events: none;
+    }
+  </style>
+
+  <div id="root" data-composition-id="story" data-width="1080" data-height="1920">
+    <canvas id="vt-canvas" width="1080" height="1920" data-layout-allow-overflow></canvas>
+    <div id="vt-fontload" data-layout-ignore>IRENA SENDLER 1940 1943 VARSOVIA POLONIA</div>
+  </div>
+
+  <script>
+    (function () {
+      // =====================================================================
+      //  VITRAL VIVO — toda la historia es un vitral de catedral que se mueve.
+      //  Cristal de colores + plomo negro + luz que lo atraviesa.
+      // =====================================================================
+      const W = 1080, H = 1920, END = 121.6;
+      const cv = document.getElementById("vt-canvas");
+      const ctx = cv.getContext("2d");
+      const LEAD = "#110c0a";
+      const SERIF = '"Playfair Display", serif';
+      const TAU = Math.PI * 2;
+
+      // ---------- Utilidades ----------
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const lerp = (a, b, k) => a + (b - a) * k;
+      const seg = (t, a, b) => clamp((t - a) / (b - a), 0, 1);
+      const eOut = (k) => 1 - Math.pow(1 - k, 3);
+      const eIn = (k) => k * k * k;
+      const eIO = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+      const eBack = (k) => { const c1 = 1.7, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+      const bump = (t, t0, d) => { const u = (t - t0) / d; return u < 0 || u > 1 ? 0 : Math.sin(Math.PI * u); };
+      const fract = (x) => x - Math.floor(x);
+      const hash = (n) => fract(Math.sin(n * 127.1 + 311.7) * 43758.5453);
+      const hsl = (h, s, l, a) => "hsla(" + ((h % 360) + 360) % 360 + "," + clamp(s, 0, 100) + "%," + clamp(l, 0, 100) + "%," + (a == null ? 1 : clamp(a, 0, 1)) + ")";
+      const polar = (cx, cy, r, a) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+
+      let T = 0;   // tiempo actual
+      let A = 1;   // opacidad de la escena (para el fundido antes de cada corte)
+      function alpha(a) { ctx.globalAlpha = clamp(A * (a == null ? 1 : a), 0, 1); }
+
+      // ---------- Cristal emplomado ----------
+      function pathPts(p) {
+        ctx.beginPath();
+        ctx.moveTo(p[0][0], p[0][1]);
+        for (let i = 1; i < p.length; i++) ctx.lineTo(p[i][0], p[i][1]);
+        ctx.closePath();
+      }
+      function bbox(p) {
+        let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+        p.forEach((q) => { x0 = Math.min(x0, q[0]); y0 = Math.min(y0, q[1]); x1 = Math.max(x1, q[0]); y1 = Math.max(y1, q[1]); });
+        return { x0, y0, x1: Math.max(x1, x0 + 1), y1: Math.max(y1, y0 + 1) };
+      }
+      function glassFill(b, h, s, l, lum) {
+        const g = ctx.createLinearGradient(b.x0, b.y0, b.x1, b.y1);
+        g.addColorStop(0, hsl(h - 6, s, (l + 16) * lum));
+        g.addColorStop(0.5, hsl(h, s, l * lum));
+        g.addColorStop(1, hsl(h + 10, s * 0.9, (l - 12) * lum));
+        return g;
+      }
+      function glow(col, blur) { ctx.shadowColor = col; ctx.shadowBlur = blur; }
+      function noGlow() { ctx.shadowColor = "rgba(0,0,0,0)"; ctx.shadowBlur = 0; }
+      function glass(p, h, s, l, o) {
+        o = o || {};
+        const lum = o.lum == null ? 1 : o.lum;
+        pathPts(p);
+        if (o.glow) glow(hsl(h, s + 10, 62, o.glow), o.blur || 30);
+        ctx.fillStyle = glassFill(bbox(p), h, s, l, lum);
+        ctx.fill();
+        noGlow();
+        if (o.lead !== 0) { ctx.lineJoin = "round"; ctx.lineWidth = o.lead || 7; ctx.strokeStyle = LEAD; ctx.stroke(); }
+      }
+      function glassCircle(x, y, r, h, s, l, o) {
+        o = o || {};
+        const lum = o.lum == null ? 1 : o.lum;
+        ctx.beginPath(); ctx.arc(x, y, Math.max(1, r), 0, TAU);
+        if (o.glow) glow(hsl(h, s + 10, 62, o.glow), o.blur || 36);
+        const g = ctx.createRadialGradient(x - r * 0.35, y - r * 0.4, r * 0.1, x, y, Math.max(2, r));
+        g.addColorStop(0, hsl(h - 6, s, (l + 20) * lum));
+        g.addColorStop(1, hsl(h + 8, s, (l - 10) * lum));
+        ctx.fillStyle = g; ctx.fill(); noGlow();
+        if (o.lead !== 0) { ctx.lineWidth = o.lead || 7; ctx.strokeStyle = LEAD; ctx.stroke(); }
+      }
+      function leadLine(pts, w, col) {
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+        ctx.lineWidth = w || 6; ctx.strokeStyle = col || LEAD; ctx.lineCap = "round"; ctx.lineJoin = "round";
+        ctx.stroke();
+      }
+      function ringPiece(cx, cy, r0, r1, a0, a1, n) {
+        const p = [];
+        n = n || 4;
+        for (let i = 0; i <= n; i++) p.push(polar(cx, cy, r1, lerp(a0, a1, i / n)));
+        for (let i = n; i >= 0; i--) p.push(polar(cx, cy, r0, lerp(a0, a1, i / n)));
+        return p;
+      }
+      function rectPts(x, y, w, h) { return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]; }
+
+      // ---------- Luz ----------
+      function aura(x, y, r, hue, amt, sat) {
+        if (amt <= 0) return;
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, hsl(hue, sat == null ? 90 : sat, 62, 0.5 * amt * A));
+        g.addColorStop(1, hsl(hue, sat == null ? 90 : sat, 50, 0));
+        ctx.fillStyle = g;
+        ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+        ctx.restore();
+      }
+      function rays(x, y, amt, hue, rot, n) {
+        if (amt <= 0) return;
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        n = n || 10;
+        for (let i = 0; i < n; i++) {
+          const a = rot + (i / n) * TAU + Math.sin(T * 0.4 + i) * 0.05;
+          const w = 0.05 + hash(i * 3.3) * 0.07;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + Math.cos(a - w) * 1900, y + Math.sin(a - w) * 1900);
+          ctx.lineTo(x + Math.cos(a + w) * 1900, y + Math.sin(a + w) * 1900);
+          ctx.closePath();
+          const g = ctx.createRadialGradient(x, y, 0, x, y, 1300);
+          g.addColorStop(0, hsl(hue, 90, 72, 0.24 * amt * A));
+          g.addColorStop(1, hsl(hue, 90, 60, 0));
+          ctx.fillStyle = g;
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+      function veil(a, col) {
+        if (a <= 0) return;
+        ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = col ? col.replace("A", String(clamp(a, 0, 1))) : "rgba(4,3,8," + clamp(a, 0, 1) + ")";
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+      }
+      function motes(n, hue, seed, amt) {
+        if (amt <= 0) return;
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        for (let i = 0; i < n; i++) {
+          const x = hash(i * 2.3 + seed) * W + Math.sin(T * 0.5 + i) * 18;
+          const y = H - fract(hash(i * 4.1 + seed) + T * 0.02 * (0.5 + hash(i + seed))) * H;
+          const a = (0.2 + 0.5 * Math.abs(Math.sin(T * 0.9 + i))) * amt * A;
+          ctx.fillStyle = hsl(hue, 90, 75, a);
+          ctx.beginPath(); ctx.arc(x, y, 1.6 + hash(i * 7 + seed) * 2.6, 0, TAU); ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      // ---------- Grietas y astillas ----------
+      function cracks(x, y, seed, n, len, prog, col, w) {
+        if (prog <= 0) return;
+        ctx.save();
+        ctx.strokeStyle = col || "rgba(235,240,255,0.85)";
+        ctx.lineWidth = w || 3;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        for (let i = 0; i < n; i++) {
+          let a = (i / n) * TAU + hash(seed + i) * 0.6, px = x, py = y;
+          const L = len * (0.6 + hash(seed * 3 + i) * 0.6) * prog;
+          const steps = 7;
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          for (let k = 1; k <= steps; k++) {
+            a += (hash(seed + i * 13 + k) - 0.5) * 0.7;
+            px += (Math.cos(a) * L) / steps;
+            py += (Math.sin(a) * L) / steps;
+            ctx.lineTo(px, py);
+            if (k === 3 && hash(seed + i * 5) > 0.4) {
+              const ba = a + (hash(seed + i * 9) > 0.5 ? 0.7 : -0.7);
+              ctx.lineTo(px + Math.cos(ba) * L * 0.3, py + Math.sin(ba) * L * 0.3);
+              ctx.moveTo(px, py);
+            }
+          }
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+      function shards(x, y, t, n, seed, hues, spread, l) {
+        if (t <= 0 || t > 2.2) return;
+        for (let i = 0; i < n; i++) {
+          const a = hash(seed + i) * TAU;
+          const v = (300 + hash(seed + i * 3) * 900) * (spread || 1);
+          const px = x + Math.cos(a) * v * t;
+          const py = y + Math.sin(a) * v * t + 700 * t * t;
+          const r = 14 + hash(seed + i * 7) * 26;
+          const rot = t * (hash(seed + i * 11) - 0.5) * 14;
+          const pts = [0, 1, 2].map((k) => { const aa = rot + (k * TAU) / 3 + hash(seed + i + k) * 0.8; return [px + Math.cos(aa) * r, py + Math.sin(aa) * r]; });
+          alpha(1 - seg(t, 1.1, 2.2));
+          glass(pts, hues[i % hues.length], 80, l == null ? 55 : l, { lead: 3 });
+        }
+        alpha(1);
+      }
+
+      // ---------- Texto emplomado ----------
+      function leadText(str, x, y, size, h, s, l, o) {
+        o = o || {};
+        const lum = o.lum == null ? 1 : o.lum;
+        ctx.save();
+        ctx.font = "900 " + size + "px " + SERIF;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        if (o.glow) glow(hsl(h, 90, 60, o.glow), 40);
+        ctx.lineJoin = "round";
+        ctx.lineWidth = size * 0.13;
+        ctx.strokeStyle = LEAD;
+        ctx.strokeText(str, x, y);
+        noGlow();
+        const g = ctx.createLinearGradient(x - size * 0.5, y - size * 0.6, x + size * 0.5, y + size * 0.6);
+        g.addColorStop(0, hsl(h - 8, s, (l + 20) * lum));
+        g.addColorStop(0.5, hsl(h, s, l * lum));
+        g.addColorStop(1, hsl(h + 12, s, (l - 12) * lum));
+        ctx.fillStyle = g;
+        ctx.fillText(str, x, y);
+        ctx.restore();
+      }
+      // Cada letra entra como una pieza de cristal que se encaja
+      function leadWord(str, x, y, size, h, s, l, t0, stagger, o) {
+        o = o || {};
+        const chars = Array.from(str);
+        ctx.save();
+        ctx.font = "900 " + size + "px " + SERIF;
+        const ws = chars.map((ch) => ctx.measureText(ch).width);
+        const gap = size * 0.03;
+        const tw = ws.reduce((a, b) => a + b, 0) + (chars.length - 1) * gap;
+        ctx.restore();
+        let cx = x - tw / 2;
+        chars.forEach((ch, i) => {
+          const p = seg(T, t0 + i * stagger, t0 + i * stagger + 0.4);
+          const w = ws[i];
+          if (p > 0 && ch !== " ") {
+            const k = eBack(p);
+            ctx.save();
+            ctx.translate(cx + w / 2, y - (1 - eOut(p)) * 60);
+            ctx.rotate((1 - Math.min(1, k)) * (hash(i * 7 + chars.length) - 0.5) * 1.4);
+            ctx.scale(Math.max(0.01, k), Math.max(0.01, k));
+            alpha(Math.min(1, p * 2.5) * (o.a == null ? 1 : o.a));
+            leadText(ch, 0, 0, size, h + (i % 2) * 10, s, l, o);
+            ctx.restore();
+          }
+          cx += w + gap;
+        });
+        alpha(1);
+      }
+
+      // ---------- Mosaico de fondo (el vitral entero) ----------
+      const NX = 7, NY = 13;
+      const GP = [];
+      for (let j = 0; j <= NY; j++) {
+        GP.push([]);
+        for (let i = 0; i <= NX; i++) {
+          let x = (i * W) / NX, y = (j * H) / NY;
+          if (i > 0 && i < NX) x += (hash(i * 17.3 + j * 5.1) - 0.5) * (W / NX) * 0.6;
+          if (j > 0 && j < NY) y += (hash(i * 3.7 + j * 11.9) - 0.5) * (H / NY) * 0.6;
+          GP[j].push([x, y]);
+        }
+      }
+      const CELLS = [];
+      for (let j = 0; j < NY; j++) {
+        for (let i = 0; i < NX; i++) {
+          const a = GP[j][i], b = GP[j][i + 1], c = GP[j + 1][i + 1], d = GP[j + 1][i];
+          const r = hash(i * 7.7 + j * 13.1);
+          const polys = r < 0.45 ? (r < 0.22 ? [[a, b, c], [a, c, d]] : [[a, b, d], [b, c, d]]) : [[a, b, c, d]];
+          polys.forEach((p, k) => {
+            const cx = p.reduce((s, q) => s + q[0], 0) / p.length;
+            const cy = p.reduce((s, q) => s + q[1], 0) / p.length;
+            CELLS.push({ p, cx, cy, r: hash(i * 31.3 + j * 17.9 + k * 5.3), r2: hash(i * 3.1 + j * 9.7 + k * 1.9), d: Math.hypot(cx - W / 2, cy - H * 0.4) / Math.hypot(W / 2, H * 0.6), bb: bbox(p) });
+          });
+        }
+      }
+      const val = (v, c) => (typeof v === "function" ? v(c) : v);
+      function cellColor(si, c) {
+        const b = SC[si].bg;
+        const hs = b.h;
+        const h = hs[Math.floor(c.r * hs.length) % hs.length] + (c.r2 - 0.5) * 14;
+        let l = lerp(b.l[0], b.l[1], c.r2);
+        const d = Math.hypot(c.cx - (b.lx == null ? 540 : b.lx), c.cy - (b.ly == null ? 760 : b.ly));
+        l += (b.la || 0) * Math.max(0, 1 - d / (b.lr || 700));
+        const lum = b.lum == null ? 1 : val(b.lum, c);
+        return [h, val(b.s, c), l, lum];
+      }
+      function drawMosaic() {
+        const si = sceneAt(T);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.globalAlpha = 1;
+        CELLS.forEach((c) => {
+          let idx = si, sx = 1, flash = 0;
+          for (let n = 1; n < CUTS.length; n++) {
+            const cut = CUTS[n];
+            if (T < cut - 0.35 || T > cut + 0.75) continue;
+            const delay = c.d * 0.55;
+            const f = seg(T, cut - 0.35 + delay, cut - 0.05 + delay);
+            idx = f < 0.5 ? n - 1 : n;
+            sx = Math.max(0.06, Math.abs(Math.cos(Math.PI * f)));
+            flash = Math.sin(Math.PI * f);
+            break;
+          }
+          const col = cellColor(idx, c);
+          ctx.save();
+          ctx.translate(c.cx, c.cy); ctx.scale(sx, 1); ctx.translate(-c.cx, -c.cy);
+          pathPts(c.p);
+          ctx.fillStyle = glassFill(c.bb, col[0], col[1], col[2], col[3]);
+          ctx.fill();
+          if (flash > 0) { ctx.fillStyle = "rgba(255,236,190," + 0.3 * flash + ")"; ctx.fill(); }
+          ctx.lineWidth = 9; ctx.strokeStyle = LEAD; ctx.lineJoin = "round"; ctx.stroke();
+          ctx.restore();
+        });
+      }
+
+      // ---------- Figuras de vitral (santos de catedral) ----------
+      const FACE = "rgba(46,24,14,0.92)";
+      function face(x, y, r, o) {
+        ctx.strokeStyle = FACE; ctx.lineWidth = 3.6; ctx.lineCap = "round";
+        const lx = o.look || 0, ey = y - 4;
+        if (o.eyes === "open") {
+          [-13, 13].forEach((dx) => {
+            ctx.beginPath(); ctx.ellipse(x + dx + lx, ey, 7.5, 4.8, 0, 0, TAU);
+            ctx.fillStyle = "rgba(250,240,220,0.95)"; ctx.fill(); ctx.stroke();
+            ctx.beginPath(); ctx.arc(x + dx + lx * 1.3 + 1, ey, 2.8, 0, TAU); ctx.fillStyle = FACE; ctx.fill();
+          });
+        } else {
+          [-13, 13].forEach((dx) => { ctx.beginPath(); ctx.arc(x + dx + lx, ey - 1, 6, Math.PI * 0.15, Math.PI * 0.85); ctx.stroke(); });
+        }
+        const sad = o.sad ? 1 : 0;
+        ctx.beginPath(); ctx.moveTo(x - 21 + lx, ey - 12 - sad * 3); ctx.quadraticCurveTo(x - 13 + lx, ey - 17, x - 5 + lx, ey - 12 + sad * 4); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x + 21 + lx, ey - 12 - sad * 3); ctx.quadraticCurveTo(x + 13 + lx, ey - 17, x + 5 + lx, ey - 12 + sad * 4); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x + lx, ey - 6); ctx.lineTo(x + lx - 3, ey + 10); ctx.lineTo(x + lx + 3, ey + 11); ctx.stroke();
+        ctx.beginPath();
+        if (o.smile) ctx.arc(x + lx, y + 10, 8, Math.PI * 0.2, Math.PI * 0.8);
+        else if (sad) ctx.arc(x + lx, y + 25, 7, Math.PI * 1.2, Math.PI * 1.8);
+        else { ctx.moveTo(x + lx - 6, y + 18); ctx.lineTo(x + lx + 6, y + 18); }
+        ctx.stroke();
+        ctx.fillStyle = "rgba(220,90,80,0.24)";
+        ctx.beginPath(); ctx.arc(x - 20 + lx, y + 10, 6, 0, TAU); ctx.fill();
+        ctx.beginPath(); ctx.arc(x + 20 + lx, y + 10, 6, 0, TAU); ctx.fill();
+      }
+      function figure(o) {
+        const s = o.s || 1, k = o.kind || "person", lum = o.lum == null ? 1 : o.lum;
+        const R = o.robe || [40, 75, 48], SK = o.skin || [28, 55, 74];
+        const soldier = k === "soldier", child = k === "child";
+        const sat = o.sat == null ? 1 : o.sat;
+        ctx.save();
+        ctx.translate(o.x, o.y + (o.bob || 0));
+        ctx.rotate(o.rot || 0);
+        ctx.scale(s * (o.dir || 1), s);
+        alpha(o.a == null ? 1 : o.a);
+        const hy = child ? -250 : -276;
+        if (o.halo > 0) {
+          aura(0, hy, 150, 44, o.halo * 0.9);
+          const n = 14, spin = T * 0.25;
+          for (let i = 0; i < n; i++) {
+            const a0 = spin + (i / n) * TAU, a1 = spin + ((i + 1) / n) * TAU;
+            glass(ringPiece(0, hy, 50, 82, a0, a1, 3), 42 + (i % 2) * 10, 92 * sat, 56, { lum: lum * (0.45 + 0.6 * o.halo), lead: 5 });
+          }
+        }
+        const shW = soldier ? 46 : child ? 34 : 40, hemW = soldier ? 62 : child ? 62 : 84;
+        const top = child ? -212 : -232;
+        const arm = (ang, side, front) => {
+          const sx = side * (shW - 6), sy = top + 10;
+          const dx = side * Math.sin(ang), dy = Math.cos(ang);
+          const L = child ? 96 : 118, px = -dy, py = dx;
+          const ex = sx + dx * L, ey = sy + dy * L;
+          glass([[sx + px * 13, sy + py * 13], [ex + px * 9, ey + py * 9], [ex - px * 9, ey - py * 9], [sx - px * 13, sy - py * 13]], R[0] + (front ? 0 : -8), R[1] * sat, R[2] + (front ? 4 : -8), { lum, lead: 6 });
+          glassCircle(ex, ey, 13, SK[0], SK[1] * sat, SK[2], { lum, lead: 5 });
+          return [ex, ey];
+        };
+        arm(o.armB == null ? 0.2 : o.armB, -1, false);
+        const P = [[-shW, top + 2], [-shW * 0.35, top], [shW * 0.35, top], [shW, top + 2], [hemW, 0], [hemW * 0.33, 0], [-hemW * 0.33, 0], [-hemW, 0]];
+        glass([P[0], P[1], P[6], P[7]], R[0] - 6, R[1] * sat, R[2] - 6, { lum, lead: 7 });
+        glass([P[1], P[2], P[5], P[6]], R[0] + 4, R[1] * sat, R[2] + 8, { lum, lead: 7 });
+        glass([P[2], P[3], P[4], P[5]], R[0] - 6, R[1] * sat, R[2] - 6, { lum, lead: 7 });
+        const by = top * 0.55, bw = lerp(shW, hemW, (by - top) / (0 - top));
+        const BL = o.belt || [44, 85, 52];
+        glass([[-bw, by - 12], [bw, by - 12], [bw * 1.01, by + 10], [-bw * 1.01, by + 10]], BL[0], BL[1] * sat, BL[2], { lum, lead: 5 });
+        glass([[-11, top + 4], [11, top + 4], [9, hy + 30], [-9, hy + 30]], SK[0], SK[1] * sat, SK[2] - 6, { lum, lead: 5 });
+        const HR = child ? 36 : 40;
+        if (soldier) {
+          glassCircle(0, hy, HR, 24, 20, 20, { lum, lead: 6 });
+          glass([[-HR - 18, hy - 4], [HR + 18, hy - 4], [HR + 8, hy - 16], [HR * 0.8, hy - HR * 0.9], [0, hy - HR * 1.15], [-HR * 0.8, hy - HR * 0.9], [-HR - 8, hy - 16]], 95, 12, 30, { lum, lead: 6 });
+          ctx.fillStyle = hsl(0, 90, 55, 0.85);
+          ctx.fillRect(-19, hy + 6, 11, 4); ctx.fillRect(8, hy + 6, 11, 4);
+        } else {
+          glassCircle(0, hy, HR, SK[0], SK[1] * sat, SK[2], { lum, lead: 6 });
+          if (k === "irena") {
+            const p = [];
+            for (let i = 0; i <= 10; i++) p.push(polar(0, hy, HR + 9, Math.PI * (1.0 + i / 10)));
+            p.push([HR + 6, hy + 30]); p.push([HR - 6, hy + 30]);
+            for (let i = 10; i >= 0; i--) p.push(polar(0, hy, HR - 13, Math.PI * (1.1 + (0.8 * i) / 10)));
+            p.push([-HR + 6, hy + 30]); p.push([-HR - 6, hy + 30]);
+            const SC_ = o.scarf || [352, 62, 42];
+            glass(p, SC_[0], SC_[1] * sat, SC_[2], { lum, lead: 5 });
+          } else if (o.hair) {
+            const p = [];
+            for (let i = 0; i <= 10; i++) p.push(polar(0, hy, HR + 3, Math.PI * (1.0 + i / 10)));
+            p.push([HR * 0.6, hy - 10]); p.push([-HR * 0.6, hy - 10]);
+            glass(p, o.hair[0], o.hair[1] * sat, o.hair[2], { lum, lead: 5 });
+          }
+          ctx.save();
+          if (lum < 1) ctx.globalAlpha *= clamp(0.5 + lum * 0.5, 0, 1);
+          face(0, hy, HR, o);
+          ctx.restore();
+        }
+        const hf = arm(o.armF == null ? 0.2 : o.armF, 1, true);
+        if (o.hold) o.hold(hf[0], hf[1]);
+        ctx.restore();
+        alpha(1);
+      }
+      const IRENA = { kind: "irena", robe: [214, 62, 40], scarf: [352, 64, 44], belt: [44, 90, 54] };
+      function irena(o) { figure(Object.assign({}, IRENA, o)); }
+      const KIDS = [
+        { robe: [150, 60, 38], hair: [25, 45, 26] }, { robe: [35, 80, 50], hair: [18, 40, 20] },
+        { robe: [350, 60, 44], hair: [30, 50, 32] }, { robe: [280, 45, 44], hair: [22, 35, 18] },
+        { robe: [185, 60, 40], hair: [28, 40, 24] }, { robe: [55, 70, 48], hair: [15, 30, 16] },
+      ];
+      const ADULTS = [
+        { robe: [200, 30, 36], hair: [25, 25, 22] }, { robe: [20, 40, 36], hair: [30, 30, 28] },
+        { robe: [120, 22, 34], hair: [20, 20, 18] }, { robe: [300, 22, 36], hair: [35, 30, 30] },
+      ];
+      function kid(i, o) { figure(Object.assign({ kind: "child" }, KIDS[i % KIDS.length], o)); }
+      function adult(i, o) { figure(Object.assign({ kind: "person" }, ADULTS[i % ADULTS.length], o)); }
+      const walkBob = (t, hz) => -Math.abs(Math.sin(t * hz * Math.PI)) * 9;
+      const swing = (t, hz, amp) => Math.sin(t * hz * Math.PI) * amp;
+
+      // Bolsa con cruz roja y farol (objetos en la mano)
+      const bag = (hx, hy) => {
+        glass([[hx - 30, hy + 8], [hx + 30, hy + 8], [hx + 36, hy + 70], [hx - 36, hy + 70]], 30, 45, 40, { lead: 5 });
+        leadLine([[hx - 16, hy + 8], [hx - 10, hy - 6], [hx + 10, hy - 6], [hx + 16, hy + 8]], 5);
+        glass(rectPts(hx - 6, hy + 22, 12, 36), 0, 0, 92, { lead: 0 });
+        ctx.fillStyle = hsl(355, 80, 48); ctx.fillRect(hx - 5, hy + 26, 10, 28); ctx.fillRect(hx - 14, hy + 35, 28, 10);
+      };
+      const lantern = (hx, hy) => {
+        aura(hx, hy + 50, 220, 40, 1);
+        leadLine([[hx, hy], [hx, hy + 14]], 4);
+        glass([[hx - 22, hy + 14], [hx + 22, hy + 14], [hx + 26, hy + 80], [hx - 26, hy + 80]], 44, 95, 62, { lead: 5, glow: 0.8, blur: 30 });
+        glass([[hx - 28, hy + 80], [hx + 28, hy + 80], [hx + 20, hy + 92], [hx - 20, hy + 92]], 25, 30, 22, { lead: 4 });
+      };
+
+      // ---------- Piezas de decorado ----------
+      function rose(cx, cy, R, rot, col) {
+        const rings = [[0, 0.2, 1], [0.2, 0.5, 12], [0.5, 0.75, 24], [0.75, 1, 36]];
+        rings.forEach((rg, ri) => {
+          const n = rg[2];
+          if (n === 1) { const c = col(0, 0, 1); glassCircle(cx, cy, R * rg[1], c[0], c[1], c[2], { lum: c[3], lead: 9, glow: c[4] }); return; }
+          for (let i = 0; i < n; i++) {
+            const a0 = rot * (ri % 2 ? 1 : -1) + (i / n) * TAU, a1 = a0 + TAU / n;
+            const c = col(ri, i, n);
+            if (ri === 1) {
+              glass(ringPiece(cx, cy, R * rg[0], R * rg[1], a0, a1, 3), 240, 30, 10, { lum: 1, lead: 6 });
+              const r0 = R * rg[0], r1 = R * rg[1], am = (a0 + a1) / 2;
+              glass([polar(cx, cy, r0 + 4, am - 0.12), polar(cx, cy, r0 + (r1 - r0) * 0.55, a0 + 0.03), polar(cx, cy, r1 - 6, am), polar(cx, cy, r0 + (r1 - r0) * 0.55, a1 - 0.03)], c[0], c[1], c[2], { lum: c[3], lead: 7 });
+            } else glass(ringPiece(cx, cy, R * rg[0], R * rg[1], a0, a1, 3), c[0], c[1], c[2], { lum: c[3], lead: 7 });
+          }
+        });
+        ctx.beginPath(); ctx.arc(cx, cy, R + 8, 0, TAU); ctx.lineWidth = 18; ctx.strokeStyle = LEAD; ctx.stroke();
+      }
+      function brickWall(x, y, w, h, lum, seed) {
+        ctx.save();
+        ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+        const bh = 62, bw = 130;
+        for (let r = 0; r * bh < h + bh; r++) {
+          const off = r % 2 ? bw / 2 : 0;
+          for (let c = -1; c * bw < w + bw; c++) {
+            const k = hash(r * 37 + c * 11 + (seed || 0));
+            glass(rectPts(x + c * bw + off, y + r * bh, bw, bh), 8 + k * 14, 45, 26 + k * 8, { lum, lead: 6 });
+          }
+        }
+        ctx.restore();
+        ctx.beginPath(); ctx.rect(x, y, w, h); ctx.lineWidth = 9; ctx.strokeStyle = LEAD; ctx.stroke();
+      }
+      function barbed(x, y, w, prog) {
+        if (prog <= 0) return;
+        const end = x + w * prog;
+        const pts = [];
+        for (let px = x; px <= end; px += 26) pts.push([px, y - 30 + ((px / 26) % 2 ? -14 : 14)]);
+        if (pts.length > 1) leadLine(pts, 5, "#5b5550");
+        for (let px = x + 60; px < end; px += 180) leadLine([[px, y], [px, y - 64]], 7, "#3a3532");
+      }
+      function bars(prog, lum, skip) {
+        if (prog <= 0) return;
+        const yOff = -(1 - prog) * 1500;
+        for (let i = 0; i < 7; i++) {
+          if (skip && skip(i)) continue;
+          const x = 150 + i * 130;
+          glass(rectPts(x - 14, 160 + yOff, 28, 1200), 215, 12, 30, { lum, lead: 6 });
+        }
+        [380, 1060].forEach((y) => { if (!skip) glass(rectPts(110, y + yOff, 860, 26), 215, 12, 26, { lum, lead: 6 }); });
+      }
+      function building(x, y, s, kind, lit, lum) {
+        ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+        const wallH = kind === "orphan" ? 180 : 150, w = kind === "orphan" ? 230 : 160;
+        if (kind === "convent") {
+          glass([[-24, -wallH], [24, -wallH], [24, -wallH - 150], [0, -wallH - 200], [-24, -wallH - 150]], 30, 25, 50, { lum });
+          leadLine([[0, -wallH - 270], [0, -wallH - 200]], 9); leadLine([[-20, -wallH - 248], [20, -wallH - 248]], 9);
+        }
+        glass(rectPts(-w / 2, -wallH, w, wallH), kind === "convent" ? 32 : 22, 35, 48, { lum });
+        glass([[-w / 2 - 18, -wallH], [0, -wallH - (kind === "orphan" ? 80 : 105)], [w / 2 + 18, -wallH]], 6, 60, 38, { lum });
+        const wins = kind === "orphan" ? [[-72, -120], [0, -120], [72, -120], [-72, -55], [72, -55]] : [[-42, -100], [42, -100]];
+        wins.forEach((p, i) => {
+          const L = clamp(lit(i), 0, 1);
+          glass(rectPts(p[0] - 18, p[1] - 24, 36, 44), 42, 95, lerp(14, 64, L), { lead: 5, glow: L > 0.1 ? L * 0.9 : 0, blur: 26 });
+        });
+        glass([[-20, 0], [-20, -56], [0, -72], [20, -56], [20, 0]], 25, 50, 24, { lum });
+        ctx.restore();
+      }
+      function jar(x, y, s, fill, glowAmt) {
+        ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+        aura(0, -90, 190, 44, glowAmt);
+        glass([[-50, 0], [-62, -30], [-62, -140], [-42, -165], [-34, -180], [34, -180], [42, -165], [62, -140], [62, -30], [50, 0]], 190, 35, 58, { lum: 0.9, lead: 6 });
+        for (let i = 0; i < fill; i++) {
+          const sx = -36 + (i % 4) * 24, sy = -18 - Math.floor(i / 4) * 30;
+          glass(rectPts(sx - 10, sy - 24, 20, 24), 45, 60, 82, { lead: 3 });
+        }
+        glass(rectPts(-40, -200, 80, 22), 25, 50, 36, { lead: 5 });
+        ctx.restore();
+      }
+      function tree(x, y, s, g) {
+        if (g <= 0) return;
+        ctx.save(); ctx.translate(x, y); ctx.scale(s * g, s * g);
+        glass([[-26, 0], [-18, -200], [18, -200], [26, 0]], 25, 45, 30, { lead: 7 });
+        glass([[-12, -150], [-92, -240], [-78, -254], [-4, -178]], 25, 45, 30, { lead: 6 });
+        glass([[12, -160], [96, -250], [82, -264], [4, -188]], 25, 45, 30, { lead: 6 });
+        const cy = -340;
+        glassCircle(0, cy, 70, 120, 55, 36, { lead: 7 });
+        for (let i = 0; i < 7; i++) glass(ringPiece(0, cy, 70, 135, (i / 7) * TAU, ((i + 1) / 7) * TAU, 3), 105 + (i % 3) * 14, 55, 32 + (i % 2) * 6, { lead: 7 });
+        for (let i = 0; i < 12; i++) glass(ringPiece(0, cy, 135, 200, (i / 12) * TAU + 0.2, ((i + 1) / 12) * TAU + 0.2, 3), 95 + (i % 4) * 12, 55, 28 + (i % 3) * 6, { lead: 7 });
+        for (let i = 0; i < 9; i++) {
+          const a = hash(i * 5.3) * TAU, r = 60 + hash(i * 2.1) * 120;
+          glassCircle(Math.cos(a) * r, cy + Math.sin(a) * r, 15, 355, 80, 48, { lead: 4 });
+        }
+        ctx.restore();
+      }
+      function eye(x, y, w, open, look, lum) {
+        const h = w * 0.42 * open;
+        const p = [];
+        for (let i = 0; i <= 16; i++) { const u = i / 16; p.push([x - w + 2 * w * u, y - Math.sin(Math.PI * u) * h]); }
+        for (let i = 16; i >= 0; i--) { const u = i / 16; p.push([x - w + 2 * w * u, y + Math.sin(Math.PI * u) * h]); }
+        glass(p, 40, 15, 80, { lum, lead: 10 });
+        if (open > 0.08) {
+          ctx.save(); pathPts(p); ctx.clip();
+          const px = x + look[0] * w * 0.4, py = y + look[1] * w * 0.2;
+          glassCircle(px, py, w * 0.36, 355, 85, 40, { lum, lead: 7, glow: 0.6 });
+          glassCircle(px, py, w * 0.14, 0, 0, 6, { lum: 1, lead: 0 });
+          ctx.restore();
+        }
+      }
+      function heartPts(x, y, s) {
+        const p = [];
+        for (let i = 0; i < 48; i++) {
+          const t = (i / 48) * TAU;
+          p.push([x + 16 * Math.pow(Math.sin(t), 3) * s, y - (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * s]);
+        }
+        return p;
+      }
+      function scroll(x, y, w, h, prog, lines) {
+        if (prog <= 0) return;
+        const ww = w * eOut(prog);
+        glass(rectPts(x - ww / 2, y - h / 2, ww, h), 42, 55, 80, { lead: 6 });
+        glassCircle(x - ww / 2, y, h * 0.18, 30, 45, 55, { lead: 5 });
+        glassCircle(x + ww / 2, y, h * 0.18, 30, 45, 55, { lead: 5 });
+        ctx.save();
+        ctx.beginPath(); ctx.rect(x - ww / 2 + 20, y - h / 2, ww - 40, h); ctx.clip();
+        for (let i = 0; i < lines; i++) {
+          const ly = y - h / 2 + 28 + i * ((h - 40) / Math.max(1, lines - 1 + 0.6));
+          const pts = [];
+          for (let k = 0; k <= 18; k++) pts.push([x - w / 2 + 40 + k * ((w - 80) / 18), ly + Math.sin(k * 1.7 + i) * 4]);
+          leadLine(pts, 3.5, "rgba(70,40,20,0.75)");
+        }
+        ctx.restore();
+      }
+
+      // ---------- Cámara ----------
+      const SHAKES = [[70.72, 6], [75.28, 4], [77.76, 9], [87.36, 10]];
+      function cam(z, cx, cy) {
+        let x = 0, y = 0;
+        SHAKES.forEach(([t0, amp], i) => {
+          const dt = T - t0, D = 0.5;
+          if (dt < 0 || dt > D) return;
+          const env = Math.exp(-6 * dt) * Math.pow(1 - dt / D, 2) * amp;
+          x += env * Math.sin(TAU * (11 + i) * dt + i);
+          y += env * Math.sin(TAU * (9 + i) * dt + i * 2.1);
+        });
+        ctx.setTransform(z, 0, 0, z, W / 2 - cx * z + x, H / 2 - cy * z + y);
+      }
+
+      // =====================================================================
+      //  ESCENAS (cada una arranca en la palabra que la nombra)
+      // =====================================================================
+      const SC = [];
+      function scene(t0, bg, draw) { SC.push({ t0, bg, draw }); }
+
+      // 1 · 0–8.24 "En medio de una de las épocas más oscuras... decidió desafiar a la muerte."
+      scene(0, { h: [250, 265, 280, 230], s: 45, l: [8, 18], la: 6, lum: () => 1 - 0.35 * seg(T, 2.2, 3.2) + 0.5 * seg(T, 4.6, 6.5) }, () => {
+        cam(1 + 0.05 * seg(T, 0, 8.24), 540, 800);
+        const dark = seg(T, 2.2, 3.2);
+        const JEWEL = [[44, 92, 56], [352, 70, 44], [214, 70, 46], [150, 60, 40], [280, 55, 48]];
+        aura(540, 700, 620, 44, 0.8 * eOut(seg(T, 4.32, 6.2)));
+        rose(540, 700, 440, T * 0.05, (ri, i, n) => {
+          const k = eOut(seg(T, 4.32 + ri * 0.22 + (i / n) * 0.35, 4.9 + ri * 0.22 + (i / n) * 0.35));
+          const J = JEWEL[(i + ri) % JEWEL.length];
+          const h = lerp(245 + (i % 3) * 15, J[0], k);
+          return [h, lerp(35, J[1], k), lerp(26, J[2], k), lerp(0.75 - 0.4 * dark, 1.05, k), ri === 0 ? 0.8 * k : 0];
+        });
+        const rise = eOut(seg(T, 5.04, 6.0));
+        const iy = lerp(1750, 1300, rise);
+        const up = eBack(seg(T, 6.32, 6.8));
+        // Sombra de la muerte: astillas oscuras que trepan desde abajo
+        const creep = eIO(seg(T, 5.6, 7.3));
+        if (T < 7.36) {
+          for (let i = 0; i < 12; i++) {
+            const side = i % 2 ? 1 : -1;
+            const bx = 540 + side * lerp(620, 260, creep) + (hash(i * 3.1) - 0.5) * 160;
+            const byy = 1380 - hash(i * 7.3) * 380 * creep;
+            const r = 70 + hash(i) * 60;
+            alpha(seg(T, 5.6, 6.2));
+            glass([[bx, byy - r], [bx + r * 0.7, byy + r * 0.4], [bx - r * 0.6, byy + r * 0.5]], 355, 70, 14, { lead: 6 });
+          }
+          alpha(1);
+        }
+        shards(540, 1150, T - 7.36, 22, 71, [355, 0, 350, 340], 1, 18);
+        rays(540 + 40 * 1.6, iy - 330 * 1.6, 1.2 * bump(T, 7.3, 0.9) + 0.35 * seg(T, 7.8, 8.2), 44, T * 0.2);
+        irena({ x: 540, y: iy, s: 1.6, halo: seg(T, 5.3, 6.2), armF: lerp(0.25, -2.75, up), armB: 0.3, eyes: T > 6.32 ? "open" : "calm", smile: T > 7.6, a: seg(T, 4.9, 5.3) });
+      });
+
+      // 2 · 8.24–10.96 "Su nombre era Irena Sendler."
+      scene(8.24, { h: [285, 300, 320], s: 50, l: [10, 20], la: 16, ly: 640 }, () => {
+        cam(1 + 0.04 * seg(T, 8.24, 10.96), 540, 960);
+        const k = eBack(seg(T, 8.24, 8.75));
+        ctx.save();
+        ctx.translate(540, 760); ctx.scale(k, k); ctx.translate(-540, -760);
+        const ax = 540, aw = 640, base = 1180, sy = 560;
+        const arch = [[ax - aw / 2, base], [ax - aw / 2, sy]];
+        for (let i = 1; i <= 12; i++) { const u = i / 12; arch.push([ax - aw / 2 + (aw / 2) * Math.sin((u * Math.PI) / 2), sy - 300 * Math.sin((u * Math.PI) / 2) * (1 - 0.35 * u)]); }
+        for (let i = 11; i >= 0; i--) { const u = i / 12; arch.push([ax + aw / 2 - (aw / 2) * Math.sin((u * Math.PI) / 2), sy - 300 * Math.sin((u * Math.PI) / 2) * (1 - 0.35 * u)]); }
+        arch.push([ax + aw / 2, base]);
+        glass(arch, 222, 60, 22, { lead: 0 });
+        ctx.save(); pathPts(arch); ctx.clip();
+        rays(540, 420, 0.7, 44, T * 0.15, 8);
+        irena({ x: 540, y: 1480, s: 2.6, halo: 1, eyes: T > 9.36 ? "open" : "calm", smile: true, armF: 0.35, armB: 0.35 });
+        ctx.restore();
+        pathPts(arch); ctx.lineWidth = 26; ctx.strokeStyle = LEAD; ctx.stroke();
+        pathPts(arch); ctx.lineWidth = 9; ctx.strokeStyle = hsl(42, 80, 52); ctx.stroke();
+        ctx.restore();
+        // Cinta con el nombre
+        const rb = eOut(seg(T, 9.1, 9.5));
+        if (rb > 0) {
+          const bw = 900 * rb;
+          glass([[540 - bw / 2, 1210], [540 + bw / 2, 1210], [540 + bw / 2 + 40, 1290], [540 + bw / 2, 1370], [540 - bw / 2, 1370], [540 - bw / 2 - 40, 1290]], 285, 55, 30, { lead: 9 });
+        }
+        leadWord("IRENA", 318, 1292, 84, 44, 92, 58, 9.36, 0.07, { glow: 0.6 });
+        leadWord("SENDLER", 712, 1292, 84, 44, 92, 58, 10.08, 0.06, { glow: 0.6 });
+      });
+
+      // 3 · 10.96–19.28 "En 1940, miles de familias judías quedaron encerradas en el gueto de Varsovia, en Polonia."
+      const FAM = [
+        { x: 160, i: 0, kid: false, from: -250 }, { x: 280, i: 0, kid: true, from: -380 }, { x: 400, i: 1, kid: false, from: -520 },
+        { x: 680, i: 2, kid: false, from: 1330 }, { x: 790, i: 2, kid: true, from: 1450 }, { x: 920, i: 3, kid: false, from: 1580 }, { x: 540, i: 4, kid: true, from: 1700 },
+      ];
+      scene(10.96, { h: [220, 235, 250], s: 30, l: [10, 20], lum: () => 1 - 0.35 * seg(T, 15.84, 16.6) }, () => {
+        cam(1 + 0.03 * seg(T, 10.96, 19.28), 540, 800);
+        // Muro del gueto que sube
+        const rise = eOut(seg(T, 15.84, 16.3));
+        if (rise > 0) {
+          const top = 1280 - 560 * rise;
+          brickWall(0, top, W, 1280 - top, 0.85, 3);
+          barbed(0, top, W, eOut(seg(T, 16.2, 16.8)));
+        }
+        // Año
+        const up = eIO(seg(T, 13.0, 13.7));
+        const fade = 1 - seg(T, 16.9, 17.2);
+        if (fade > 0) {
+          ctx.save();
+          ctx.translate(540, 560 - 290 * up); ctx.scale(1 - 0.45 * up, 1 - 0.45 * up); ctx.translate(-540, -560);
+          aura(540, 560, 420, 44, 0.6 * seg(T, 11.28, 12));
+          leadWord("1940", 540, 560, 270, 44, 90, 56, 11.28, 0.12, { a: fade, glow: 0.5 });
+          ctx.restore();
+        }
+        leadWord("VARSOVIA", 540, 300, 128, 200, 60, 62, 17.2, 0.05, { glow: 0.4 });
+        leadWord("POLONIA", 540, 430, 84, 352, 60, 58, 18.4, 0.05);
+        // Familias que llegan
+        FAM.forEach((f, n) => {
+          const k = seg(T, 13.12 + n * 0.12, 15.0 + n * 0.12);
+          const x = lerp(f.from, f.x, eOut(k));
+          const walking = k > 0 && k < 1;
+          const sad = T > 15.84;
+          const o = { x, y: 1290, s: f.kid ? 0.62 : 0.95, dir: f.from < f.x ? 1 : -1, bob: walking ? walkBob(T, 2.2) : 0,
+            armF: walking ? 0.2 + swing(T, 2.2, 0.35) : sad ? 0.5 : 0.2, armB: walking ? 0.2 - swing(T, 2.2, 0.35) : 0.2,
+            lum: lerp(1, 0.7, seg(T, 15.84, 16.6)), sad, eyes: T > 15.84 && T < 16.5 ? "open" : "calm" };
+          if (f.kid) kid(f.i, o); else adult(f.i, o);
+        });
+        // Muros laterales que se cierran
+        const sl = eIn(seg(T, 15.84, 16.05)), sr = eIn(seg(T, 15.95, 16.16));
+        if (sl > 0) brickWall(lerp(-260, -40, sl), 640, 130, 700, 0.75, 9);
+        if (sr > 0) brickWall(lerp(1210, 990, sr), 640, 130, 700, 0.75, 17);
+      });
+
+      // 4 · 19.28–26.24 "El hambre, las enfermedades y el miedo se habían convertido en parte de la vida cotidiana."
+      scene(19.28, { h: [210, 30, 0], s: () => lerp(30, 4, seg(T, 22.5, 25.5)), l: [8, 16], lum: () => 1 - 0.3 * seg(T, 22.5, 25.5) }, () => {
+        cam(1 + 0.03 * seg(T, 19.28, 26.24), 540, 780);
+        const grey = seg(T, 22.6, 25.4);
+        const sat = 1 - grey * 0.92;
+        const M = [[540, 470, 19.52, 35], [300, 900, 20.4, 150], [780, 900, 21.6, 0]];
+        M.forEach(([x, y, t0, hue], i) => {
+          const k = eBack(seg(T, t0, t0 + 0.45));
+          if (k <= 0) return;
+          ctx.save(); ctx.translate(x, y); ctx.scale(k, k);
+          glassCircle(0, 0, 200, hue, 50 * sat, 26, { lead: 12 });
+          for (let j = 0; j < 16; j++) glass(ringPiece(0, 0, 200, 236, (j / 16) * TAU, ((j + 1) / 16) * TAU, 2), 44, 80 * sat, 46, { lead: 7 });
+          if (i === 0) {
+            // cuenco vacío
+            const p = [];
+            for (let a = 0; a <= 16; a++) p.push([-110 + (220 * a) / 16, 10 + Math.sin((Math.PI * a) / 16) * 95]);
+            glass(p, 30, 45 * sat, 52, { lead: 7 });
+            glass(rectPts(-112, -4, 224, 18), 30, 40 * sat, 60, { lead: 6 });
+            glass([[60, -10], [120, -110], [134, -102], [76, -4]], 40, 20 * sat, 70, { lead: 5 });
+          } else if (i === 1) {
+            // frasco de medicina
+            glass([[-58, 110], [-58, -40], [-30, -70], [-30, -110], [30, -110], [30, -70], [58, -40], [58, 110]], 150, 50 * sat, 40, { lead: 7 });
+            glass(rectPts(-36, -140, 72, 32), 25, 40 * sat, 34, { lead: 6 });
+            glass(rectPts(-44, -8, 88, 70), 0, 0, 92, { lead: 5 });
+            ctx.fillStyle = hsl(355, 80 * sat, 48); ctx.fillRect(-9, 0, 18, 54); ctx.fillRect(-28, 18, 56, 18);
+          } else {
+            // ojos con miedo
+            eye(-70, -10, 60, 1, [Math.sin(T * 6) * 0.5, 0], 1);
+            eye(70, -10, 60, 1, [Math.sin(T * 6) * 0.5, 0], 1);
+            leadLine([[-130, -90], [-20, -70]], 10); leadLine([[130, -90], [20, -70]], 10);
+          }
+          ctx.restore();
+        });
+        cracks(540, 760, 41, 14, 1000, eIO(seg(T, 22.6, 25.8)), "rgba(220,226,240,0.6)", 4);
+        cracks(300, 900, 43, 7, 260, seg(T, 23.2, 24.5));
+        cracks(780, 900, 47, 7, 260, seg(T, 23.6, 24.9));
+      });
+
+      // 5 · 26.24–30.56 "Pero Irena no estaba dispuesta a quedarse mirando."
+      const lit5 = (c) => seg(T, 26.56 + c.d * 2.2, 27.1 + c.d * 2.2);
+      scene(26.24, { h: [40, 30, 48, 20], s: (c) => lerp(4, 75, lit5(c)), l: [8, 18], la: 16, lum: (c) => 0.65 + 0.55 * lit5(c) }, () => {
+        cam(1 + 0.05 * eIO(seg(T, 29.4, 30.56)), 540, 820);
+        cracks(540, 760, 41, 14, 1000, 1 - seg(T, 26.4, 27.6), "rgba(220,226,240,0.6)", 4);
+        const rise = eOut(seg(T, 26.56, 27.6));
+        const iy = lerp(1750, 1300, rise);
+        rays(540, iy - 300 * 1.75, 0.8 * seg(T, 27.4, 28.4), 44, T * 0.18);
+        aura(540, iy - 300, 700, 44, 0.7 * seg(T, 26.6, 28));
+        const step = eOut(seg(T, 29.68, 30.2));
+        irena({ x: 540, y: iy + 30 * step, s: 1.75 + 0.15 * step, halo: seg(T, 27.0, 28.0), eyes: T > 29.68 ? "open" : "calm", armF: 0.3 + 0.5 * step, armB: 0.3 + 0.5 * step });
+      });
+
+      // 6 · 30.56–38.64 "Aprovechando su trabajo como asistente social, logró entrar al gueto para llevar ayuda a quienes estaban atrapados."
+      scene(30.56, { h: [25, 15, 35, 210], s: 35, l: [9, 18], lum: 0.9 }, () => {
+        const inside = T >= 34.9;
+        if (!inside) {
+          cam(1 + 0.18 * eIn(seg(T, 34.2, 34.9)), 540, 980);
+          // muro con puerta en arco
+          brickWall(0, 420, W, 880, 0.8, 5);
+          const gx = 540, gw = 380, gb = 1300, gt = 780;
+          const archP = [[gx - gw / 2, gb], [gx - gw / 2, gt]];
+          for (let i = 1; i < 12; i++) { const a = Math.PI + (i / 12) * Math.PI; archP.push([gx + Math.cos(a) * gw / 2, gt + Math.sin(a) * gw / 2]); }
+          archP.push([gx + gw / 2, gt]); archP.push([gx + gw / 2, gb]);
+          const open = eOut(seg(T, 34.48, 34.9));
+          glass(archP, 210, 20, lerp(18, 60, open), { lead: 12 });
+          aura(gx, 1000, 400, 210, open, 30);
+          ctx.save(); pathPts(archP); ctx.clip();
+          const lw = (gw / 2) * (1 - open * 0.92);
+          glass(rectPts(gx - gw / 2, gt - gw / 2, lw, gb - gt + gw / 2), 25, 45, 26, { lead: 7 });
+          glass(rectPts(gx + gw / 2 - lw, gt - gw / 2, lw, gb - gt + gw / 2), 25, 45, 26, { lead: 7 });
+          ctx.restore();
+          barbed(0, 420, W, 1);
+          const k = seg(T, 30.56, 34.3);
+          const x = lerp(-140, 540, eIO(k));
+          const walking = k > 0 && k < 1;
+          irena({ x, y: 1310 + 20 * seg(T, 34.3, 34.9), s: 1.15 - 0.15 * seg(T, 34.5, 34.9), halo: 0.5, bob: walking ? walkBob(T, 2.0) : 0,
+            armF: 0.15, armB: walking ? 0.2 + swing(T, 2.0, 0.35) : 0.2, hold: bag, eyes: "open", a: 1 - seg(T, 34.6, 34.9) });
+        } else {
+          cam(1 + 0.04 * seg(T, 34.9, 38.64), 540, 900);
+          veil(0.25 * (1 - seg(T, 36.0, 37.5)));
+          // barrotes al fondo
+          bars(1, 0.55);
+          const PEOPLE = [[180, 0, false], [360, 1, true], [720, 2, true], [900, 3, false]];
+          PEOPLE.forEach(([x, i, isKid], n) => {
+            const arrive = 36.08 + n * 0.28 + 0.6;
+            const c = seg(T, arrive, arrive + 0.5);
+            const o = { x, y: 1300, s: isKid ? 0.66 : 0.95, sat: lerp(0.08, 1, c), lum: lerp(0.5, 1.05, c), sad: c < 0.5, smile: c > 0.5, eyes: c > 0.5 ? "open" : "calm", armF: lerp(0.15, 0.9, c), dir: x < 540 ? 1 : -1 };
+            if (isKid) kid(i, o); else adult(i, o);
+            aura(x, 1300 - 180, 220, 44, bump(T, arrive, 0.7));
+          });
+          irena({ x: 540, y: 1310, s: 1.15, halo: 0.6, hold: bag, eyes: "open", smile: T > 36.5, armF: 0.15, a: seg(T, 34.9, 35.2) });
+          // paquetes de luz que salen de la bolsa
+          PEOPLE.forEach(([x], n) => {
+            const t0 = 36.08 + n * 0.28, p = seg(T, t0, t0 + 0.6);
+            if (p <= 0 || p >= 1) return;
+            const sx = 540 + 0.2 * 1.15 * 118, sy = 1310 - 150;
+            const px = lerp(sx, x, p), py = lerp(sy, 1300 - 170, p) - Math.sin(Math.PI * p) * 220;
+            aura(px, py, 90, 44, 1);
+            glass(rectPts(px - 18, py - 18, 36, 36), 44, 95, 62, { lead: 5 });
+          });
+        }
+      });
+
+      // 7 · 38.64–45.28 "Y junto a una red clandestina, comenzó una misión extremadamente peligrosa."
+      const NODES = [[540, 780]];
+      for (let i = 1; i < 15; i++) NODES.push([140 + hash(i * 4.7) * 800, 240 + hash(i * 9.1) * 1060]);
+      const EDGES = NODES.map((p, i) => {
+        if (!i) return null;
+        let best = 0, bd = 1e9;
+        for (let j = 0; j < i; j++) { const d = Math.hypot(p[0] - NODES[j][0], p[1] - NODES[j][1]); if (d < bd) { bd = d; best = j; } }
+        return best;
+      });
+      scene(38.64, { h: [230, 250, 215], s: 40, l: [6, 14], lum: 0.8 }, () => {
+        cam(1 + 0.04 * seg(T, 38.64, 45.28), 540, 780);
+        const danger = seg(T, 42.88, 43.4);
+        const beamA = -2.0 + Math.sin((T - 42.88) * 1.4) * 0.7;
+        const inBeam = (x, y) => {
+          if (danger <= 0) return 0;
+          const a = Math.atan2(y - 120, x - 1080);
+          return Math.abs(a - beamA) < 0.22 ? danger : 0;
+        };
+        NODES.forEach((p, i) => {
+          if (!i) return;
+          const t0 = 39.68 + i * 0.11, k = eOut(seg(T, t0, t0 + 0.4));
+          if (k <= 0) return;
+          const q = NODES[EDGES[i]];
+          const e = [lerp(q[0], p[0], k), lerp(q[1], p[1], k)];
+          leadLine([q, e], 12);
+          ctx.save(); ctx.globalCompositeOperation = "lighter"; leadLine([q, e], 4, hsl(44, 95, 62, 0.8 * A)); ctx.restore();
+          const pulse = seg(T, 42.24 + i * 0.05, 42.84 + i * 0.05);
+          if (pulse > 0 && pulse < 1) { const pp = [lerp(q[0], p[0], pulse), lerp(q[1], p[1], pulse)]; aura(pp[0], pp[1], 60, 44, 1); }
+        });
+        NODES.forEach((p, i) => {
+          const t0 = i ? 39.68 + i * 0.11 + 0.3 : 38.8;
+          const k = eBack(seg(T, t0, t0 + 0.35));
+          if (k <= 0) return;
+          const dim = inBeam(p[0], p[1]);
+          aura(p[0], p[1], 120, dim ? 355 : 44, 0.6 * (1 - dim * 0.6));
+          glassCircle(p[0], p[1], (i ? 24 : 40) * k, dim ? 355 : 44, 90, dim ? 40 : 58, { lead: 6 });
+        });
+        irena({ x: 540, y: 880, s: 0.55, halo: 1, eyes: "open" });
+        if (danger > 0) {
+          ctx.save();
+          ctx.globalCompositeOperation = "lighter";
+          ctx.beginPath(); ctx.moveTo(1080, 120);
+          ctx.lineTo(1080 + Math.cos(beamA - 0.22) * 2200, 120 + Math.sin(beamA - 0.22) * 2200);
+          ctx.lineTo(1080 + Math.cos(beamA + 0.22) * 2200, 120 + Math.sin(beamA + 0.22) * 2200);
+          ctx.closePath();
+          const g = ctx.createRadialGradient(1080, 120, 0, 1080, 120, 1800);
+          g.addColorStop(0, hsl(355, 90, 55, 0.4 * danger * A)); g.addColorStop(1, hsl(355, 90, 45, 0));
+          ctx.fillStyle = g; ctx.fill();
+          ctx.restore();
+          glassCircle(1050, 140, 60, 355, 80, 40, { lead: 9, glow: 0.8 });
+        }
+      });
+
+      // 8 · 45.28–55.28 "Sacar a los niños de aquel lugar. Muchos fueron escondidos en hogares, conventos y orfanatos, lejos de la persecución nazi."
+      const HOUSES = [[210, "home", 0.9, 49.84], [540, "convent", 1.0, 50.64], [870, "orphan", 0.85, 51.6]];
+      scene(45.28, { h: [222, 245, 205], s: 45, l: [8, 18], lum: 0.9, la: 8 }, () => {
+        cam(1 + 0.03 * seg(T, 45.28, 55.28), 540, 820);
+        if (T < 48.2) {
+          // los niños salen de la mano, Irena delante
+          const k = seg(T, 45.28, 48.4);
+          brickWall(0, 640, 250 - 250 * seg(T, 47.5, 48.2), 680, 0.7, 11);
+          const lead = lerp(80, 1300, eIO(k));
+          irena({ x: lead, y: 1300, s: 1.0, halo: 0.6, bob: walkBob(T, 2.2), armF: 0.2 + swing(T, 2.2, 0.3), armB: 1.2, eyes: "open" });
+          for (let i = 0; i < 5; i++) {
+            const x = lead - 150 - i * 120;
+            kid(i, { x, y: 1300, s: 0.6, bob: walkBob(T + i * 0.2, 2.6), armF: 1.25, armB: 1.25, eyes: "open", smile: true });
+          }
+        } else {
+          // colina
+          const hill = [[-20, 1320]];
+          for (let i = 0; i <= 12; i++) hill.push([(i * W) / 12, 1240 + Math.sin(i * 0.9) * 30]);
+          hill.push([W + 20, 1320]); hill.push([W + 20, 1420]); hill.push([-20, 1420]);
+          glass(hill, 140, 40, 24, { lead: 9 });
+          HOUSES.forEach(([x, kind, s, t0], hi) => {
+            const k = eBack(seg(T, t0, t0 + 0.45));
+            if (k <= 0) return;
+            ctx.save(); ctx.translate(x, 1260); ctx.scale(1, k); ctx.translate(-x, -1260);
+            building(x, 1260, s, kind, (wi) => seg(T, t0 + 0.6 + wi * 0.18, t0 + 0.9 + wi * 0.18) + 0.25 * seg(T, 52.88, 53.6), 1);
+            ctx.restore();
+          });
+          // cada niño vuela como una lucecita hasta su refugio
+          for (let i = 0; i < 6; i++) {
+            const hs = HOUSES[i % 3];
+            const t0 = hs[3] + 0.15 + Math.floor(i / 3) * 0.3, p = seg(T, t0, t0 + 0.7);
+            if (p <= 0 || p >= 1) continue;
+            const px = lerp(540, hs[0], p), py = lerp(1500, 1150, p) - Math.sin(Math.PI * p) * 300;
+            aura(px, py, 110, 44, 1);
+            kid(i, { x: px, y: py + 80, s: 0.32, eyes: "open" });
+          }
+          // la persecución se aleja
+          const away = seg(T, 52.88, 54.8);
+          cracks(0, 300, 91, 6, 500, 1 - away, "rgba(255,80,80,0.5)", 4);
+          cracks(1080, 1000, 93, 6, 500, 1 - away, "rgba(255,80,80,0.5)", 4);
+          motes(40, 44, 7, seg(T, 52.9, 54));
+        }
+      });
+
+      // 9 · 55.28–62.08 "Pero había algo que Irena se negaba a permitir. Que aquellos pequeños olvidaran quiénes eran."
+      scene(55.28, { h: [260, 280, 240], s: 40, l: [8, 16], la: 12, lum: 0.9 }, () => {
+        cam(1 + 0.04 * seg(T, 55.28, 62.08), 560, 860);
+        const drain = seg(T, 58.97, 60.6), back = eOut(seg(T, 60.88, 61.8));
+        const c = Math.max(0, drain - back);
+        const protect = eBack(seg(T, 56.4, 56.9));
+        irena({ x: 320, y: 1300, s: 1.35, halo: 0.8, eyes: "open", armF: lerp(0.2, 1.35, protect), armB: 0.3, sad: T > 59 && T < 61 });
+        kid(1, { x: 790, y: 1300, s: 0.95, dir: -1, sat: 1 - c, lum: 1 - 0.45 * c, a: 1 - 0.35 * c, eyes: back > 0.5 ? "open" : "calm", smile: back > 0.6, sad: c > 0.3 });
+        // los colores se escapan del niño como piezas sueltas
+        for (let i = 0; i < 10; i++) {
+          const p = seg(T, 59.0 + i * 0.12, 60.4 + i * 0.12) * (1 - back);
+          if (p <= 0) continue;
+          const px = 790 + (hash(i * 3.3) - 0.5) * 200 + Math.sin(T * 2 + i) * 20, py = 1050 - p * 500;
+          alpha(1 - p);
+          glass(rectPts(px - 12, py - 12, 24, 24), KIDS[i % 6].robe[0], 70, 50, { lead: 4 });
+        }
+        alpha(1);
+        aura(790, 760, 260, 44, back);
+        scroll(790, 760, 360, 130, seg(T, 61.0, 61.6), 3);
+      });
+
+      // 10 · 62.08–70.40 "Por eso conservaba registros secretos con sus verdaderos nombres y los lugares donde habían sido escondidos."
+      scene(62.08, { h: [30, 40, 20], s: 35, l: [8, 16], lum: 0.9, la: 10 }, () => {
+        cam(1 + 0.03 * seg(T, 62.08, 70.4), 540, 820);
+        const earth = [[-20, 1080]];
+        for (let i = 0; i <= 10; i++) earth.push([(i * W) / 10, 1070 + Math.sin(i * 1.3) * 16]);
+        earth.push([W + 20, 1080], [W + 20, 1420], [-20, 1420]);
+        glass(earth, 25, 45, 20, { lead: 9 });
+        tree(540, 1080, 1.25, eBack(seg(T, 67.0, 68.4)));
+        // el registro: hoja con renglones que se van escribiendo
+        const tear = seg(T, 64.4, 64.7);
+        if (tear < 1) {
+          alpha(1 - tear);
+          glass(rectPts(260, 300, 560, 640), 42, 50, 80, { lead: 9 });
+          for (let i = 0; i < 8; i++) {
+            const p = seg(T, 62.96 + i * 0.18, 63.3 + i * 0.18);
+            if (p <= 0) continue;
+            const pts = [];
+            for (let k = 0; k <= Math.round(16 * p); k++) pts.push([310 + k * 28, 370 + i * 72 + Math.sin(k * 1.9 + i) * 5]);
+            if (pts.length > 1) leadLine(pts, 4, "rgba(70,40,20,0.8)");
+          }
+          alpha(1);
+        }
+        // tiras de papel que vuelan a los frascos
+        const JX = [380, 700];
+        let fill = [0, 0];
+        for (let i = 0; i < 8; i++) {
+          const t0 = 64.6 + i * 0.22, p = seg(T, t0, t0 + 0.6), j = i % 2;
+          if (p >= 1) { fill[j]++; continue; }
+          if (p <= 0) continue;
+          const px = lerp(540, JX[j], eIO(p)), py = lerp(400 + i * 60, 900, eIO(p)) - Math.sin(Math.PI * p) * 120;
+          ctx.save(); ctx.translate(px, py); ctx.rotate(p * 6 + i);
+          glass(rectPts(-60, -12, 120, 24), 42, 50, 80, { lead: 4 });
+          ctx.restore();
+        }
+        const sink = eIO(seg(T, 68.4, 69.4));
+        JX.forEach((x, j) => {
+          jar(x, 1060 + 260 * sink, 0.95, fill[j], 0.4 + 0.6 * seg(T, 66.5, 67.5));
+          // los lugares: casitas en el frasco
+          const hp = eBack(seg(T, 67.6 + j * 0.2, 68.0 + j * 0.2)) * (1 - sink);
+          if (hp > 0) {
+            ctx.save(); ctx.translate(x, 840); ctx.scale(hp, hp);
+            glass([[-28, 0], [-28, -36], [0, -62], [28, -36], [28, 0]], 30, 60, 55, { lead: 5 });
+            ctx.restore();
+          }
+        });
+        if (sink > 0) {
+          ctx.save(); ctx.globalAlpha = 0.45 * sink * A;
+          glass(earth, 25, 45, 18, { lead: 0 });
+          ctx.restore();
+          alpha(1);
+          JX.forEach((x) => aura(x, 1220, 160, 44, 0.8 * sink));
+        }
+      });
+
+      // 11 · 70.40–77.52 "En 1943, la policía secreta nazi descubrió sus actividades."
+      scene(70.4, { h: [0, 350, 10], s: 55, l: [6, 14], lum: 0.85 }, () => {
+        cam(1 + 0.04 * seg(T, 70.4, 77.52), 540, 800);
+        const up = eIO(seg(T, 73.0, 73.6));
+        ctx.save();
+        ctx.translate(540, 560 - 300 * up); ctx.scale(1 - 0.5 * up, 1 - 0.5 * up); ctx.translate(-540, -560);
+        aura(540, 560, 420, 355, 0.7 * seg(T, 70.72, 71.5));
+        leadWord("1943", 540, 560, 270, 355, 80, 46, 70.72, 0.1, { glow: 0.5 });
+        cracks(540, 560, 13, 8, 260, seg(T, 72.2, 72.9), "rgba(255,230,230,0.8)", 4);
+        ctx.restore();
+        const open = eOut(seg(T, 73.92, 74.5));
+        const look = T < 75.28 ? [Math.sin((T - 73.9) * 2.2), 0] : [0, lerp(0, 1, eOut(seg(T, 75.28, 75.6)))];
+        if (open > 0) {
+          aura(540, 760, 500, 355, 0.6 * open);
+          eye(540, 760, 330, open, look, 1);
+        }
+        const beam = seg(T, 75.28, 75.6);
+        if (beam > 0) {
+          ctx.save(); ctx.globalCompositeOperation = "lighter";
+          ctx.beginPath(); ctx.moveTo(520, 840); ctx.lineTo(560, 840); ctx.lineTo(760, 1340); ctx.lineTo(320, 1340); ctx.closePath();
+          ctx.fillStyle = hsl(355, 90, 50, 0.32 * beam * A); ctx.fill();
+          ctx.restore();
+        }
+        irena({ x: 540, y: 1330, s: 0.8, halo: 0.5, eyes: T > 75.4 ? "open" : "calm", look: T > 75.4 ? 0 : 3, a: seg(T, 74.6, 75.0) });
+      });
+
+      // 12 · 77.52–82.64 "La arrestaron, la torturaron y la condenaron a muerte."
+      scene(77.52, { h: [355, 0, 345], s: () => lerp(45, 8, seg(T, 80.6, 81.8)), l: [6, 13], lum: () => 1 - 0.4 * seg(T, 80.6, 81.8) }, () => {
+        cam(1 + 0.05 * seg(T, 77.52, 82.64), 540, 860);
+        const dim = seg(T, 80.88, 81.8);
+        const flick = T > 79.28 ? 0.3 + 0.3 * hash(Math.floor(T * 12)) : 1;
+        irena({ x: 540, y: 1300, s: 1.6, halo: (1 - 0.7 * seg(T, 79.28, 80)) * flick * (1 - 0.6 * dim), sad: true, eyes: "calm", lum: 1 - 0.45 * dim, sat: 1 - 0.7 * dim, armF: 0.1, armB: 0.1 });
+        cracks(540, 880, 77, 10, 560, eIO(seg(T, 79.28, 80.2)), "rgba(240,240,255,0.75)", 3.5);
+        bars(eOut(seg(T, 77.76, 78.0)), 0.85);
+        veil(0.5 * dim, "rgba(20,0,4,A)");
+      });
+
+      // 13 · 82.64–92.16 "Pero no consiguieron detener su misión. La resistencia logró liberarla y ella continuó ayudando desde la clandestinidad."
+      const lit13 = (c) => seg(T, 87.36 + c.d * 0.8, 87.9 + c.d * 0.8);
+      scene(82.64, { h: [210, 45, 330, 160], s: (c) => lerp(10, 70, lit13(c)), l: [8, 18], lum: (c) => lerp(0.5, 1.1, lit13(c)) * (1 - 0.35 * seg(T, 89.6, 90.6)) }, () => {
+        cam(1 + 0.04 * seg(T, 82.64, 92.16), 540, 860);
+        const free = T >= 87.36;
+        if (!free) {
+          const halo = seg(T, 83.2, 84.6);
+          aura(540, 1000, 600, 44, 0.6 * halo);
+          irena({ x: 540, y: 1300, s: 1.6, halo, eyes: T > 84.0 ? "open" : "calm", lum: lerp(0.6, 1, halo), sat: lerp(0.3, 1, halo), armF: 0.1, armB: 0.1 });
+          const helpers = eOut(seg(T, 85.9, 86.8));
+          if (helpers > 0) {
+            [[90, 0], [990, 1], [200, 2], [880, 3]].forEach(([x, i], n) => {
+              adult(i, { x, y: 1300 + (1 - helpers) * 500, s: n < 2 ? 1.0 : 0.85, robe: [150, 40, 30], eyes: "open", armF: -2.2, dir: x < 540 ? 1 : -1 });
+            });
+          }
+          bars(1, 0.85);
+        } else {
+          const tt = T - 87.36;
+          const walk = seg(T, 88.64, 92.16);
+          aura(540, 900, 800, 44, 1 - seg(T, 88.0, 89.6) * 0.5);
+          for (let i = 0; i < 7; i++) shards(150 + i * 130, 760, tt, 7, 200 + i * 17, [215, 205, 44, 190], 0.55, 40);
+          rays(540, 700, 1.2 * (1 - seg(tt, 0.2, 1.4)), 44, T * 0.2);
+          const x = lerp(540, 700, eIO(walk));
+          irena({ x, y: 1300, s: 1.5 - 0.3 * eIO(seg(T, 88.6, 89.4)), halo: 1, eyes: "open", smile: true, bob: walk > 0 && walk < 1 ? walkBob(T, 1.8) : 0,
+            armF: walk > 0 ? 0.15 : lerp(-2.4, 0.15, seg(tt, 0.4, 1.0)), armB: walk > 0 ? 0.2 + swing(T, 1.8, 0.3) : -2.4 * (1 - seg(tt, 0.4, 1.0)), hold: walk > 0 ? lantern : null });
+          // lucecitas de niños que la siguen en la noche
+          for (let i = 0; i < 5; i++) {
+            const k = seg(T, 89.6 + i * 0.3, 90.4 + i * 0.3);
+            if (k <= 0) continue;
+            const px = x - 220 - i * 110 + Math.sin(T * 2 + i) * 14, py = 1080 + Math.sin(T * 3 + i) * 20 - (i % 2) * 70;
+            aura(px, py, 80, 44, k);
+            glassCircle(px, py, 12, 44, 95, 62, { lead: 3 });
+          }
+        }
+        veil(0.35 * seg(T, 89.6, 90.6), "rgba(4,8,30,A)");
+      });
+
+      // 14 · 92.16–98.80 "Durante décadas, gran parte del mundo desconoció su extraordinaria historia."
+      scene(92.16, { h: [30, 40, 210], s: () => lerp(25, 6, seg(T, 92.5, 96)), l: [8, 16], lum: 0.75 }, () => {
+        cam(1 + 0.04 * seg(T, 92.16, 98.8), 540, 780);
+        const gx = 540, gy = 760, R = 330;
+        const grey = seg(T, 93.0, 96.0);
+        glassCircle(gx, gy, R, 205, 55 * (1 - 0.8 * grey), 36, { lead: 14 });
+        ctx.save();
+        ctx.beginPath(); ctx.arc(gx, gy, R - 6, 0, TAU); ctx.clip();
+        const rot = T * 0.25;
+        for (let i = 0; i < 6; i++) {
+          const ph = rot + (i / 6) * Math.PI;
+          const cx = gx + Math.cos(ph) * R * 0.6, vis = Math.sin(ph);
+          if (vis < 0) continue;
+          const pts = [];
+          for (let k = 0; k < 9; k++) { const a = (k / 9) * TAU; const rr = (60 + hash(i * 9 + k) * 50) * vis; pts.push([cx + Math.cos(a) * rr, gy - 160 + i * 60 + Math.sin(a) * rr * 0.8]); }
+          glass(pts, 110, 45 * (1 - 0.8 * grey), 36, { lead: 6 });
+        }
+        for (let i = 0; i < 6; i++) {
+          const ph = rot + (i / 6) * Math.PI;
+          ctx.beginPath(); ctx.ellipse(gx, gy, Math.abs(Math.cos(ph)) * R, R, 0, 0, TAU);
+          ctx.lineWidth = 6; ctx.strokeStyle = LEAD; ctx.stroke();
+        }
+        [-0.5, 0, 0.5].forEach((v) => { ctx.beginPath(); ctx.ellipse(gx, gy + v * R, R * Math.sqrt(1 - v * v), 30, 0, 0, TAU); ctx.lineWidth = 6; ctx.strokeStyle = LEAD; ctx.stroke(); });
+        // polvo del olvido
+        for (let i = 0; i < 160; i++) {
+          if (hash(i * 1.7) > grey) continue;
+          ctx.fillStyle = "rgba(150,140,130," + 0.5 * A + ")";
+          ctx.fillRect(gx - R + hash(i * 3.1) * 2 * R, gy - R + hash(i * 5.3) * 2 * R, 5, 5);
+        }
+        ctx.restore();
+        const year = Math.floor(lerp(1945, 1999, seg(T, 92.8, 96.2)));
+        alpha(seg(T, 92.4, 92.8));
+        leadText(String(year), 540, 260, 140, 35, 40, 55, { lum: 1 - 0.3 * grey });
+        alpha(1);
+        const spark = seg(T, 96.8, 97.3);
+        if (spark > 0) {
+          aura(575, 600, 120, 44, spark * (0.7 + 0.3 * Math.sin(T * 8)));
+          glassCircle(575, 600, 12 * spark, 44, 95, 64, { lead: 3 });
+        }
+      });
+
+      // 15 · 98.80–105.20 "Y mientras tantos nombres quedaron escritos en los libros por haber provocado destrucción,"
+      const BOOKS = [];
+      [880, 1270].forEach((sy, row) => {
+        let x = 110;
+        for (let i = 0; x < 960; i++) {
+          const w = 70 + hash(row * 50 + i * 3.1) * 40, h = 240 + hash(row * 50 + i * 7.7) * 70;
+          if (x + w > 970) break;
+          BOOKS.push({ x, w, h, sy, n: BOOKS.length });
+          x += w + 6;
+        }
+      });
+      scene(98.8, { h: [0, 20, 350], s: 20, l: [6, 12], lum: 0.8 }, () => {
+        cam(1 + 0.04 * seg(T, 98.8, 105.2), 540, 900);
+        [880, 1270].forEach((sy) => glass(rectPts(80, sy, 920, 30), 25, 35, 24, { lead: 7 }));
+        BOOKS.forEach((b) => {
+          const t0 = 99.5 + b.n * 0.07, k = eOut(seg(T, t0, t0 + 0.4));
+          if (k <= 0) return;
+          const y = b.sy - b.h - (1 - k) * 900;
+          glass(rectPts(b.x, y, b.w, b.h), hash(b.n * 2.3) * 30 - 10, 25, 22 + hash(b.n) * 8, { lead: 6 });
+          glass(rectPts(b.x + 8, y + 30, b.w - 16, 14), 0, 10, 12, { lead: 3 });
+          glass(rectPts(b.x + 8, y + b.h - 50, b.w - 16, 14), 0, 10, 12, { lead: 3 });
+          glassCircle(b.x + b.w / 2, y + b.h / 2, Math.min(18, b.w * 0.22), 0, 50, 22, { lead: 4 });
+        });
+        const burn = seg(T, 103.36, 104.6);
+        cracks(540, 760, 29, 10, 700, burn, "rgba(255,90,60,0.7)", 4);
+        aura(540, 1000, 700, 8, 0.5 * burn);
+        shards(540, 600, T - 104.0, 18, 303, [0, 350, 10], 0.8, 16);
+      });
+
+      // 16 · 105.20–115.35 "el de Irena Sendler merece recordarse por haber protegido la vida, porque incluso en los momentos más oscuros de la humanidad."
+      scene(105.2, { h: [42, 35, 50, 28], s: 70, l: [10, 20], la: 22, ly: 760, lum: (c) => 1 - (c.d > 0.32 ? 0.6 : 0.2) * seg(T, 112.4, 114.4) }, () => {
+        cam(1 + 0.04 * seg(T, 105.2, 115.35), 540, 800);
+        const out = eIO(seg(T, 109.2, 109.8));
+        if (out < 1) {
+          ctx.save();
+          ctx.translate(540, 640 - 200 * out); ctx.scale(1 - 0.4 * out, 1 - 0.4 * out); ctx.translate(-540, -640);
+          alpha(1 - out);
+          const op = eOut(seg(T, 105.3, 105.9));
+          aura(540, 640, 600, 44, 0.4 + 0.6 * seg(T, 107.04, 107.8));
+          rays(540, 640, 0.9 * seg(T, 107.04, 107.8), 44, T * 0.15);
+          glass([[540, 420], [540 - 420 * op, 400], [540 - 420 * op, 880], [540, 900]], 44, 55, 80, { lead: 8 });
+          glass([[540, 420], [540 + 420 * op, 400], [540 + 420 * op, 880], [540, 900]], 44, 55, 84, { lead: 8 });
+          leadLine([[540, 420], [540, 900]], 10);
+          if (op > 0.9) {
+            leadWord("IRENA", 540 - 210, 660, 96, 44, 92, 50, 105.6, 0.06, { glow: 0.6, a: 1 - out });
+            leadWord("SENDLER", 540 + 210, 660, 74, 44, 92, 50, 106.08, 0.05, { glow: 0.6, a: 1 - out });
+          }
+          ctx.restore();
+          alpha(1);
+        }
+        const hk = eBack(seg(T, 109.52, 110.1));
+        if (hk > 0) {
+          const beat = 1 + 0.05 * bump(T, 110.48, 0.3) + 0.05 * bump(T, 111.2, 0.3) + 0.03 * Math.sin(T * 5);
+          const s = 21 * hk * beat, hx = 540, hy = 820;
+          aura(hx, hy, 620, 355, 0.8 * hk);
+          const hp = heartPts(hx, hy, s);
+          glass(hp, 355, 75, 46, { lead: 12 });
+          ctx.save(); pathPts(hp); ctx.clip();
+          for (let i = 0; i < 9; i++) { const a = (i / 9) * TAU; leadLine([[hx, hy - 40], [hx + Math.cos(a) * 600, hy - 40 + Math.sin(a) * 600]], 7); }
+          glassCircle(hx, hy - 40, 90 * hk, 44, 92, 60, { lead: 7 });
+          kid(0, { x: hx - 110, y: hy + 150, s: 0.48 * hk, eyes: "open", smile: true });
+          kid(2, { x: hx, y: hy + 170, s: 0.52 * hk, eyes: "open", smile: true });
+          kid(4, { x: hx + 110, y: hy + 150, s: 0.48 * hk, eyes: "open", smile: true });
+          ctx.restore();
+          pathPts(hp); ctx.lineWidth = 6; ctx.strokeStyle = hsl(44, 80, 55); ctx.stroke();
+        }
+        veil(0.35 * seg(T, 112.4, 114.4) * 0.6);
+      });
+
+      // 17 · 115.35–121.6 "Siempre hubo personas capaces de elegir la compasión por encima del miedo."
+      scene(115.35, { h: [0, 45, 210, 140, 280], s: 75, l: [16, 30], la: 20, lum: () => 0.6 + 0.6 * eOut(seg(T, 115.4, 117)) }, () => {
+        cam(1.04 - 0.04 * seg(T, 115.35, 121.6), 540, 800);
+        const JEWEL = [[44, 92, 58], [352, 72, 46], [214, 72, 48], [150, 62, 42], [280, 58, 50], [190, 70, 46]];
+        const lit = eOut(seg(T, 115.4, 116.6));
+        aura(540, 700, 900, 44, 0.9 * lit + 0.4 * bump(T, 118.79, 1.2));
+        rose(540, 700, 500, T * 0.06, (ri, i, n) => {
+          const J = JEWEL[(i * 2 + ri) % JEWEL.length];
+          const k = seg(T, 115.4 + ri * 0.2 + (i / n) * 0.3, 115.8 + ri * 0.2 + (i / n) * 0.3);
+          return [J[0], J[1], J[2], lerp(0.5, 1.12, k), ri === 0 ? 0.9 : 0];
+        });
+        rays(540, 700, 0.6 * lit + 1.0 * bump(T, 118.79, 1.4), 44, T * 0.12, 12);
+        irena({ x: 540, y: 1330, s: 1.45, halo: 1, eyes: "open", smile: true, armF: 0.9, armB: 0.9 });
+        [[250, 0], [360, 3], [720, 2], [830, 5]].forEach(([x, i], n) => {
+          const k = eOut(seg(T, 116.0 + n * 0.25, 116.6 + n * 0.25));
+          kid(i, { x, y: 1330 + (1 - k) * 400, s: 0.62, dir: x < 540 ? 1 : -1, eyes: "open", smile: true, armF: 0.6 });
+        });
+        motes(60, 44, 3, lit);
+      });
+
+      const CUTS = SC.map((s) => s.t0);
+      function sceneAt(t) { let k = 0; CUTS.forEach((c, i) => { if (t >= c) k = i; }); return k; }
+
+      // ---------- Capa final: textura de vidrio, viñeta ----------
+      const GRAIN = [];
+      for (let g = 0; g < 3; g++) {
+        const c = document.createElement("canvas");
+        c.width = 256; c.height = 256;
+        const gx = c.getContext("2d");
+        const img = gx.createImageData(256, 256);
+        for (let y = 0; y < 256; y++) for (let x = 0; x < 256; x++) {
+          const i = (y * 256 + x) * 4;
+          const ripple = Math.sin(x * 0.11 + Math.sin(y * 0.05 + g) * 3) * Math.sin(y * 0.09 + x * 0.02);
+          const v = 128 + ripple * 60 + (hash(x * 1.31 + y * 7.17 + g * 999) - 0.5) * 50;
+          img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+          img.data[i + 3] = 255;
+        }
+        gx.putImageData(img, 0, 0);
+        GRAIN.push(ctx.createPattern(c, "repeat"));
+      }
+      function overlays() {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.globalAlpha = 1;
+        ctx.globalCompositeOperation = "overlay";
+        ctx.globalAlpha = 0.16;
+        ctx.fillStyle = GRAIN[Math.floor(T * 8) % 3];
+        ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = "source-over";
+        ctx.globalAlpha = 1;
+        const vg = ctx.createRadialGradient(W / 2, H * 0.42, H * 0.26, W / 2, H * 0.42, H * 0.75);
+        vg.addColorStop(0, "rgba(0,0,0,0)");
+        vg.addColorStop(1, "rgba(0,0,0,0.62)");
+        ctx.fillStyle = vg;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      function renderAt(t) {
+        T = clamp(t, 0, END);
+        const si = sceneAt(T);
+        const next = CUTS[si + 1];
+        A = next == null ? 1 : 1 - seg(T, next - 0.3, next - 0.02);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.globalAlpha = 1;
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "#07060c";
+        ctx.fillRect(0, 0, W, H);
+        drawMosaic();
+        veil(0.28);
+        ctx.save();
+        alpha(1);
+        SC[si].draw();
+        ctx.restore();
+        A = 1;
+        overlays();
+      }
+
+      // El canvas se dibuja desde el tiempo de la línea de tiempo (determinista)
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.fromTo(clock, { t: 0 }, { t: END, duration: END, ease: "none", onUpdate: () => renderAt(clock.t) }, 0);
+      renderAt(0);
+      if (document.fonts && document.fonts.load) document.fonts.load("900 100px " + SERIF).then(() => renderAt(clock.t));
+      window.__timelines["story"] = tl;
+    })();
+  </script>
+</template>

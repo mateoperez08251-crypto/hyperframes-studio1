@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-27",
+  "publicReference": {"bytes": 5000000, "seconds": 1.215679, "bytesPerSecond": 4112927},
+  "quicRange": {"bytes": 1048576, "seconds": 9.508, "MBps": 0.110, "verified": true},
+  "http2Range": {"bytes": 1048576, "seconds": 0.968, "MBps": 1.083, "verified": true},
+  "http2Master": {
+    "resumedBytes": 17203200,
+    "transferredBytes": 62128714,
+    "transferSeconds": 9.457,
+    "MBps": 6.570,
+    "completeFileBytes": 79331914,
+    "sha256": "9c9669aa9fd621b80085ada2c358bfbf2743cc3567a821ea6698e9431302f86c",
+    "verified": true
+  },
+  "note": "Session measurements; route and transport both changed. No general guarantee of speed."
+}

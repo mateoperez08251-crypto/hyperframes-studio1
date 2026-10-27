@@ -1,0 +1,39 @@
+{
+  "file": "chatgpt-bestia-20s-con-voz.mp4",
+  "probe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "30/1",
+        "nb_frames": "600"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "935"
+      }
+    ],
+    "format": {
+      "duration": "20.000000",
+      "size": "9363680"
+    }
+  },
+  "loudness": {
+    "input_i": "-14.02",
+    "input_tp": "-2.00",
+    "input_lra": "3.80",
+    "input_thresh": "-25.09",
+    "output_i": "-13.99",
+    "output_tp": "-2.00",
+    "output_lra": "1.60",
+    "output_thresh": "-24.80",
+    "normalization_type": "dynamic",
+    "target_offset": "-0.01"
+  },
+  "note": "Sonido medido, no escuchado; capturas del MP4 revisadas por separado."
+}

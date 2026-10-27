@@ -1,0 +1,157 @@
+{
+  "assets": {
+    "sweep": {
+      "file": "assets/sfx/sweep.wav",
+      "peak": 0.055,
+      "duration": 0.540813,
+      "peakDb": -7.9998426356815235
+    },
+    "shine": {
+      "file": "assets/sfx/shine.wav",
+      "peak": 0.055,
+      "duration": 1.143979,
+      "peakDb": -11.000435219735147
+    },
+    "paper": {
+      "file": "assets/sfx/paper.wav",
+      "peak": 0.075,
+      "duration": 0.346729,
+      "peakDb": -7.9998426356815235
+    },
+    "gate": {
+      "file": "assets/sfx/gate.wav",
+      "peak": 0.035,
+      "duration": 0.63,
+      "peakDb": -5.000143510627294
+    },
+    "step": {
+      "file": "assets/sfx/step.wav",
+      "peak": 0.045,
+      "duration": 0.384,
+      "peakDb": -10.000175237597833
+    },
+    "rumble": {
+      "file": "assets/sfx/rumble.wav",
+      "peak": 0.075,
+      "duration": 1,
+      "peakDb": -8.000313403625226
+    },
+    "air": {
+      "file": "assets/sfx/air.wav",
+      "peak": 2.935,
+      "duration": 2.94,
+      "peakDb": -17.999970621769037
+    },
+    "pop": {
+      "file": "assets/sfx/pop.wav",
+      "peak": 0.055,
+      "duration": 0.255,
+      "peakDb": -10.99977024044815
+    },
+    "latch": {
+      "file": "assets/sfx/latch.wav",
+      "peak": 0.085,
+      "duration": 0.24,
+      "peakDb": -6.999891757970138
+    }
+  },
+  "cues": [
+    [
+      "air",
+      0,
+      0.65,
+      "calle nocturna",
+      "start"
+    ],
+    [
+      "sweep",
+      4.22,
+      0.72,
+      "muro pasa por cámara"
+    ],
+    [
+      "step",
+      4.75,
+      0.65,
+      "primer apoyo"
+    ],
+    [
+      "step",
+      5.12,
+      0.6,
+      "segundo apoyo"
+    ],
+    [
+      "latch",
+      6.35,
+      0.75,
+      "elevar farol"
+    ],
+    [
+      "sweep",
+      8.18,
+      0.75,
+      "luz del farol"
+    ],
+    [
+      "shine",
+      9.38,
+      0.6,
+      "nombre Irena"
+    ],
+    [
+      "paper",
+      11.29,
+      0.82,
+      "año 1940"
+    ],
+    [
+      "pop",
+      13.68,
+      0.58,
+      "familia izquierda"
+    ],
+    [
+      "pop",
+      14.14,
+      0.56,
+      "familia derecha"
+    ],
+    [
+      "sweep",
+      15.6,
+      0.55,
+      "desplazar verja"
+    ],
+    [
+      "gate",
+      15.84,
+      0.9,
+      "verja cerrada"
+    ],
+    [
+      "rumble",
+      15.84,
+      0.6,
+      "peso de la verja"
+    ],
+    [
+      "latch",
+      16.02,
+      0.82,
+      "cerradura"
+    ],
+    [
+      "paper",
+      17.25,
+      0.64,
+      "Varsovia"
+    ],
+    [
+      "shine",
+      18.45,
+      0.52,
+      "Polonia"
+    ]
+  ]
+}

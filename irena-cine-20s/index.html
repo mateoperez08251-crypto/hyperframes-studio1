@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Irena — prueba cinematográfica de 20 segundos</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #0f1116;
+        --ink: #efe6d6;
+        --accent: #e3a83e;
+        --font-display: "Archivo Black", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        font-family: var(--font-display);
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-wtrm"
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="20"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div data-hf-id="hf-0p8d"
+        id="story"
+        data-composition-id="story"
+        class="clip" data-composition-src="compositions/story.html"
+        data-start="0"
+        data-duration="20"
+        data-track-index="1"
+        data-track-kind="graphics"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 1"
+      ></div>
+
+      <div data-hf-id="hf-7a4t"
+        id="captions"
+        data-composition-id="captions"
+        class="clip" data-composition-src="compositions/captions.html"
+        data-start="0"
+        data-duration="20"
+        data-track-index="2"
+        data-track-kind="captions"
+        data-width="1080"
+        data-height="1920"
+        style="z-index: 2"
+      ></div>
+
+      <audio data-hf-id="hf-vqj0" id="voice" class="clip" src="assets/voice/narracion.wav" data-start="0" data-duration="19.08" data-track-index="3" data-volume="1"></audio>
+      <audio data-hf-id="hf-ip4a" id="sfx-thunder" class="clip" src="assets/sfx/trailer-boom.wav" data-start="2.378333" data-duration="1.600000" data-volume="0.75" data-track-index="10"></audio>
+<audio data-hf-id="hf-yqzp" id="sfx-spot" class="clip" src="assets/sfx/impact-bass-1.wav" data-start="4.278333" data-duration="0.850000" data-volume="0.4" data-track-index="11"></audio>
+<audio data-hf-id="hf-arbv" id="sfx-reaper" class="clip" src="assets/sfx/whoosh.wav" data-start="6.458333" data-duration="0.485208" data-volume="0.75" data-track-index="12"></audio>
+<audio data-hf-id="hf-kel3" id="sfx-step" class="clip" src="assets/sfx/body-fall.wav" data-start="7.318333" data-duration="0.600000" data-volume="0.7" data-track-index="13"></audio>
+<audio data-hf-id="hf-rgf0" id="sfx-defy" class="clip" src="assets/sfx/impact-bass-2.wav" data-start="7.318333" data-duration="0.601208" data-volume="0.45" data-track-index="14"></audio>
+<audio data-hf-id="hf-mibw" id="sfx-portrait" class="clip" src="assets/sfx/swosh.wav" data-start="8.378542" data-duration="0.300000" data-volume="0.7" data-track-index="15"></audio>
+<audio data-hf-id="hf-8oy1" id="sfx-page1" class="clip" src="assets/sfx/swosh.wav" data-start="11.078542" data-duration="0.300000" data-volume="0.45" data-track-index="16"></audio>
+<audio data-hf-id="hf-2wc3" id="sfx-page2" class="clip" src="assets/sfx/swosh.wav" data-start="11.218542" data-duration="0.300000" data-volume="0.45" data-track-index="17"></audio>
+<audio data-hf-id="hf-mws4" id="sfx-page3" class="clip" src="assets/sfx/swosh.wav" data-start="11.358542" data-duration="0.300000" data-volume="0.45" data-track-index="18"></audio>
+<audio data-hf-id="hf-i1fh" id="sfx-page4" class="clip" src="assets/sfx/swosh.wav" data-start="11.498542" data-duration="0.300000" data-volume="0.45" data-track-index="19"></audio>
+<audio data-hf-id="hf-0t2k" id="sfx-year" class="clip" src="assets/sfx/impact-bass-1.wav" data-start="11.518333" data-duration="0.850000" data-volume="0.65" data-track-index="20"></audio>
+<audio data-hf-id="hf-c3d6" id="sfx-wall-left" class="clip" src="assets/sfx/body-fall.wav" data-start="15.858333" data-duration="0.600000" data-volume="0.9" data-track-index="21"></audio>
+<audio data-hf-id="hf-17ob" id="sfx-wall-right" class="clip" src="assets/sfx/body-fall.wav" data-start="15.978333" data-duration="0.600000" data-volume="0.9" data-track-index="22"></audio>
+<audio data-hf-id="hf-l4dl" id="sfx-wall-weight" class="clip" src="assets/sfx/impact-bass-2.wav" data-start="15.978333" data-duration="0.601208" data-volume="0.6" data-track-index="23"></audio>
+<audio data-hf-id="hf-jm48" id="sfx-map" class="clip" src="assets/sfx/whoosh-short.wav" data-start="16.608333" data-duration="0.450000" data-volume="0.55" data-track-index="24"></audio>
+<audio data-hf-id="hf-dyyt" id="sfx-pin" class="clip" src="assets/sfx/punch-snare.wav" data-start="17.393313" data-duration="0.350000" data-volume="0.7" data-track-index="25"></audio>
+    </div>
+    <script>
+      window.__timelines=window.__timelines||{}; window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

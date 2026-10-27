@@ -1,0 +1,35 @@
+============================================================
+ PROMPT PARA CONECTAR EL AGENTE (Kimi, Claude, etc.) A COLAB
+============================================================
+
+ANTES (en Colab, cada vez):
+ 1. colab.research.google.com -> Archivo -> Subir notebook
+    -> D:\hyperframes-studio\KIT_VIDEOS_IA\colab\conexion-colab.ipynb
+ 2. Entorno de ejecucion -> Cambiar tipo de entorno -> tu GPU grande
+ 3. (Opcional) Ejecuta la celda 1 (Drive) para no perder archivos
+ 4. Ejecuta la celda 2 y DEJALA CORRIENDO
+ 5. Copia la direccion que sale: algo-algo-algo.trycloudflare.com
+
+DESPUES: copia TODO lo de abajo, cambia PEGA-AQUI por tu direccion
+y pegaselo al agente.
+
+------------------------- COPIAR DESDE AQUI -------------------------
+
+Conectate a mi Colab. Ejecuta:
+powershell -ExecutionPolicy Bypass -File D:\hyperframes-studio\colab\conectar.ps1 -HostName PEGA-AQUI.trycloudflare.com
+
+Si sale CONECTADO, a partir de ahora haz el trabajo pesado en Colab, no en mi PC:
+- Lee KIT_VIDEOS_IA/04_CONECTAR_OTROS_MODELOS.md (Nivel 1).
+- Ejecutar alli: ssh colab "comando"
+- Subir el proyecto: scp -r D:\hyperframes-studio\<proyecto> colab:/content/
+- La primera vez instala Node 22 y ffmpeg en Colab.
+- Renders con nohup ... > render.log 2>&1 &  y revisa solo tail -1 render.log cada pocos minutos.
+- Al terminar, baja el MP4 a la carpeta del proyecto en mi PC con scp.
+Dime que GPU y cuantos nucleos tiene antes de empezar.
+
+------------------------- COPIAR HASTA AQUI -------------------------
+
+RECUERDA:
+- La direccion cambia cada vez que abres Colab: pega la nueva.
+- Si cierras Colab se borra todo lo de alla (menos lo guardado en Drive).
+- Si falla la conexion, pega el error en el chat de Antigravity.

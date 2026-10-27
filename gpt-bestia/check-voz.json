@@ -1,0 +1,148 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 2
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 1,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 14.444,
+        "selector": "#k-cam",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 5.53,
+          "top": -9.01,
+          "right": 1932.15,
+          "bottom": 1082.82,
+          "width": 1926.63,
+          "height": 1091.83
+        },
+        "containerSelector": "#kinetic > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 12.15,
+          "top": 9.01,
+          "bottom": 2.82
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/kinetic.html",
+        "bbox": {
+          "x": 5.53,
+          "y": -9.01,
+          "width": 1926.63,
+          "height": 1091.83
+        },
+        "firstSeen": 14.444,
+        "lastSeen": 16.667,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          14.444,
+          16.667
+        ]
+      }
+    ],
+    "duration": 20,
+    "samples": [
+      1.111,
+      3.333,
+      5.556,
+      7.778,
+      10,
+      12.222,
+      14.444,
+      16.667,
+      18.889
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 1,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.111,
+      5.556,
+      10,
+      14.444,
+      18.889
+    ],
+    "checked": 20,
+    "passed": 20
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 160
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  },
+  "saved": {
+    "id": "9c53570c-f854-402b-860b-8b922df57edd",
+    "revision": "86261870-e936-4ab5-8b6c-863e82229fcf",
+    "report": "/content/hyperframes-studio/gpt-bestia/.hyperframes/artifacts/checks/9c53570c-f854-402b-860b-8b922df57edd.json",
+    "attribution": "recorded-revision"
+  },
+  "_meta": {
+    "version": "0.8.193",
+    "latestVersion": "0.8.208",
+    "updateAvailable": true
+  }
+}

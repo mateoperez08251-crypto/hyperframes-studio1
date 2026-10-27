@@ -1,0 +1,242 @@
+==== dom. 25/10/2026  1:49:00.44 LINT ==== 
+◆  Linting irena-video2/3 files
+
+  ⚠ [compositions/story.html] composition_file_too_large: This HTML composition file has 774 lines. Smaller sub-compositions are easier to read, iterate on, and diff.
+    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.
+
+◇  0 error(s), 1 warning(s)
+
+  4 HyperFrames skills out of date or missing.
+  Run: npx hyperframes skills update
+
+==== LINT EXIT=0 ==== 
+==== dom. 25/10/2026  1:49:06.24 CHECK ==== 
+◆  Checking irena-video2
+[INFO] [Compiler] Fetched 1 font face(s) for "Archivo Black" from Google Fonts (cached to C:\Users\yorgenis\.cache\hyperframes\fonts\archivo-black)
+[INFO] [Compiler] Fetched 11 font face(s) for "Montserrat" from Google Fonts (cached to C:\Users\yorgenis\.cache\hyperframes\fonts\montserrat)
+[INFO] [Compiler] Injected deterministic @font-face rules for 2 requested font families
+[hyperframes] check: samples 1/9
+[hyperframes] check: samples 2/9
+[hyperframes] check: samples 3/9
+[hyperframes] check: samples 4/9
+[hyperframes] check: samples 5/9
+[hyperframes] check: samples 6/9
+[hyperframes] check: samples 7/9
+[hyperframes] check: samples 8/9
+[hyperframes] check: samples 9/9
+[hyperframes] check: craft 1/160
+[hyperframes] check: craft 2/160
+[hyperframes] check: craft 3/160
+[hyperframes] check: craft 4/160
+[hyperframes] check: craft 5/160
+[hyperframes] check: craft 6/160
+[hyperframes] check: craft 7/160
+[hyperframes] check: craft 8/160
+[hyperframes] check: craft 9/160
+[hyperframes] check: craft 10/160
+[hyperframes] check: craft 11/160
+[hyperframes] check: craft 12/160
+[hyperframes] check: craft 13/160
+[hyperframes] check: craft 14/160
+[hyperframes] check: craft 15/160
+[hyperframes] check: craft 16/160
+[hyperframes] check: craft 17/160
+[hyperframes] check: craft 18/160
+[hyperframes] check: craft 19/160
+[hyperframes] check: craft 20/160
+[hyperframes] check: craft 21/160
+[hyperframes] check: craft 22/160
+[hyperframes] check: craft 23/160
+[hyperframes] check: craft 24/160
+[hyperframes] check: craft 25/160
+[hyperframes] check: craft 26/160
+[hyperframes] check: craft 27/160
+[hyperframes] check: craft 28/160
+[hyperframes] check: craft 29/160
+[hyperframes] check: craft 30/160
+[hyperframes] check: craft 31/160
+[hyperframes] check: craft 32/160
+[hyperframes] check: craft 33/160
+[hyperframes] check: craft 34/160
+[hyperframes] check: craft 35/160
+[hyperframes] check: craft 36/160
+[hyperframes] check: craft 37/160
+[hyperframes] check: craft 38/160
+[hyperframes] check: craft 39/160
+[hyperframes] check: craft 40/160
+[hyperframes] check: craft 41/160
+[hyperframes] check: craft 42/160
+[hyperframes] check: craft 43/160
+[hyperframes] check: craft 44/160
+[hyperframes] check: craft 45/160
+[hyperframes] check: craft 46/160
+[hyperframes] check: craft 47/160
+[hyperframes] check: craft 48/160
+[hyperframes] check: craft 49/160
+[hyperframes] check: craft 50/160
+[hyperframes] check: craft 51/160
+[hyperframes] check: craft 52/160
+[hyperframes] check: craft 53/160
+[hyperframes] check: craft 54/160
+[hyperframes] check: craft 55/160
+[hyperframes] check: craft 56/160
+[hyperframes] check: craft 57/160
+[hyperframes] check: craft 58/160
+[hyperframes] check: craft 59/160
+[hyperframes] check: craft 60/160
+[hyperframes] check: craft 61/160
+[hyperframes] check: craft 62/160
+[hyperframes] check: craft 63/160
+[hyperframes] check: craft 64/160
+[hyperframes] check: craft 65/160
+[hyperframes] check: craft 66/160
+[hyperframes] check: craft 67/160
+[hyperframes] check: craft 68/160
+[hyperframes] check: craft 69/160
+[hyperframes] check: craft 70/160
+[hyperframes] check: craft 71/160
+[hyperframes] check: craft 72/160
+[hyperframes] check: craft 73/160
+[hyperframes] check: craft 74/160
+[hyperframes] check: craft 75/160
+[hyperframes] check: craft 76/160
+[hyperframes] check: craft 77/160
+[hyperframes] check: craft 78/160
+[hyperframes] check: craft 79/160
+[hyperframes] check: craft 80/160
+[hyperframes] check: craft 81/160
+[hyperframes] check: craft 82/160
+[hyperframes] check: craft 83/160
+[hyperframes] check: craft 84/160
+[hyperframes] check: craft 85/160
+[hyperframes] check: craft 86/160
+[hyperframes] check: craft 87/160
+[hyperframes] check: craft 88/160
+[hyperframes] check: craft 89/160
+[hyperframes] check: craft 90/160
+[hyperframes] check: craft 91/160
+[hyperframes] check: craft 92/160
+[hyperframes] check: craft 93/160
+[hyperframes] check: craft 94/160
+[hyperframes] check: craft 95/160
+[hyperframes] check: craft 96/160
+[hyperframes] check: craft 97/160
+[hyperframes] check: craft 98/160
+[hyperframes] check: craft 99/160
+[hyperframes] check: craft 100/160
+[hyperframes] check: craft 101/160
+[hyperframes] check: craft 102/160
+[hyperframes] check: craft 103/160
+[hyperframes] check: craft 104/160
+[hyperframes] check: craft 105/160
+[hyperframes] check: craft 106/160
+[hyperframes] check: craft 107/160
+[hyperframes] check: craft 108/160
+[hyperframes] check: craft 109/160
+[hyperframes] check: craft 110/160
+[hyperframes] check: craft 111/160
+[hyperframes] check: craft 112/160
+[hyperframes] check: craft 113/160
+[hyperframes] check: craft 114/160
+[hyperframes] check: craft 115/160
+[hyperframes] check: craft 116/160
+[hyperframes] check: craft 117/160
+[hyperframes] check: craft 118/160
+[hyperframes] check: craft 119/160
+[hyperframes] check: craft 120/160
+[hyperframes] check: craft 121/160
+[hyperframes] check: craft 122/160
+[hyperframes] check: craft 123/160
+[hyperframes] check: craft 124/160
+[hyperframes] check: craft 125/160
+[hyperframes] check: craft 126/160
+[hyperframes] check: craft 127/160
+[hyperframes] check: craft 128/160
+[hyperframes] check: craft 129/160
+[hyperframes] check: craft 130/160
+[hyperframes] check: craft 131/160
+[hyperframes] check: craft 132/160
+[hyperframes] check: craft 133/160
+[hyperframes] check: craft 134/160
+[hyperframes] check: craft 135/160
+[hyperframes] check: craft 136/160
+[hyperframes] check: craft 137/160
+[hyperframes] check: craft 138/160
+[hyperframes] check: craft 139/160
+[hyperframes] check: craft 140/160
+[hyperframes] check: craft 141/160
+[hyperframes] check: craft 142/160
+[hyperframes] check: craft 143/160
+[hyperframes] check: craft 144/160
+[hyperframes] check: craft 145/160
+[hyperframes] check: craft 146/160
+[hyperframes] check: craft 147/160
+[hyperframes] check: craft 148/160
+[hyperframes] check: craft 149/160
+[hyperframes] check: craft 150/160
+[hyperframes] check: craft 151/160
+[hyperframes] check: craft 152/160
+[hyperframes] check: craft 153/160
+[hyperframes] check: craft 154/160
+[hyperframes] check: craft 155/160
+[hyperframes] check: craft 156/160
+[hyperframes] check: craft 157/160
+[hyperframes] check: craft 158/160
+[hyperframes] check: craft 159/160
+[hyperframes] check: craft 160/160
+[hyperframes] check: overlap 1/20
+[hyperframes] check: overlap 2/20
+[hyperframes] check: overlap 3/20
+[hyperframes] check: overlap 4/20
+[hyperframes] check: overlap 5/20
+[hyperframes] check: overlap 6/20
+[hyperframes] check: overlap 7/20
+[hyperframes] check: overlap 8/20
+[hyperframes] check: overlap 9/20
+[hyperframes] check: overlap 10/20
+[hyperframes] check: overlap 11/20
+[hyperframes] check: overlap 12/20
+[hyperframes] check: overlap 13/20
+[hyperframes] check: overlap 14/20
+[hyperframes] check: overlap 15/20
+[hyperframes] check: overlap 16/20
+[hyperframes] check: overlap 17/20
+[hyperframes] check: overlap 18/20
+[hyperframes] check: overlap 19/20
+[hyperframes] check: overlap 20/20
+
+Lint
+  ⚠ composition_file_too_large: This HTML composition file has 774 lines. Smaller sub-compositions are easier to read, iterate on, and diff.
+    D:\hyperframes-studio\irena-video2\compositions\story.html [data-composition-id] t=0s
+    Fix: Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently.
+  0 error(s), 1 warning(s), 0 info(s)
+
+Runtime
+  ◇ 0 errors, 0 warnings
+
+Layout
+  ℹ t=7.778s container_overflow #cap-g7-w1 > span:nth-of-type(1) inside #cap-g7-w1 overflowed left 4.2px, right 4.21px — Nowrap text is wider than its container.
+        Fix: Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.
+  0 error(s), 0 warning(s), 1 info(s)
+
+Motion
+  ◇ 0 errors, 0 warnings
+
+Contrast
+  ◇ 11/11 text checks pass WCAG AA
+
+Craft
+  ◇ 0 errors, 0 warnings
+
+Snapshots
+  ◇ disabled
+
+◇  Check passed
+Report: D:\hyperframes-studio\irena-video2\.hyperframes\artifacts\checks\f934da2f-9e9f-499c-9a46-480f3c808dde.json
+Revision: none (inputs-changed)
+
+  4 HyperFrames skills out of date or missing.
+  Run: npx hyperframes skills update
+
+==== CHECK EXIT=0 ==== 
+==== DOM DONE ==== 

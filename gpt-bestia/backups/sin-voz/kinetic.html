@@ -1,0 +1,262 @@
+<template>
+<style>
+#root{position:absolute;inset:0;overflow:hidden;font-family:"Archivo Black",sans-serif;background:#C7F8E2}
+*{box-sizing:border-box} #k-bg{position:absolute;inset:0;background:#C7F8E2} #k-cam{position:absolute;inset:0}
+.phrase,.pin{position:absolute;inset:0}.pin{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.line{display:flex;justify-content:center;align-items:baseline;gap:.24em;white-space:nowrap;line-height:1.08;letter-spacing:-.035em}.letters{gap:.008em}
+.w,.wi{display:inline-block}.wi{color:#092C25}.accent .wi{color:#087A52}
+#k-p1 .line{font-size:268px}#k-p1 .pin{padding-top:20px}#k-ghost{position:absolute;opacity:.3;color:transparent;-webkit-text-stroke:2px #087A52;letter-spacing:-.035em}
+#k-p2 .l1{font-size:150px}#k-p2 .l2{font-size:285px}#k-p2 .wi{color:#F4FAF7}#k-p2 .accent .wi{color:#A4FFD0}
+#k-p3 .pin{align-items:flex-start;padding-left:170px;padding-right:650px}#k-p3 .l1{font-size:118px}#k-p3 .l2{font-size:132px}#k-p3 .l3{font-size:226px}
+#k-p4 .l1{font-size:175px}#k-p4 .l2{font-size:322px}#k-p4 .accent .wi{color:#092C25}
+#logo-host{position:absolute;left:880px;top:80px;width:160px;height:160px}#logo-tile{position:relative;width:160px;height:160px;background:white;border:4px solid #092C25;border-radius:36px;box-shadow:10px 12px 0 #75B89C}
+#logo-tile img{position:absolute;left:-36px;top:-36px;display:block;width:224px;height:224px}
+.prop-host{position:absolute}.message{width:780px;height:112px;background:white;border:4px solid #092C25;border-radius:34px;box-shadow:10px 12px 0 #75B89C;display:flex;align-items:center;padding:0 25px 0 38px;font-size:42px;color:#092C25;gap:80px;transform-origin:right bottom}
+#message-host{left:570px;top:810px}#send{width:68px;height:68px;display:grid;place-items:center;background:#092C25;border-radius:50%;margin-left:auto}#send svg{width:48px;height:48px;fill:none;stroke:white;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+#reply-host{left:390px;top:810px}.reply{display:flex;align-items:center;gap:12px;width:138px;height:112px;border:4px solid #092C25;border-radius:34px;background:#087A52;box-shadow:8px 10px 0 #75B89C;padding:22px}.reply span{width:18px;height:18px;border-radius:50%;background:#F4FAF7}
+#key-host{left:224px;top:780px}.key{width:180px;height:150px;background:#C7F8E2;border:4px solid #78B397;border-radius:28px;box-shadow:0 16px 0 #3B7461,0 24px 0 #061B15;padding:20px}.key svg{width:100%;height:100%;fill:none;stroke:#092C25;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+#bulb-host{left:1530px;top:755px}.bulb{width:162px;height:180px;background:#E2FF9B;border:4px solid #092C25;border-radius:36px;padding:20px;box-shadow:12px 12px 0 #153E30}.bulb svg{width:100%;height:100%;overflow:visible;fill:none;stroke:#092C25;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+#editor-host{left:1320px;top:310px}.editor{width:430px;height:454px;background:#092C25;border:4px solid #092C25;border-radius:30px;box-shadow:14px 16px 0 #8CBFAA;overflow:hidden}.editor-top{height:60px;display:flex;align-items:center;gap:12px;padding-left:25px;border-bottom:3px solid #315C4C}.editor-top i{width:12px;height:12px;border-radius:50%;background:#9EE2BF}#code-lines{padding:24px;font-family:"IBM Plex Mono",monospace;font-size:32px;line-height:1.6;color:#F4FAF7}.indent{padding-left:20px}.code-line b,.green{color:#A4FFD0;font-weight:400}.play{position:absolute;right:24px;bottom:24px;width:66px;height:66px;border-radius:50%;background:#C7F8E2;display:grid;place-items:center}.play svg{width:45px;height:45px;fill:#092C25}
+#bubble-a-host{left:180px;top:780px}#bubble-b-host{left:1515px;top:780px}.mini-bubble{width:205px;height:160px;background:white;border:4px solid #092C25;border-radius:30px;box-shadow:12px 12px 0 #4FA780;padding:18px}.mini-bubble svg{width:100%;height:100%;fill:none;stroke:#092C25;stroke-width:6;stroke-linejoin:round;stroke-linecap:round}
+#end-host{position:absolute;left:0;right:0;top:865px;text-align:center}#end-note{font-family:"Inter",sans-serif;font-size:38px;font-weight:700;color:#092C25}
+#k-debris{position:absolute;left:50%;top:50%;width:0;height:0}.k-shard{position:absolute;left:0;top:0;border-radius:3px;opacity:0}
+#k-flash{position:absolute;inset:0;background:#D5FFE5;opacity:0;pointer-events:none}
+</style>
+<div id="root" data-composition-id="kinetic" data-width="1920" data-height="1080">
+<div id="k-bg" data-layout-ignore></div>
+<div id="k-cam">
+  <div id="k-debris" data-layout-ignore><i id="chip-11-0" class="k-shard"></i><i id="chip-11-1" class="k-shard"></i><i id="chip-11-2" class="k-shard"></i><i id="chip-11-3" class="k-shard"></i><i id="chip-11-4" class="k-shard"></i><i id="chip-11-5" class="k-shard"></i><i id="chip-11-6" class="k-shard"></i><i id="chip-11-7" class="k-shard"></i><i id="chip-11-8" class="k-shard"></i><i id="chip-11-9" class="k-shard"></i><i id="chip-11-10" class="k-shard"></i><i id="chip-11-11" class="k-shard"></i><i id="chip-23-0" class="k-shard"></i><i id="chip-23-1" class="k-shard"></i><i id="chip-23-2" class="k-shard"></i><i id="chip-23-3" class="k-shard"></i><i id="chip-23-4" class="k-shard"></i><i id="chip-23-5" class="k-shard"></i><i id="chip-23-6" class="k-shard"></i><i id="chip-23-7" class="k-shard"></i><i id="chip-23-8" class="k-shard"></i><i id="chip-23-9" class="k-shard"></i><i id="chip-23-10" class="k-shard"></i><i id="chip-23-11" class="k-shard"></i><i id="chip-23-12" class="k-shard"></i><i id="chip-23-13" class="k-shard"></i><i id="chip-23-14" class="k-shard"></i><i id="chip-23-15" class="k-shard"></i><i id="chip-37-0" class="k-shard"></i><i id="chip-37-1" class="k-shard"></i><i id="chip-37-2" class="k-shard"></i><i id="chip-37-3" class="k-shard"></i><i id="chip-37-4" class="k-shard"></i><i id="chip-37-5" class="k-shard"></i><i id="chip-37-6" class="k-shard"></i><i id="chip-37-7" class="k-shard"></i><i id="chip-37-8" class="k-shard"></i><i id="chip-37-9" class="k-shard"></i><i id="chip-37-10" class="k-shard"></i><i id="chip-37-11" class="k-shard"></i><i id="chip-53-0" class="k-shard"></i><i id="chip-53-1" class="k-shard"></i><i id="chip-53-2" class="k-shard"></i><i id="chip-53-3" class="k-shard"></i><i id="chip-53-4" class="k-shard"></i><i id="chip-53-5" class="k-shard"></i><i id="chip-53-6" class="k-shard"></i><i id="chip-53-7" class="k-shard"></i><i id="chip-53-8" class="k-shard"></i><i id="chip-53-9" class="k-shard"></i><i id="chip-53-10" class="k-shard"></i><i id="chip-53-11" class="k-shard"></i><i id="chip-53-12" class="k-shard"></i><i id="chip-53-13" class="k-shard"></i><i id="chip-53-14" class="k-shard"></i><i id="chip-53-15" class="k-shard"></i><i id="chip-53-16" class="k-shard"></i><i id="chip-53-17" class="k-shard"></i></div>
+  <div id="logo-host" class="clip" data-start="0" data-duration="20" data-layout-ignore><div id="logo-tile"><img src="assets/brand/openai.svg" alt="Símbolo de OpenAI" width="140" height="140"></div></div>
+  <div id="k-p1" class="phrase clip" data-start="0" data-duration="5.2" data-layout-allow-overflow>
+    <div class="pin" data-layout-allow-overlap>
+      <div id="k-ghost" class="line letters" data-layout-ignore>CHATGPT</div>
+      <div class="line letters"><span id="k-c1" class="w "><span class="wi">C</span></span><span id="k-c2" class="w "><span class="wi">H</span></span><span id="k-c3" class="w "><span class="wi">A</span></span><span id="k-c4" class="w "><span class="wi">T</span></span><span id="k-c5" class="w accent"><span class="wi">G</span></span><span id="k-c6" class="w accent"><span class="wi">P</span></span><span id="k-c7" class="w accent"><span class="wi">T</span></span></div>
+    </div>
+  </div>
+  <div id="message-host" class="clip prop-host" data-start="2.25" data-duration="2.85" data-layout-allow-overflow>
+    <div id="message" class="message">Haz algo brutal.<span id="send"><svg viewBox="0 0 48 48"><path d="M24 35V13m-9 9 9-9 9 9"/></svg></span></div>
+  </div>
+  <div id="reply-host" class="clip prop-host" data-start="3.35" data-duration="1.8" data-layout-allow-overflow><div id="reply" class="reply"><span></span><span></span><span></span></div></div>
+  <div id="k-p2" class="phrase clip" data-start="4.35" data-duration="5.55" data-layout-allow-overflow><div class="pin" data-layout-allow-overlap>
+    <div class="line l1"><span id="k-w-es" class="w "><span class="wi">ES</span></span><span id="k-w-una" class="w "><span class="wi">UNA</span></span></div><div class="line l2"><span id="k-w-bestia" class="w accent"><span class="wi">BESTIA</span></span></div>
+  </div></div>
+  <div id="key-host" class="clip prop-host" data-start="6.1" data-duration="3.7" data-layout-allow-overflow><div id="key" class="key"><svg viewBox="0 0 120 100"><path d="m40 28-23 22 23 22m40-44 23 22-23 22M68 14 52 86"/></svg></div></div>
+  <div id="bulb-host" class="clip prop-host" data-start="7.25" data-duration="2.55" data-layout-allow-overflow><div id="bulb" class="bulb"><svg viewBox="0 0 120 140"><path d="M40 92C38 76 22 69 22 47a38 38 0 0 1 76 0c0 22-16 29-18 45M41 103h38m-34 13h30m-24 12h18M60 1v-13M5 45H-7m122 0h13M17 7 8-2m95 9 9-9"/><path d="m47 49 13 13 13-13M60 62v29"/></svg></div></div>
+  <div id="k-p3" class="phrase clip" data-start="9.05" data-duration="6.75" data-layout-allow-overflow><div class="pin" data-layout-allow-overlap>
+    <div class="line l1"><span id="k-w-esto" class="w "><span class="wi">ESTO</span></span><span id="k-w-se" class="w "><span class="wi">SE</span></span><span id="k-w-creo" class="w "><span class="wi">CREÓ</span></span></div><div class="line l2"><span id="k-w-solo" class="w "><span class="wi">SOLO</span></span><span id="k-w-con" class="w "><span class="wi">CON</span></span></div><div class="line l3"><span id="k-w-codigo" class="w accent"><span class="wi">CÓDIGO</span></span></div>
+  </div></div>
+  <div id="editor-host" class="clip prop-host" data-start="11.7" data-duration="4.1" data-layout-allow-overflow><div id="editor" class="editor">
+    <div class="editor-top"><i></i><i></i><i></i></div>
+    <div id="code-lines"><div class="code-line"><b>&lt;</b>html<b>&gt;</b></div><div class="code-line indent"><b>const</b> idea =</div><div class="code-line indent green">"brutal";</div><div class="code-line indent">animate(idea);</div><div class="code-line"><b>&lt;/</b>html<b>&gt;</b></div></div>
+    <div id="play" class="play"><svg viewBox="0 0 50 50"><path d="m19 12 22 13-22 13z"/></svg></div>
+  </div></div>
+  <div id="k-p4" class="phrase clip" data-start="14.95" data-duration="5.05" data-layout-allow-overflow><div class="pin" data-layout-allow-overlap>
+    <div class="line l1"><span id="k-w-no" class="w "><span class="wi">¡NO</span></span><span id="k-w-jodas" class="w "><span class="wi">JODAS,</span></span></div><div class="line l2"><span id="k-w-men" class="w accent"><span class="wi">MEN!</span></span></div>
+  </div></div>
+  <div id="bubble-a-host" class="clip prop-host" data-start="17.25" data-duration="2.75" data-layout-allow-overflow><div id="bubble-a" class="mini-bubble"><svg viewBox="0 0 100 70"><path d="M10 10h80v42H45L28 66V52H10z"/><path d="M28 30h44"/></svg></div></div>
+  <div id="bubble-b-host" class="clip prop-host" data-start="18.15" data-duration="1.85" data-layout-allow-overflow><div id="bubble-b" class="mini-bubble"><svg viewBox="0 0 100 70"><path d="M10 10h80v42H72v14L55 52H10z"/><path d="m35 30 10 10 22-24"/></svg></div></div>
+  <div id="end-host" class="clip" data-start="17.85" data-duration="2.15"><div id="end-note">ChatGPT. Solo código.</div></div>
+</div><div id="k-flash" data-layout-ignore data-layout-allow-occlusion></div></div>
+<script>(function(){const tl=gsap.timeline({paused:true});const $=s=>document.querySelector(s);
+      // ---------- Generador aleatorio con semilla (determinista) ----------
+      function rng(seed) {
+        let a = seed >>> 0;
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          let t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      // ---------- Sombras: extrusión dura + sombra suave ----------
+      function hex(c) {
+        const n = parseInt(c.slice(1), 16);
+        return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+      }
+      function mix(a, b, k) {
+        const A = hex(a), B = hex(b);
+        return "rgb(" + A.map((v, i) => Math.round(v + (B[i] - v) * k)).join(",") + ")";
+      }
+      function extrude(depth, from, to) {
+        const p = [];
+        for (let i = 1; i <= depth; i++) p.push(i + "px " + i + "px 0 " + mix(from, to, i / depth));
+        p.push(Math.round(depth * 0.9) + "px " + Math.round(depth * 1.8) + "px " + Math.round(depth * 2.6) + "px rgba(0,0,0,0.6)");
+        return p.join(",");
+      }
+      document.querySelectorAll("#root .line:not(#k-ghost)").forEach((line) => {
+        const size = parseFloat(getComputedStyle(line).fontSize) || 200;
+        const depth = Math.max(8, Math.round(size * 0.055));
+        line.querySelectorAll(".w").forEach((w) => {
+          const accent = w.classList.contains("accent");
+          w.querySelector(".wi").style.textShadow = accent
+            ? extrude(6, "#075F43", "#034732")
+            : extrude(6, "#85B5A2", "#477865");
+        });
+      });
+
+      // ---------- Piezas de movimiento ----------
+      const cam = $("#k-cam");
+      const flashEl = $("#k-flash");
+      const STEP = 1 / 60;
+
+      // Convierte una función del tiempo en tramos contiguos de 1/60 s que no se solapan
+      function bake(el, fn, ranges) {
+        ranges.sort((a, b) => a[0] - b[0]);
+        const merged = [];
+        ranges.forEach((r) => {
+          const last = merged[merged.length - 1];
+          if (last && r[0] <= last[1]) last[1] = Math.max(last[1], r[1]);
+          else merged.push([r[0], r[1]]);
+        });
+        merged.forEach(([a, b]) => {
+          let prev = fn(a);
+          for (let t = a; t < b - 1e-6; t += STEP) {
+            const t2 = Math.min(b, t + STEP);
+            const next = t2 >= b - 1e-6 ? { x: 0, y: 0, rotation: 0 } : fn(t2);
+            tl.fromTo(el, prev, Object.assign({ duration: t2 - t, ease: "none", immediateRender: false }, next), t);
+            prev = next;
+          }
+        });
+      }
+
+      // Sacudida de cámara: suma de oscilaciones amortiguadas, una por impacto
+      const impacts = [];
+      function shake(t, amp) {
+        const r = rng(Math.round(t * 1000) + 7);
+        impacts.push({ t, amp, D: 0.35 + amp / 70, px: r() * 6.28, py: r() * 6.28, fx: 11 + r() * 5, fy: 9 + r() * 5 });
+      }
+      function camAt(time) {
+        let x = 0, y = 0;
+        impacts.forEach((m) => {
+          const dt = time - m.t;
+          if (dt < 0 || dt >= m.D) return;
+          const env = Math.exp(-7 * dt) * Math.pow(1 - dt / m.D, 2) * m.amp;
+          x += env * Math.sin(6.2832 * m.fx * dt + m.px);
+          y += env * Math.sin(6.2832 * m.fy * dt + m.py);
+        });
+        return { x, y, rotation: x * 0.04 };
+      }
+      function bakeCamera() {
+        bake(cam, camAt, impacts.map((m) => [m.t, m.t + m.D]));
+      }
+
+      function flash(t, a) {
+        tl.fromTo(flashEl, { opacity: a }, { opacity: 0, duration: 0.32, ease: "power2.out", immediateRender: false }, t);
+      }
+
+      // Esquirlas que salen disparadas desde detrás de la palabra en los golpes grandes
+      const debris = $("#k-debris");
+      function burst(t, cx, cy, count, seed) {
+        const r = rng(seed);
+        for (let i = 0; i < count; i++) {
+          const s = $("#chip-" + seed + "-" + i);
+          s.className = "k-shard";
+          const size = 10 + r() * 22;
+          s.style.width = size + "px";
+          s.style.height = size * (0.35 + r() * 0.5) + "px";
+          s.style.background = r() < 0.55 ? "#087A52" : "#F4FAF7";
+          s.style.opacity = "0";
+
+          const ang = r() * Math.PI * 2;
+          const dist = 380 + r() * 520;
+          const tx = cx + Math.cos(ang) * dist * 1.5;
+          const ty = cy + Math.sin(ang) * dist * 0.85 + 120;
+          tl.fromTo(s,
+            { x: cx, y: cy, rotation: r() * 360, scale: 1 },
+            { x: tx, y: ty, rotation: "+=" + (220 + r() * 400), scale: 0.3, duration: 0.75 + r() * 0.3, ease: "power3.out" }, t);
+          tl.set(s, { opacity: 1 }, t);
+          tl.fromTo(s, { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power1.in", immediateRender: false }, t + 0.25);
+        }
+      }
+
+      // Entrada "slam": la palabra llega acelerando y se clava con aplastamiento elástico
+      function slam(id, t, o) {
+        const w = $(id);
+        const wi = w.querySelector(".wi");
+        const d = o.dur || 0.2;
+        tl.fromTo(w,
+          { x: o.dx || 0, y: o.dy || 0, scale: o.s || 1.8, rotation: o.r || 0, filter: "blur(6px)" },
+          { x: 0, y: 0, scale: 1, rotation: 0, filter: "blur(0px)", duration: d, ease: "power3.in" }, t - d);
+        tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, t - d);
+        const sx = o.big ? 1.24 : 1.14, sy = o.big ? 0.78 : 0.86;
+        const vertical = Math.abs(o.dy || 0) > Math.abs(o.dx || 0);
+        tl.fromTo(wi,
+          vertical ? { scaleX: sx, scaleY: sy } : { scaleX: sy, scaleY: sx },
+          { scaleX: 1, scaleY: 1, duration: 0.55, ease: "elastic.out(1, 0.4)", immediateRender: false, transformOrigin: "50% 70%" }, t);
+      }
+
+      // Retroceso: las palabras ya clavadas absorben el choque de la nueva
+      const RD = 0.75;
+      const recoils = new Map();
+      function recoil(ids, t, dx, dy, rot) {
+        ids.forEach((id, i) => {
+          const wi = $(id).querySelector(".wi");
+          const k = 1 - i * 0.12;
+          if (!recoils.has(wi)) recoils.set(wi, []);
+          recoils.get(wi).push({ t, dx: dx * k, dy: dy * k, rot: rot * k });
+        });
+      }
+      function recoilProfile(dt) {
+        if (dt < 0 || dt >= RD) return 0;
+        if (dt < 0.06) return Math.sin((Math.PI / 2) * (dt / 0.06));
+        const u = dt - 0.06;
+        return Math.exp(-6 * u) * Math.cos(6.2832 * 3 * u) * Math.pow(1 - u / (RD - 0.06), 2);
+      }
+      function bakeRecoils() {
+        recoils.forEach((list, wi) => {
+          const fn = (time) => {
+            let x = 0, y = 0, rotation = 0;
+            list.forEach((h) => {
+              const p = recoilProfile(time - h.t);
+              x += h.dx * p; y += h.dy * p; rotation += h.rot * p;
+            });
+            return { x, y, rotation };
+          };
+          bake(wi, fn, list.map((h) => [h.t, h.t + RD]));
+        });
+      }
+
+      // Golpe que saca de cuadro a la frase anterior
+      function knock(pinSel, t, o) {
+        tl.fromTo($(pinSel),
+          { x: 0, y: 0, rotation: 0, scale: 1, filter: "blur(0px)" },
+          { x: o.x || 0, y: o.y || 0, rotation: o.r || 0, scale: 0.86, filter: "blur(10px)", duration: 0.5, ease: "power2.out" }, t - 0.02);
+      }
+
+
+
+const letters = ["#k-c1","#k-c2","#k-c3","#k-c4","#k-c5","#k-c6","#k-c7"];
+letters.forEach((id,i)=>{const t=.42+i*.21;slam(id,t,{dx:1050,s:i===6?2.1:1.5,r:i%2?8:-6,big:i===6});if(i)recoil(letters.slice(0,i).reverse(),t,-22,0,-1.8);shake(t,i===6?19:7)});
+tl.fromTo('#k-ghost',{opacity:.3},{opacity:0,duration:.22},1.72);burst(1.68,520,0,12,11);
+tl.fromTo('#logo-tile',{scale:1,rotation:0},{scale:1.08,rotation:-6,duration:.14,ease:'power2.out'},1.68);
+tl.to('#logo-tile',{scale:1,rotation:0,duration:.38,ease:'elastic.out(1,.5)'},1.82);
+function pop(sel,t,dx=0,dy=120,r=0){tl.fromTo(sel,{opacity:0,x:dx,y:dy,scale:.75,rotation:r},{opacity:1,x:0,y:0,scale:1,rotation:0,duration:.38,ease:'back.out(1.6)'},t)}
+// Adaptación del origen de escala del componente registry/chat-message.
+pop('#message',2.25,180,0,-4);pop('#reply',3.35,-120,0,5);
+tl.fromTo('#send',{scale:1},{scale:.82,duration:.1,ease:'power2.in'},3.05);tl.to('#send',{scale:1,duration:.2,ease:'back.out(2)'},3.15);
+tl.fromTo('#reply span',{y:0},{y:-10,duration:.18,stagger:.1,yoyo:true,repeat:3,ease:'sine.inOut'},3.55);
+slam('#k-w-es',4.6,{dx:-1300,s:1.8,r:-8});knock('#k-p1 .pin',4.6,{x:1900,y:-80,r:12});shake(4.6,18);
+tl.set('#k-bg',{background:'#092C25'},4.6);tl.to(['#message','#reply'],{y:380,rotation:12,duration:.35,ease:'power3.in'},4.56);
+slam('#k-w-una',4.85,{dx:1100,s:1.6,r:10});recoil(['#k-w-es'],4.85,-22,0,-2);shake(4.85,9);
+slam('#k-w-bestia',5.23,{dy:800,s:2.3,r:-4,big:true,dur:.23});recoil(['#k-w-una','#k-w-es'],5.23,0,-22,1);shake(5.23,26);flash(5.23,.12);burst(5.23,0,150,16,23);
+pop('#key',6.1,-120,80,-12);tl.to('#key',{y:14,duration:.1,ease:'power3.in'},6.8);tl.to('#key',{y:0,duration:.26,ease:'back.out(3)'},6.9);
+pop('#bulb',7.25,80,120,15);tl.fromTo('#bulb',{rotation:0},{rotation:-12,duration:.16,yoyo:true,repeat:3,ease:'sine.inOut'},7.85);
+slam('#k-w-esto',9.3,{dy:-800,s:1.7,r:6});knock('#k-p2 .pin',9.3,{y:1450,r:10});shake(9.3,20);tl.set('#k-bg',{background:'#F4FAF7'},9.3);
+tl.to(['#key','#bulb'],{y:360,duration:.35,ease:'power3.in'},9.25);
+slam('#k-w-se',9.55,{dx:1000,s:1.4,r:8});recoil(['#k-w-esto'],9.55,-20,0,-2);shake(9.55,7);
+slam('#k-w-creo',9.82,{dx:1000,s:1.5,r:8});recoil(['#k-w-se','#k-w-esto'],9.82,-20,0,-2);shake(9.82,7);
+slam('#k-w-solo',10.25,{dx:-1100,s:1.6,r:-8});recoil(['#k-w-creo','#k-w-se','#k-w-esto'],10.25,0,-18,0);shake(10.25,8);
+slam('#k-w-con',10.5,{dx:1000,s:1.5,r:8});recoil(['#k-w-solo'],10.5,-20,0,-2);shake(10.5,7);
+slam('#k-w-codigo',10.95,{dy:760,s:2.1,r:5,big:true,dur:.22});recoil(['#k-w-con','#k-w-solo','#k-w-creo','#k-w-se','#k-w-esto'],10.95,0,-20,0);shake(10.95,23);burst(10.95,-160,220,12,37);
+pop('#editor',11.7,400,0,8);tl.fromTo('.code-line',{opacity:0,x:-12},{opacity:1,x:0,duration:.16,stagger:.28,ease:'power2.out'},12.1);
+tl.fromTo('#play',{scale:0},{scale:1,duration:.3,ease:'back.out(2)'},13.65);tl.to('#play',{scale:.85,duration:.12,yoyo:true,repeat:1},14.15);
+slam('#k-w-no',15.2,{dx:1200,s:1.8,r:10});knock('#k-p3 .pin',15.2,{x:-1900,r:-12});shake(15.2,20);tl.set('#k-bg',{background:'#9CF3C5'},15.2);tl.to('#editor',{x:-2000,rotation:-18,duration:.48,ease:'power3.in'},15.16);
+slam('#k-w-jodas',15.6,{dy:-850,s:1.7,r:-8});recoil(['#k-w-no'],15.6,-24,0,-2);shake(15.6,10);
+slam('#k-w-men',16.18,{s:4.5,r:-4,big:true,dur:.24});recoil(['#k-w-jodas','#k-w-no'],16.18,0,-26,0);shake(16.18,30);flash(16.18,.18);burst(16.18,0,160,18,53);
+pop('#bubble-a',17.25,-100,100,-12);pop('#bubble-b',18.15,100,100,12);tl.fromTo('#end-note',{opacity:0,y:30},{opacity:1,y:0,duration:.15,ease:'power3.out'},17.85);
+bakeCamera();bakeRecoils();window.__timelines['kinetic']=tl;
+
+})();</script>
+</template>

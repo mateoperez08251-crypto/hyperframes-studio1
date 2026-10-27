@@ -1,0 +1,163 @@
+{
+  "offset": 0.35,
+  "duration": 20,
+  "sourceWords": [
+    {
+      "word": " ChatGPT...",
+      "start": 0,
+      "end": 1.64,
+      "probability": 0.6269415050745011
+    },
+    {
+      "word": " Es",
+      "start": 1.64,
+      "end": 2.14,
+      "probability": 0.3659020662307739
+    },
+    {
+      "word": " una",
+      "start": 2.14,
+      "end": 2.38,
+      "probability": 0.9936274290084839
+    },
+    {
+      "word": " bestia.",
+      "start": 2.38,
+      "end": 3.28,
+      "probability": 0.9517143070697784
+    },
+    {
+      "word": " Todo",
+      "start": 4.14,
+      "end": 4.32,
+      "probability": 0.9648534655570984
+    },
+    {
+      "word": " esto",
+      "start": 4.32,
+      "end": 4.8,
+      "probability": 0.9894605278968811
+    },
+    {
+      "word": " se",
+      "start": 4.8,
+      "end": 5.42,
+      "probability": 0.9600141048431396
+    },
+    {
+      "word": " creó",
+      "start": 5.42,
+      "end": 5.8,
+      "probability": 0.987546294927597
+    },
+    {
+      "word": " solo",
+      "start": 5.8,
+      "end": 6.34,
+      "probability": 0.6167364716529846
+    },
+    {
+      "word": " con",
+      "start": 6.34,
+      "end": 6.68,
+      "probability": 0.9940577745437622
+    },
+    {
+      "word": " código.",
+      "start": 6.68,
+      "end": 7.26,
+      "probability": 0.9684688448905945
+    },
+    {
+      "word": " Sí,",
+      "start": 8.06,
+      "end": 8.46,
+      "probability": 0.7794985771179199
+    },
+    {
+      "word": " solo",
+      "start": 9.1,
+      "end": 9.72,
+      "probability": 0.6102622151374817
+    },
+    {
+      "word": " con",
+      "start": 9.72,
+      "end": 10.58,
+      "probability": 0.903874397277832
+    },
+    {
+      "word": " código.",
+      "start": 10.58,
+      "end": 11.3,
+      "probability": 0.9151216149330139
+    },
+    {
+      "word": " Jajaja,",
+      "start": 12.22,
+      "end": 12.94,
+      "probability": 0.4908968259890874
+    },
+    {
+      "word": " no",
+      "start": 13.12,
+      "end": 13.3,
+      "probability": 0.9321338534355164
+    },
+    {
+      "word": " jodas,",
+      "start": 13.3,
+      "end": 14,
+      "probability": 0.9834778706232706
+    },
+    {
+      "word": " men.",
+      "start": 14,
+      "end": 14.32,
+      "probability": 0.5348566174507141
+    },
+    {
+      "word": " Esto",
+      "start": 15.08,
+      "end": 15.56,
+      "probability": 0.9070978760719299
+    },
+    {
+      "word": " es",
+      "start": 15.56,
+      "end": 16.26,
+      "probability": 0.9793307185173035
+    },
+    {
+      "word": " ChatGPT.",
+      "start": 16.26,
+      "end": 17.58,
+      "probability": 0.967708945274353
+    }
+  ],
+  "timing": {
+    "title": 0.48,
+    "es": 1.85,
+    "una": 2.23,
+    "bestia": 2.73,
+    "todo": 4.54,
+    "esto": 4.67,
+    "se": 5.1499999999999995,
+    "creo": 5.77,
+    "solo": 6.1499999999999995,
+    "con": 6.6899999999999995,
+    "codigo": 7.029999999999999,
+    "si": 8.41,
+    "solo2": 9.45,
+    "con2": 10.07,
+    "codigo2": 10.93,
+    "laugh": 12.57,
+    "no": 13.469999999999999,
+    "jodas": 13.65,
+    "men": 14.35,
+    "esto2": 15.52,
+    "es2": 15.91,
+    "chatgpt2": 16.610000000000003
+  },
+  "notes": "Whisper small es, GPU. Es/una y comienzos tras silencio refinados con silencedetect. Voz a velocidad 1; sin recortes del diálogo."
+}

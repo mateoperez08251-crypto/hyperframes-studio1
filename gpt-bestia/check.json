@@ -1,0 +1,179 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 2
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 2,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 1.111,
+        "selector": "#k-cam",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 1.71,
+          "top": 0.35,
+          "right": 1923.78,
+          "bottom": 1084.02,
+          "width": 1922.07,
+          "height": 1083.68
+        },
+        "containerSelector": "#kinetic > div:nth-of-type(1)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 3.78,
+          "bottom": 4.02
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/kinetic.html",
+        "bbox": {
+          "x": 1.71,
+          "y": 0.35,
+          "width": 1922.07,
+          "height": 1083.68
+        },
+        "firstSeen": 1.111,
+        "lastSeen": 1.111,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          1.111
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 15.625,
+        "selector": "#code-lines > div:nth-of-type(3)",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 0,
+          "top": 511.01,
+          "right": 129.96,
+          "bottom": 590.08,
+          "width": 129.96,
+          "height": 79.07
+        },
+        "containerSelector": "#code-lines > div:nth-of-type(4)",
+        "text": "\"brutal\";",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "compositions/kinetic.html",
+        "bbox": {
+          "x": 0,
+          "y": 511.01,
+          "width": 129.96,
+          "height": 79.07
+        },
+        "firstSeen": 15.625,
+        "lastSeen": 15.625,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          15.625
+        ]
+      }
+    ],
+    "duration": 20,
+    "samples": [
+      1.111,
+      3.333,
+      5.556,
+      7.778,
+      10,
+      12.222,
+      14.444,
+      16.667,
+      18.889
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 2,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.111,
+      5.556,
+      10,
+      14.444,
+      18.889
+    ],
+    "checked": 30,
+    "passed": 30
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 160
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  },
+  "saved": {
+    "id": "fd1d5007-fe2d-4d98-b593-1c9142c7d51e",
+    "revision": "b17383b1-a910-4367-b89b-61150ce4ad2b",
+    "report": "/content/hyperframes-studio/gpt-bestia/.hyperframes/artifacts/checks/fd1d5007-fe2d-4d98-b593-1c9142c7d51e.json",
+    "attribution": "recorded-revision"
+  },
+  "_meta": {
+    "version": "0.8.193",
+    "latestVersion": "0.8.208",
+    "updateAvailable": true
+  }
+}

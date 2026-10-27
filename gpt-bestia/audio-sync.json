@@ -1,0 +1,394 @@
+[
+  {
+    "name": "pop",
+    "hit": 0.34,
+    "volume": 0.24,
+    "cause": "mensaje",
+    "audioStart": 0.30833333333333335,
+    "audioPeak": 0.37333333333333335
+  },
+  {
+    "name": "tap",
+    "hit": 0.48,
+    "volume": 0.2,
+    "cause": "letra 0",
+    "audioStart": 0.4283333333333333,
+    "audioPeak": 0.5133333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 0.59,
+    "volume": 0.2,
+    "cause": "letra 1",
+    "audioStart": 0.5583333333333333,
+    "audioPeak": 0.6233333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 0.7,
+    "volume": 0.2,
+    "cause": "letra 2",
+    "audioStart": 0.6483333333333333,
+    "audioPeak": 0.7333333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 0.81,
+    "volume": 0.2,
+    "cause": "letra 3",
+    "audioStart": 0.7783333333333333,
+    "audioPeak": 0.8433333333333334
+  },
+  {
+    "name": "click",
+    "hit": 0.9,
+    "volume": 0.2,
+    "cause": "enviar mensaje",
+    "audioStart": 0.8883333333333333,
+    "audioPeak": 0.9333333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 0.9199999999999999,
+    "volume": 0.2,
+    "cause": "letra 4",
+    "audioStart": 0.8683333333333333,
+    "audioPeak": 0.9533333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 1.03,
+    "volume": 0.2,
+    "cause": "letra 5",
+    "audioStart": 0.9983333333333335,
+    "audioPeak": 1.0633333333333335
+  },
+  {
+    "name": "thump",
+    "hit": 1.14,
+    "volume": 0.24,
+    "cause": "CHATGPT completo",
+    "audioStart": 1.1383333333333334,
+    "audioPeak": 1.1733333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 1.1400000000000001,
+    "volume": 0.2,
+    "cause": "letra 6",
+    "audioStart": 1.0883333333333336,
+    "audioPeak": 1.1733333333333336
+  },
+  {
+    "name": "pop",
+    "hit": 1.27,
+    "volume": 0.24,
+    "cause": "respuesta",
+    "audioStart": 1.2383333333333335,
+    "audioPeak": 1.3033333333333335
+  },
+  {
+    "name": "tap",
+    "hit": 1.85,
+    "volume": 0.26,
+    "cause": "palabra es",
+    "audioStart": 1.7983333333333336,
+    "audioPeak": 1.8833333333333335
+  },
+  {
+    "name": "sweep",
+    "hit": 1.85,
+    "volume": 0.24,
+    "cause": "transición es",
+    "audioStart": 1.8183333333333336,
+    "audioPeak": 1.8833333333333335
+  },
+  {
+    "name": "tap",
+    "hit": 2.23,
+    "volume": 0.26,
+    "cause": "palabra una",
+    "audioStart": 2.1783333333333332,
+    "audioPeak": 2.263333333333333
+  },
+  {
+    "name": "thump",
+    "hit": 2.73,
+    "volume": 0.37,
+    "cause": "golpe bestia",
+    "audioStart": 2.728333333333333,
+    "audioPeak": 2.763333333333333
+  },
+  {
+    "name": "digital",
+    "hit": 2.73,
+    "volume": 0.16,
+    "cause": "acento bestia",
+    "audioStart": 2.6983333333333333,
+    "audioPeak": 2.763333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 3.6,
+    "volume": 0.24,
+    "cause": "tecla",
+    "audioStart": 3.5683333333333334,
+    "audioPeak": 3.6333333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 3.87,
+    "volume": 0.24,
+    "cause": "bombilla",
+    "audioStart": 3.8383333333333334,
+    "audioPeak": 3.9033333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 3.96,
+    "volume": 0.2,
+    "cause": "pulsar tecla",
+    "audioStart": 3.908333333333333,
+    "audioPeak": 3.993333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 4.54,
+    "volume": 0.26,
+    "cause": "palabra todo",
+    "audioStart": 4.488333333333333,
+    "audioPeak": 4.573333333333333
+  },
+  {
+    "name": "sweep",
+    "hit": 4.54,
+    "volume": 0.24,
+    "cause": "transición todo",
+    "audioStart": 4.508333333333333,
+    "audioPeak": 4.573333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 4.67,
+    "volume": 0.26,
+    "cause": "palabra esto",
+    "audioStart": 4.618333333333333,
+    "audioPeak": 4.703333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 5.1499999999999995,
+    "volume": 0.26,
+    "cause": "palabra se",
+    "audioStart": 5.098333333333333,
+    "audioPeak": 5.183333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 5.77,
+    "volume": 0.26,
+    "cause": "palabra creo",
+    "audioStart": 5.718333333333333,
+    "audioPeak": 5.803333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 6.1499999999999995,
+    "volume": 0.26,
+    "cause": "palabra solo",
+    "audioStart": 6.098333333333333,
+    "audioPeak": 6.183333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 6.6899999999999995,
+    "volume": 0.26,
+    "cause": "palabra con",
+    "audioStart": 6.638333333333333,
+    "audioPeak": 6.723333333333333
+  },
+  {
+    "name": "thump",
+    "hit": 7.029999999999999,
+    "volume": 0.37,
+    "cause": "golpe codigo",
+    "audioStart": 7.028333333333332,
+    "audioPeak": 7.063333333333333
+  },
+  {
+    "name": "digital",
+    "hit": 7.029999999999999,
+    "volume": 0.16,
+    "cause": "acento codigo",
+    "audioStart": 6.998333333333332,
+    "audioPeak": 7.063333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 7.27,
+    "volume": 0.24,
+    "cause": "editor",
+    "audioStart": 7.238333333333332,
+    "audioPeak": 7.303333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 8.12,
+    "volume": 0.18,
+    "cause": "botón de reproducción",
+    "audioStart": 8.088333333333333,
+    "audioPeak": 8.153333333333332
+  },
+  {
+    "name": "tap",
+    "hit": 8.41,
+    "volume": 0.26,
+    "cause": "palabra si",
+    "audioStart": 8.358333333333333,
+    "audioPeak": 8.443333333333333
+  },
+  {
+    "name": "sweep",
+    "hit": 8.41,
+    "volume": 0.24,
+    "cause": "transición si",
+    "audioStart": 8.378333333333334,
+    "audioPeak": 8.443333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 9.45,
+    "volume": 0.26,
+    "cause": "palabra solo2",
+    "audioStart": 9.398333333333332,
+    "audioPeak": 9.483333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 10.07,
+    "volume": 0.26,
+    "cause": "palabra con2",
+    "audioStart": 10.018333333333333,
+    "audioPeak": 10.103333333333333
+  },
+  {
+    "name": "thump",
+    "hit": 10.93,
+    "volume": 0.37,
+    "cause": "golpe codigo2",
+    "audioStart": 10.928333333333333,
+    "audioPeak": 10.963333333333333
+  },
+  {
+    "name": "digital",
+    "hit": 10.93,
+    "volume": 0.16,
+    "cause": "acento codigo2",
+    "audioStart": 10.898333333333333,
+    "audioPeak": 10.963333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 12.27,
+    "volume": 0.24,
+    "cause": "burbuja izquierda",
+    "audioStart": 12.238333333333333,
+    "audioPeak": 12.303333333333333
+  },
+  {
+    "name": "pop",
+    "hit": 12.57,
+    "volume": 0.24,
+    "cause": "burbuja derecha",
+    "audioStart": 12.538333333333334,
+    "audioPeak": 12.603333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 13.469999999999999,
+    "volume": 0.26,
+    "cause": "palabra no",
+    "audioStart": 13.418333333333331,
+    "audioPeak": 13.503333333333332
+  },
+  {
+    "name": "sweep",
+    "hit": 13.469999999999999,
+    "volume": 0.24,
+    "cause": "transición no",
+    "audioStart": 13.438333333333333,
+    "audioPeak": 13.503333333333332
+  },
+  {
+    "name": "tap",
+    "hit": 13.65,
+    "volume": 0.26,
+    "cause": "palabra jodas",
+    "audioStart": 13.598333333333333,
+    "audioPeak": 13.683333333333334
+  },
+  {
+    "name": "thump",
+    "hit": 14.35,
+    "volume": 0.37,
+    "cause": "golpe men",
+    "audioStart": 14.348333333333333,
+    "audioPeak": 14.383333333333333
+  },
+  {
+    "name": "digital",
+    "hit": 14.35,
+    "volume": 0.16,
+    "cause": "acento men",
+    "audioStart": 14.318333333333333,
+    "audioPeak": 14.383333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 15.52,
+    "volume": 0.26,
+    "cause": "palabra esto2",
+    "audioStart": 15.468333333333332,
+    "audioPeak": 15.553333333333333
+  },
+  {
+    "name": "sweep",
+    "hit": 15.52,
+    "volume": 0.24,
+    "cause": "transición esto2",
+    "audioStart": 15.488333333333333,
+    "audioPeak": 15.553333333333333
+  },
+  {
+    "name": "tap",
+    "hit": 15.91,
+    "volume": 0.26,
+    "cause": "palabra es2",
+    "audioStart": 15.858333333333333,
+    "audioPeak": 15.943333333333333
+  },
+  {
+    "name": "thump",
+    "hit": 16.610000000000003,
+    "volume": 0.37,
+    "cause": "golpe chatgpt2",
+    "audioStart": 16.608333333333338,
+    "audioPeak": 16.643333333333338
+  },
+  {
+    "name": "digital",
+    "hit": 16.610000000000003,
+    "volume": 0.16,
+    "cause": "acento chatgpt2",
+    "audioStart": 16.578333333333337,
+    "audioPeak": 16.643333333333338
+  },
+  {
+    "name": "shine",
+    "hit": 17.8,
+    "volume": 0.2,
+    "cause": "remate",
+    "audioStart": 17.768333333333334,
+    "audioPeak": 17.833333333333336
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "name": "hyperframes-texto-vertical",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Animación cinética de texto vertical de 8 segundos creada para HyperFrames",
+  "scripts": {
+    "check": "hyperframes check --json",
+    "preview": "hyperframes preview",
+    "render": "hyperframes render"
+  },
+  "devDependencies": {
+    "hyperframes": "latest"
+  }
+}

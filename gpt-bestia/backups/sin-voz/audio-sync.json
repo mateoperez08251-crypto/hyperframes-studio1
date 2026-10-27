@@ -1,0 +1,317 @@
+[
+  {
+    "name": "tap",
+    "visualHit": 0.42,
+    "audioStart": 0.3683333333333333,
+    "audioPeak": 0.4533333333333333,
+    "volume": 0.7
+  },
+  {
+    "name": "pop",
+    "visualHit": 0.63,
+    "audioStart": 0.5983333333333334,
+    "audioPeak": 0.6633333333333333,
+    "volume": 0.75
+  },
+  {
+    "name": "tap",
+    "visualHit": 0.84,
+    "audioStart": 0.7883333333333333,
+    "audioPeak": 0.8733333333333333,
+    "volume": 0.7
+  },
+  {
+    "name": "pop-low",
+    "visualHit": 1.05,
+    "audioStart": 0.9983333333333335,
+    "audioPeak": 1.0833333333333335,
+    "volume": 0.8
+  },
+  {
+    "name": "tap",
+    "visualHit": 1.26,
+    "audioStart": 1.2083333333333335,
+    "audioPeak": 1.2933333333333334,
+    "volume": 0.7
+  },
+  {
+    "name": "pop",
+    "visualHit": 1.47,
+    "audioStart": 1.4383333333333335,
+    "audioPeak": 1.5033333333333334,
+    "volume": 0.8
+  },
+  {
+    "name": "digital",
+    "visualHit": 1.68,
+    "audioStart": 1.6483333333333334,
+    "audioPeak": 1.7133333333333334,
+    "volume": 0.7
+  },
+  {
+    "name": "thump",
+    "visualHit": 1.68,
+    "audioStart": 1.6783333333333335,
+    "audioPeak": 1.7133333333333334,
+    "volume": 0.9
+  },
+  {
+    "name": "pop",
+    "visualHit": 2.63,
+    "audioStart": 2.598333333333333,
+    "audioPeak": 2.663333333333333,
+    "volume": 0.65
+  },
+  {
+    "name": "click",
+    "visualHit": 3.13,
+    "audioStart": 3.118333333333333,
+    "audioPeak": 3.163333333333333,
+    "volume": 0.65
+  },
+  {
+    "name": "message",
+    "visualHit": 3.73,
+    "audioStart": 3.6983333333333333,
+    "audioPeak": 3.763333333333333,
+    "volume": 0.55
+  },
+  {
+    "name": "sweep",
+    "visualHit": 4.6,
+    "audioStart": 4.5683333333333325,
+    "audioPeak": 4.633333333333333,
+    "volume": 0.65
+  },
+  {
+    "name": "pop-low",
+    "visualHit": 4.6,
+    "audioStart": 4.548333333333333,
+    "audioPeak": 4.633333333333333,
+    "volume": 0.9
+  },
+  {
+    "name": "tap",
+    "visualHit": 4.85,
+    "audioStart": 4.798333333333333,
+    "audioPeak": 4.883333333333333,
+    "volume": 0.8
+  },
+  {
+    "name": "digital",
+    "visualHit": 5.23,
+    "audioStart": 5.198333333333333,
+    "audioPeak": 5.263333333333334,
+    "volume": 0.85
+  },
+  {
+    "name": "pop-low",
+    "visualHit": 5.23,
+    "audioStart": 5.178333333333334,
+    "audioPeak": 5.263333333333334,
+    "volume": 0.8
+  },
+  {
+    "name": "thump",
+    "visualHit": 5.23,
+    "audioStart": 5.2283333333333335,
+    "audioPeak": 5.263333333333334,
+    "volume": 0.9
+  },
+  {
+    "name": "pop",
+    "visualHit": 6.48,
+    "audioStart": 6.448333333333333,
+    "audioPeak": 6.513333333333334,
+    "volume": 0.7
+  },
+  {
+    "name": "tap",
+    "visualHit": 6.9,
+    "audioStart": 6.848333333333334,
+    "audioPeak": 6.933333333333334,
+    "volume": 0.7
+  },
+  {
+    "name": "shine",
+    "visualHit": 7.63,
+    "audioStart": 7.598333333333333,
+    "audioPeak": 7.663333333333333,
+    "volume": 0.55
+  },
+  {
+    "name": "sweep",
+    "visualHit": 9.3,
+    "audioStart": 9.268333333333334,
+    "audioPeak": 9.333333333333334,
+    "volume": 0.65
+  },
+  {
+    "name": "tap",
+    "visualHit": 9.3,
+    "audioStart": 9.248333333333333,
+    "audioPeak": 9.333333333333334,
+    "volume": 0.8
+  },
+  {
+    "name": "pop",
+    "visualHit": 9.55,
+    "audioStart": 9.518333333333334,
+    "audioPeak": 9.583333333333334,
+    "volume": 0.7
+  },
+  {
+    "name": "tap",
+    "visualHit": 9.82,
+    "audioStart": 9.768333333333333,
+    "audioPeak": 9.853333333333333,
+    "volume": 0.7
+  },
+  {
+    "name": "pop-low",
+    "visualHit": 10.25,
+    "audioStart": 10.198333333333332,
+    "audioPeak": 10.283333333333333,
+    "volume": 0.75
+  },
+  {
+    "name": "tap",
+    "visualHit": 10.5,
+    "audioStart": 10.448333333333332,
+    "audioPeak": 10.533333333333333,
+    "volume": 0.7
+  },
+  {
+    "name": "digital",
+    "visualHit": 10.95,
+    "audioStart": 10.918333333333333,
+    "audioPeak": 10.983333333333333,
+    "volume": 0.8
+  },
+  {
+    "name": "thump",
+    "visualHit": 10.95,
+    "audioStart": 10.948333333333332,
+    "audioPeak": 10.983333333333333,
+    "volume": 0.9
+  },
+  {
+    "name": "pop",
+    "visualHit": 12.08,
+    "audioStart": 12.048333333333334,
+    "audioPeak": 12.113333333333333,
+    "volume": 0.65
+  },
+  {
+    "name": "tap",
+    "visualHit": 12.15,
+    "audioStart": 12.098333333333333,
+    "audioPeak": 12.183333333333334,
+    "volume": 0.55
+  },
+  {
+    "name": "tap",
+    "visualHit": 12.43,
+    "audioStart": 12.378333333333332,
+    "audioPeak": 12.463333333333333,
+    "volume": 0.55
+  },
+  {
+    "name": "tap",
+    "visualHit": 12.71,
+    "audioStart": 12.658333333333333,
+    "audioPeak": 12.743333333333334,
+    "volume": 0.55
+  },
+  {
+    "name": "tap",
+    "visualHit": 12.99,
+    "audioStart": 12.938333333333333,
+    "audioPeak": 13.023333333333333,
+    "volume": 0.55
+  },
+  {
+    "name": "tap",
+    "visualHit": 13.27,
+    "audioStart": 13.218333333333332,
+    "audioPeak": 13.303333333333333,
+    "volume": 0.55
+  },
+  {
+    "name": "pop",
+    "visualHit": 13.95,
+    "audioStart": 13.918333333333333,
+    "audioPeak": 13.983333333333333,
+    "volume": 0.6
+  },
+  {
+    "name": "click",
+    "visualHit": 14.27,
+    "audioStart": 14.258333333333333,
+    "audioPeak": 14.303333333333333,
+    "volume": 0.6
+  },
+  {
+    "name": "sweep",
+    "visualHit": 15.2,
+    "audioStart": 15.168333333333333,
+    "audioPeak": 15.233333333333333,
+    "volume": 0.75
+  },
+  {
+    "name": "pop-low",
+    "visualHit": 15.2,
+    "audioStart": 15.148333333333332,
+    "audioPeak": 15.233333333333333,
+    "volume": 0.85
+  },
+  {
+    "name": "digital",
+    "visualHit": 15.6,
+    "audioStart": 15.568333333333333,
+    "audioPeak": 15.633333333333333,
+    "volume": 0.6
+  },
+  {
+    "name": "digital",
+    "visualHit": 16.18,
+    "audioStart": 16.148333333333333,
+    "audioPeak": 16.213333333333335,
+    "volume": 0.9
+  },
+  {
+    "name": "pop-low",
+    "visualHit": 16.18,
+    "audioStart": 16.128333333333334,
+    "audioPeak": 16.213333333333335,
+    "volume": 0.9
+  },
+  {
+    "name": "thump",
+    "visualHit": 16.18,
+    "audioStart": 16.178333333333335,
+    "audioPeak": 16.213333333333335,
+    "volume": 0.9
+  },
+  {
+    "name": "pop",
+    "visualHit": 17.63,
+    "audioStart": 17.598333333333333,
+    "audioPeak": 17.663333333333334,
+    "volume": 0.7
+  },
+  {
+    "name": "message",
+    "visualHit": 18.53,
+    "audioStart": 18.498333333333335,
+    "audioPeak": 18.563333333333336,
+    "volume": 0.5
+  },
+  {
+    "name": "shine",
+    "visualHit": 18.75,
+    "audioStart": 18.718333333333334,
+    "audioPeak": 18.783333333333335,
+    "volume": 0.45
+  }
+]

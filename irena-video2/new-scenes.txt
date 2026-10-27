@@ -1,0 +1,335 @@
+      // Helper: Irena (usa el rig stick base)
+      function irena(o) {
+        return stick(Object.assign({ dress: GOLD, bun: true, hair: "#d9cdb8", id: 7 }, o));
+      }
+
+      // ======================================================================
+      // ESCENA 1 (0 - 2.1): "…que aquellos pequeños olvidaran quiénes eran."
+      // ======================================================================
+      function scene1() {
+        cam(1 + 0.02 * seg(T, 0, 2.1), 540, 820);
+        sky("#2a2e37", "#0c0d12", 1170);
+        skyline(1170, "#111219", false);
+        for (let i = 0; i < 6; i++) {
+          ctx.fillStyle = "rgba(175,190,210," + (0.028 + 0.02 * Math.sin(T * 0.7 + i)).toFixed(3) + ")";
+          ctx.fillRect(-500, 560 + i * 112, W + 1000, 46);
+        }
+        ground(1170, "#090a0e", "#1a1c22");
+        const fade = eIO(seg(T, 0.5, 1.75));
+        const kids = [[320, 1168, 0.92], [455, 1173, 1.0], [590, 1170, 0.95], [720, 1174, 0.9]];
+        kids.forEach((k, i) => {
+          const sway = Math.sin(T * 1.1 + i * 1.3) * 0.05;
+          stick({
+            x: k[0], y: k[1], s: k[2], id: 21 + i, dir: i % 2 ? -1 : 1,
+            col: mix("#e7eef7", "#464c58", fade),
+            look: (i % 2 ? 1 : -1) * 4,
+            eyes: "open", brows: "sad", mouth: fade > 0.55 ? "flat" : "frown",
+            pose: Object.assign(idlePose(21 + i), { tilt: sway }),
+          });
+        });
+        // Oficial que alinea a los niños
+        const off = { aB: [-0.3, 1.5], aF: [0.22, 0.12], lB: [-0.16, 0], lF: [0.16, 0], lean: 0.02, tilt: 0 };
+        const raise = eIO(seg(T, 0.7, 1.3));
+        stick({
+          x: 905, y: 1160, s: 2.7, id: 51, dir: -1, col: "#c8ced9",
+          pose: { aB: [-0.3, 1.6 * raise], aF: [0.2, 0.15], lB: [-0.16, 0], lF: [0.16, 0], lean: 0.03, tilt: -0.03 },
+          look: -4, eyes: "open", brows: "angry", mouth: "flat",
+          extra: (q) => {
+            ctx.beginPath();
+            ctx.ellipse(q.head[0], q.head[1] - 8, 32, 18, 0, Math.PI, 0);
+            ctx.closePath(); ctx.fillStyle = "#101116"; ctx.fill();
+            ctx.fillStyle = RED; ctx.fillRect(q.head[0] - 32, q.head[1] - 15, 64, 6);
+          },
+        });
+      }
+
+      // ======================================================================
+      // ESCENA 2 (2.1 - 7.0): "Por eso conservaba registros secretos con sus verdaderos nombres"
+      // ======================================================================
+      function sheet(x, y, w, rot, col) {
+        ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+        ctx.fillStyle = col; ctx.fillRect(-w / 2, -16, w, 32);
+        ctx.strokeStyle = "#8a7f68"; ctx.lineWidth = 2; ctx.strokeRect(-w / 2, -16, w, 32);
+        ctx.restore();
+      }
+      function scene2() {
+        cam(1 + 0.04 * seg(T, 2.1, 7.0), 545, 880);
+        const bg = ctx.createRadialGradient(600, 920, 60, 600, 920, 1250);
+        bg.addColorStop(0, "#3c2d1d"); bg.addColorStop(1, "#100c08");
+        ctx.fillStyle = bg; ctx.fillRect(-500, -500, W + 1000, H + 1000);
+        dust(42, "#ffdca0", 2);
+        const ty = 1185;
+        ctx.fillStyle = vgrad(ty, ty + 260, [[0, "#3a2a1e"], [1, "#140d08"]]);
+        ctx.fillRect(-120, ty, W + 240, 360);
+        line([[-120, ty], [W + 120, ty]], "#5a432e", 6);
+        for (let i = 6; i >= 0; i--) sheet(835 + i * 3, ty - 10 - i * 8, 150 - i * 6, -0.03 * i, mix("#efe6d6", "#c3b79e", i / 6));
+        // Lámpara
+        const lx = 600;
+        line([[lx, ty], [lx, 1010]], "#241d16", 11);
+        ctx.beginPath();
+        ctx.moveTo(lx - 78, 770); ctx.lineTo(lx + 78, 770); ctx.lineTo(lx + 22, 1010); ctx.lineTo(lx - 22, 1010);
+        ctx.closePath(); ctx.fillStyle = "#241d16"; ctx.fill();
+        const glow = ctx.createRadialGradient(lx, 830, 20, lx, 830, 560);
+        glow.addColorStop(0, "rgba(255,210,132,0.5)"); glow.addColorStop(1, "rgba(255,210,132,0)");
+        ctx.fillStyle = glow; ctx.fillRect(lx - 600, 560, 1200, 900);
+        // Irena escribiendo
+        const bob = 0.12 * Math.sin(T * 8.5);
+        irena({
+          x: 455, y: 1190, s: 2.5, dir: 1,
+          pose: { aB: [0.12, 0.95], aF: [1.35 + bob, 0.72 - bob * 0.5], lB: [-0.18, 0.42], lF: [0.2, 0.55], lean: 0.3, tilt: 0.06 },
+          look: 6, eyes: "open", brows: null, mouth: "smile",
+          extra: (q) => { const hx = q.handF[0], hy = q.handF[1]; line([[hx, hy], [hx + 30, hy - 16]], GOLD, 5); },
+        });
+      }
+
+      // ======================================================================
+      // ESCENA 3 (7.0 - 11.0): "y los lugares donde habían sido escondidos."
+      // ======================================================================
+      function scene3() {
+        cam(1 + 0.03 * seg(T, 7.0, 11.0), 540, 820);
+        const bg = ctx.createRadialGradient(540, 800, 60, 540, 800, 1200);
+        bg.addColorStop(0, "#4a3420"); bg.addColorStop(1, "#120d08");
+        ctx.fillStyle = bg; ctx.fillRect(-500, -500, W + 1000, H + 1000);
+        dust(44, "#ffd9a0", 4);
+        // Mesa
+        const ty = 1170;
+        ctx.fillStyle = vgrad(ty, ty + 260, [[0, "#42301f"], [1, "#160f08"]]);
+        ctx.fillRect(-140, ty, W + 280, 380);
+        line([[-140, ty], [W + 140, ty]], "#6a513a", 6);
+        // Cuaderno grande abierto
+        const openK = eIO(seg(T, 7.0, 7.8));
+        const cxA = 545, yTop = 760, ph = 200;
+        const halfW = 175 * openK;
+        ctx.save();
+        ctx.translate(cxA, ty - 10);
+        // Pila de lomo
+        ctx.fillStyle = "#e2d4ae"; ctx.fillRect(-halfW - 6, -ph - 6, 2 * halfW + 12, 42);
+        ctx.strokeStyle = "#5a4928"; ctx.lineWidth = 4; ctx.strokeRect(-halfW - 6, -ph - 6, 2 * halfW + 12, 42);
+        ctx.fillStyle = mix("#d6c79a", "#efe6d6", 0.65);
+        ctx.beginPath();
+        ctx.moveTo(-halfW, -ph); ctx.lineTo(halfW, -ph); ctx.lineTo(halfW, 0); ctx.lineTo(-halfW, 0);
+        ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = "#6a5a3a"; ctx.lineWidth = 3; ctx.stroke();
+        // Línea de apertura
+        line([[0, -ph], [0, 0]], "#3a2d1a", 3);
+        // Pinceladas de texto (más en la página izq.)
+        const rowsN = Math.floor(9 * openK);
+        for (let r = 0; r < rowsN; r++) {
+          const yy = -ph + 28 + r * 19;
+          const x0 = -halfW + 22, x1 = -halfW + 22 + (halfW - 50) * (0.5 + 0.4 * hash(r * 2.7));
+          line([[x0, yy], [x1, yy]], rgba("#3a2d1a", 0.42 + 0.22 * hash(r * 3.1)), 2.4);
+        }
+        // "Nombre" sublimado en dorado al centro
+        const goldK = eOut(seg(T, 8.0, 8.7));
+        if (goldK > 0) {
+          ctx.font = "44px " + FONT;
+          ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillStyle = rgba(GOLD, 0.9 * goldK);
+          ctx.fillText("NOMBRE", 0, -ph + 62);
+        }
+        ctx.restore();
+        // Papeles con mini-mapa a los lados
+        const papers = [[740, 1080, -8, 220], [850, 1140, 14, 190], [300, 1100, -18, 180]];
+        papers.forEach((p, i) => {
+          const a = eOut(seg(T, 7.2 + i * 0.15, 7.4 + i * 0.15));
+          ctx.save(); ctx.globalAlpha = a; ctx.translate(p[0], p[1]); ctx.rotate(p[2] * Math.PI / 180);
+          ctx.fillStyle = mix("#efe6d6", "#d1c5a3", i / 3);
+          ctx.fillRect(-p[3] / 2, -20, p[3], 40);
+          ctx.strokeStyle = "#6a5a3a"; ctx.lineWidth = 2; ctx.strokeRect(-p[3] / 2, -20, p[3], 40);
+          for (let kI = 0; kI < 6; kI++) {
+            const px = -p[3] / 2 + 8 + hash(i * 7 + kI) * (p[3] - 22);
+            const py = -10 + hash(i * 13 + kI) * 20 - 6;
+            circle(px, py, 2.5 + hash(i * 3 + kI) * 2, i === 1 && kI === 0 ? RED : "#4a3a22");
+          }
+          ctx.restore();
+        });
+        // Pines que caen sobre lugares
+        const pins = [[700, 1058, 8.15], [772, 1108, 8.55], [330, 1068, 8.95]];
+        pins.forEach((p) => {
+          const k = seg(T, p[2], p[2] + 0.35);
+          if (k <= 0 || k >= 1) return;
+          const y = p[1] - (1 - eIn(k)) * 320;
+          ctx.save();
+          if (k >= 1) { ctx.fillStyle = "rgba(0,0,0,0.5)"; ctx.beginPath(); ctx.ellipse(p[0], p[1] + 16, 18, 5, 0, 0, Math.PI * 2); ctx.fill(); }
+          ctx.translate(p[0], y);
+          circle(0, -40, 22, GOLD, "#7a5414", 4);
+          line([[0, -20], [0, 12]], GOLD, 8);
+          ctx.restore();
+        });
+        // Irena mirando el cuaderno
+        irena({
+          x: 420, y: 1195, s: 2.4, dir: 1,
+          pose: { aB: [0.05, 0.9], aF: [1.2, 0.95], lB: [-0.2, 0.3], lF: [0.22, 0.4], lean: 0.32, tilt: 0.18 },
+          look: 7, lookY: 4, eyes: "open", brows: null, mouth: "smile",
+        });
+      }
+
+
+      // ======================================================================
+      // ESCENA 4 (11.0 - 17.5): "En 1943, la policía secreta nazi descubrió sus actividades."
+      // ======================================================================
+      function scene4() {
+        const phase = T < 13.9 ? 0 : 1; // 0 = calendario 1943 / 1 = descubrimiento
+        if (phase === 0) {
+          cam(1.1 + 0.16 * eIO(seg(T, 11.0, 13.6)), 540, 640);
+          const bg = ctx.createRadialGradient(540, 640, 40, 540, 640, 900);
+          bg.addColorStop(0, "#2b2b32"); bg.addColorStop(1, "#05060a");
+          ctx.fillStyle = bg; ctx.fillRect(-500, -500, W + 1000, H + 1000);
+          // Hoja del calendario
+          const yTop = 280, ch = 720;
+          ctx.fillStyle = "#e8e2d2"; ctx.fillRect(280, yTop, 520, ch);
+          ctx.fillStyle = "#1f1f28"; ctx.fillRect(280, yTop, 520, 110);
+          ctx.fillStyle = RED; ctx.fillRect(280, yTop + 110, 520, 80);
+          ctx.font = "88px " + FONT; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+          ctx.fillStyle = "#fff"; ctx.fillText("1943", 300, yTop + 58);
+          ctx.font = "34px " + FONT; ctx.fillStyle = "#f0e0d0"; ctx.fillText("MARZO", 305, yTop + 152);
+          // Cuadrícula
+          const gx0 = 300, gy0 = yTop + 225, cols = 7, rows = 8, gw = 500, cw = gw / cols, chh = 300 / rows;
+          for (let c = 1; c < cols; c++) line([[gx0 + c * cw, gy0], [gx0 + c * cw, gy0 + rows * chh]], "rgba(40,40,55,0.3)", 1.5);
+          for (let r = 1; r < rows; r++) line([[gx0, gy0 + r * chh], [gx0 + gw, gy0 + r * chh]], "rgba(40,40,55,0.3)", 1.5);
+          ctx.font = "24px " + FONT; ctx.textAlign = "center"; ctx.fillStyle = "#22222e";
+          for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+            if (r === 3 && c === 2) continue;
+            ctx.fillText(String(1 + r * 7 + c), gx0 + c * cw + cw / 2, gy0 + r * chh + chh / 2 + 8);
+          }
+          // Círculo rojo sobre un día
+          const ringK = eIO(seg(T, 11.6, 12.4));
+          if (ringK > 0) {
+            const cx = gx0 + 2 * cw + cw / 2, cy = gy0 + 3 * chh + chh / 2;
+            ctx.save();
+            ctx.shadowColor = RED; ctx.shadowBlur = 24;
+            circle(cx, cy, 38, null, RED, 6);
+            ctx.restore();
+            if (ringK < 1) circle(cx, cy, 38 + (1 - ringK) * 34, null, rgba(RED, 0.6 * (1 - ringK)), 3);
+            ctx.font = "70px " + FONT; ctx.fillStyle = RED; ctx.textAlign = "center";
+            ctx.fillText("8", cx, cy + 6);
+          }
+        } else {
+          const k = seg(T, 13.9, 17.5);
+          cam(1.15 + 0.1 * k, 540 + 28 * Math.sin(T - 13.9), 900);
+          ctx.fillStyle = "#07080c"; ctx.fillRect(-500, -500, W + 1000, H + 1000);
+          // Haz de linterna que barre
+          const sweep = (T - 13.9) * 0.55 - 0.35;
+          const lxA = 540 + Math.sin(sweep) * 380;
+          ctx.beginPath();
+          ctx.moveTo(lxA, 380); ctx.lineTo(lxA - 270, 1240); ctx.lineTo(lxA + 270, 1240); ctx.closePath();
+          ctx.fillStyle = "rgba(255,226,150," + (0.22 + 0.12 * bump(T, 13.9, 0.3)).toFixed(3) + ")";
+          ctx.fill();
+          // Pila de papeles
+          for (let i = 8; i >= 0; i--) {
+            const wob = Math.sin(T * 0.8 + i) * 4;
+            ctx.save(); ctx.translate(450 + i * 8 + wob, 1150 - i * 14); ctx.rotate(wob * 0.004);
+            ctx.fillStyle = mix("#efe6d6", "#a99f88", i / 8); ctx.fillRect(-260, -18, 520, 36);
+            ctx.strokeStyle = "#7a6c52"; ctx.lineWidth = 2; ctx.strokeRect(-260, -18, 520, 36);
+            for (let r = 0; r < 3; r++) line([[-230 + r * 40, -6], [-30 - r * 30, -6]], rgba("#2c2318", 0.3 + 0.2 * hash(i + r)), 1.5);
+            ctx.restore();
+          }
+          // Lupa (revela las "actividades")
+          const mk = eOut(seg(T, 13.9, 15.0));
+          const rx = 540 + 28 * Math.sin(T - 13.9), ry = 880;
+          ctx.save(); ctx.globalAlpha = mk * 0.9;
+          circle(rx - 120, ry - 110, 165 * mk, "rgba(235,240,255,0.9)", GOLD, 12);
+          ctx.beginPath(); ctx.arc(rx - 120, ry - 110, 165 * mk, -0.7, 0.3);
+          ctx.strokeStyle = rgba("#fff", mk * 0.5); ctx.lineWidth = 8; ctx.stroke();
+          line([[rx - 120 + 140 * mk, ry - 110 + 120 * mk], [rx - 120 + 230 * mk, ry - 110 + 215 * mk]], GOLD, 18);
+          ctx.restore();
+          // Silueta del oficial apuntando
+          stick({
+            x: 850, y: 1205, s: 2.6, id: 63, dir: -1, col: "#c9ced9",
+            pose: { aB: [-0.3, 1.62], aF: [0.2, 0.1], lB: [-0.18, 0], lF: [0.2, 0], lean: -0.05, tilt: -0.05 },
+            look: -5, eyes: "wide", brows: "angry", mouth: "grit",
+            extra: (q) => {
+              ctx.beginPath(); ctx.ellipse(q.head[0], q.head[1] - 12, 34, 18, 0, Math.PI, 0);
+              ctx.closePath(); ctx.fillStyle = "#101116"; ctx.fill();
+              ctx.fillStyle = RED; ctx.fillRect(q.head[0] - 34, q.head[1] - 18, 68, 6);
+            },
+          });
+          // Irena retrocediendo
+          const back = seg(T, 16.8, 17.5);
+          irena({
+            x: 360 - 40 * back, y: 1200, s: 2.4, dir: 1,
+            pose: blendPose(idlePose(7), { aB: [0.55, 1.9], aF: [0.55, 2.05], lB: [-0.18, 0], lF: [0.22, 0], lean: 0.1, tilt: -0.15 }, eIO(seg(T, 14.2, 14.6))),
+            look: -6, eyes: "wide", brows: "sad", mouth: "o", sq: 1 - 0.09 * bump(T, 16.9, 0.25),
+          });
+        }
+      }
+
+
+      // ======================================================================
+      // ESCENA 5 (17.5 - 20.0): "La arrestaron, la torturaron"
+      // ======================================================================
+      function scene5() {
+        cam(1 + 0.05 * seg(T, 17.5, 20) + 0.02 * bump(T, 18.4, 0.4), 540, 900);
+        const bg = ctx.createRadialGradient(540, 880, 60, 540, 880, 1150);
+        bg.addColorStop(0, "#2c2622"); bg.addColorStop(1, "#08080a");
+        ctx.fillStyle = bg; ctx.fillRect(-500, -500, W + 1000, H + 1000);
+        // Suelo
+        ctx.fillStyle = "#0b0c10"; ctx.fillRect(-500, 1280, W + 1000, H - 1280);
+        line([[-500, 1280], [W + 500, 1280]], "#2a2a30", 4);
+        // Luz de pared (parpadeo)
+        const flick = 0.55 + 0.18 * Math.sin(T * 9) * Math.sin(T * 41);
+        const lampG = ctx.createRadialGradient(820, 540, 20, 820, 540, 400);
+        lampG.addColorStop(0, "rgba(255,210,132," + (0.6 * flick).toFixed(3) + ")");
+        lampG.addColorStop(1, "rgba(255,210,132,0)");
+        ctx.fillStyle = lampG; ctx.fillRect(480, 200, 720, 760);
+        ctx.fillStyle = "#2a231c"; ctx.fillRect(770, 490, 100, 80);
+        circle(820, 540, 36, "rgba(255,220,150," + flick.toFixed(3) + ")", "#7a5a2a", 4);
+        // Barras de la celda (primer plano, abajo)
+        for (let i = 0; i < 7; i++) {
+          const x = 110 + i * 155;
+          line([[x, 950], [x - 40, H + 160]], "#3a3a42", 20);
+          line([[x, 950], [x - 40, H + 160]], "#25252c", 6);
+        }
+        // Sombra de Irena
+        ctx.save(); ctx.globalAlpha = 0.45; ctx.fillStyle = "#000";
+        ctx.beginPath(); ctx.moveTo(330, 1298); ctx.lineTo(470, 1298); ctx.lineTo(520, 1240);
+        ctx.lineTo(455, 1040); ctx.lineTo(370, 1040); ctx.closePath(); ctx.fill(); ctx.restore();
+        const strike = T > 18.32 && T < 18.72;
+        const sq = strike ? 1 - 0.12 * bump(T, 18.4, 0.3) : 1;
+        // Oficial con porra
+        const armP = strike
+          ? { aB: [0.5, -1.35], aF: [1.1, 1.5], lB: [0.18, 0], lF: [0.26, 0], lean: 0.5, tilt: -0.16 }
+          : { aB: [0.5, -1.15], aF: [1.15, 1.3], lB: [0.2, 0], lF: [0.26, 0], lean: 0.3, tilt: -0.05 };
+        stick({
+          x: 720, y: 1300, s: 2.7, id: 66, dir: -1, col: "#cfd4df",
+          pose: armP, look: -5, eyes: "open", brows: "angry", mouth: "grit",
+          extra: (q) => {
+            ctx.beginPath(); ctx.ellipse(q.head[0], q.head[1] - 12, 34, 18, 0, Math.PI, 0);
+            ctx.closePath(); ctx.fillStyle = "#101116"; ctx.fill();
+            ctx.fillStyle = RED; ctx.fillRect(q.head[0] - 34, q.head[1] - 18, 68, 6);
+            const h = q.handF;
+            line([[h[0], h[1]], [h[0] - 22, h[1] + 100]], "#4a3b2a", 20);
+            circle(h[0] - 22, h[1] + 100, 16, "#160e08");
+          },
+        });
+        // Irena cayendo / agarrada
+        const fall = seg(T, 18.4, 19.3);
+        const easeFall = eOut(fall) ** 0.6;
+        const fallY = 1295 + 40 * easeFall;
+        const fallRot = 0.5 * fall;
+        irena({
+          x: 430 - 20 * fall, y: fallY, s: 2.4, dir: 1, rot: -fallRot,
+          pose: { aB: [2.35, -0.55], aF: [2.42, -0.66], lB: [-0.14, 0], lF: [0.2, 0], lean: -0.05, tilt: 0.22 - 0.4 * fall },
+          look: -6, eyes: fall > 0.35 ? "closed" : "wide", brows: "sad", mouth: "o", sq,
+        });
+        // Chispas / impacto en el golpe
+        if (T > 18.35 && T < 18.8) {
+          const pp = clamp((T - 18.35) / 0.45, 0, 1);
+          for (let i = 0; i < 9; i++) {
+            const a = (i / 9) * Math.PI * 2 + T * 8;
+            const r = 14 + 70 * pp;
+            circle(530 + Math.cos(a) * r, 960 + Math.sin(a) * r * 0.7, 4 * (1 - pp) + 2, rgba("#ffcf8a", 0.7 - pp * 0.6));
+          }
+        }
+        // Rostro dolido (gotas)
+        if (T > 18.8) {
+          const p = clamp((T - 18.8) / 0.5, 0, 1);
+          ctx.save(); ctx.globalAlpha = (1 - p) * 0.7;
+          for (let i = 0; i < 6; i++) {
+            circle(428 + Math.cos(i * 1.1) * 12 * (1 + p * 4), 930 + Math.sin(i * 1.1) * 8 + 14 * p, 4 + p * 6, RED);
+          }
+          ctx.restore();
+        }
+      }
+
+

@@ -1,0 +1,91 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #080b16;
+      color: #f7f8ff;
+      font-family: Inter, Montserrat, sans-serif;
+    }
+    .background {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 43%, #1c2850 0%, #10162d 36%, #080b16 72%);
+    }
+    .glow {
+      position: absolute; width: 780px; height: 780px; left: 150px; top: 520px;
+      border-radius: 50%; background: #6b5cff; opacity: .22; filter: blur(100px);
+    }
+    .ring {
+      position: absolute; left: 180px; top: 550px; width: 720px; height: 720px;
+      border: 2px solid rgba(125, 240, 255, .25); border-radius: 50%;
+      box-shadow: 0 0 55px rgba(93, 220, 255, .08), inset 0 0 55px rgba(93, 220, 255, .04);
+    }
+    .eyebrow {
+      position: absolute; top: 610px; left: 0; width: 100%; text-align: center;
+      font-size: 25px; font-weight: 700; letter-spacing: 9px; color: #9defff;
+    }
+    .headline {
+      position: absolute; top: 755px; left: 70px; width: 940px; text-align: center;
+      font-size: 100px; line-height: .98; font-weight: 900; letter-spacing: -3px;
+      text-wrap: balance; text-shadow: 0 8px 35px rgba(0,0,0,.22);
+    }
+    .line-one { display: block; color: #f8f9ff; }
+    .line-two { display: block; margin-top: 22px; color: #83f1ff; }
+    .rule {
+      position: absolute; top: 1080px; left: 390px; width: 300px; height: 5px;
+      border-radius: 99px; background: linear-gradient(90deg, #6b5cff, #83f1ff);
+      box-shadow: 0 0 28px rgba(131,241,255,.45);
+    }
+    .subline {
+      position: absolute; top: 1140px; left: 90px; width: 900px; text-align: center;
+      font-size: 27px; font-weight: 500; letter-spacing: 3px; color: #c4cbe5;
+    }
+    .footer {
+      position: absolute; bottom: 160px; left: 0; width: 100%; text-align: center;
+      font-size: 20px; font-weight: 700; letter-spacing: 6px; color: rgba(226,235,255,.7);
+    }
+    .spark {
+      position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #9defff;
+      box-shadow: 0 0 18px #83f1ff;
+    }
+    #spark-a { left: 210px; top: 700px; }
+    #spark-b { right: 205px; top: 1040px; width: 5px; height: 5px; }
+    #spark-c { left: 300px; top: 1260px; width: 4px; height: 4px; }
+  </style>
+  <div id="root" data-composition-id="texto-animado" data-width="1080" data-height="1920" data-motion-blur="on">
+    <div class="background"></div>
+    <div class="glow"></div>
+    <div id="ring" class="ring"></div>
+    <div id="eyebrow" class="eyebrow clip" data-start="0.25" data-duration="7.5">UNA IDEA PUEDE CAMBIARLO TODO</div>
+    <div id="headline" class="headline clip" data-start="0.45" data-duration="7.3">
+      <span id="line-one" class="line-one" data-var-text="linea1">LAS IDEAS</span>
+      <span id="line-two" class="line-two" data-var-text="linea2">COBRAN VIDA</span>
+    </div>
+    <div id="rule" class="rule clip" data-start="1.15" data-duration="6.6"></div>
+    <div id="subline" class="subline clip" data-start="1.4" data-duration="6.4">DA FORMA A LO QUE IMAGINAS</div>
+    <div id="spark-a" class="spark"></div><div id="spark-b" class="spark"></div><div id="spark-c" class="spark"></div>
+    <div id="footer" class="footer clip" data-start="2.0" data-duration="5.8" data-var-text="firma">IMAGINA. CREA. IMPACTA.</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo(".background", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 0);
+    tl.fromTo(".glow", { opacity: 0, scale: 0.72 }, { opacity: 0.22, scale: 1, duration: 1.1, ease: "power2.out" }, 0.1);
+    tl.fromTo("#ring", { opacity: 0, scale: 0.78, rotation: -14 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.8, ease: "power4.out" }, 0.2);
+    tl.fromTo("#eyebrow", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.28, ease: "power4.out" }, 0.35);
+    tl.fromTo("#line-one", { opacity: 0, y: 34, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.48, ease: "expo.out" }, 0.55);
+    tl.fromTo("#line-two", { opacity: 0, y: 42, scale: 0.92, filter: "blur(12px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.62, ease: "back.out(1.18)" }, 0.83);
+    tl.fromTo("#rule", { scaleX: 0, opacity: 0, transformOrigin: "50% 50%" }, { scaleX: 1, opacity: 1, duration: 0.42, ease: "power3.out" }, 1.25);
+    tl.fromTo("#subline", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.38, ease: "power3.out" }, 1.48);
+    tl.fromTo("#footer", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "power2.out" }, 2.0);
+    tl.fromTo("#spark-a", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(1.5)" }, 1.0);
+    tl.fromTo("#spark-b", { opacity: 0, scale: 0 }, { opacity: 0.9, scale: 1, duration: 0.18, ease: "back.out(1.5)" }, 1.42);
+    tl.fromTo("#spark-c", { opacity: 0, scale: 0 }, { opacity: 0.75, scale: 1, duration: 0.18, ease: "back.out(1.5)" }, 1.7);
+    tl.to("#ring", { rotation: 4, duration: 5.7, ease: "power1.inOut" }, 1.0);
+    tl.to(".glow", { opacity: 0.28, duration: 2.4, ease: "sine.inOut" }, 2.0);
+    tl.to("#headline", { scale: 1.015, duration: 0.7, ease: "power2.out" }, 1.0);
+    tl.to("#headline", { scale: 1, duration: 0.6, ease: "power2.inOut" }, 1.7);
+    tl.to("#footer", { opacity: 0, filter: "blur(5px)", duration: 0.22, ease: "power2.in" }, 7.65);
+    window.__timelines["texto-animado"] = tl;
+  </script>
+</template>

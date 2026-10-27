@@ -1,0 +1,14 @@
+const fs = require('fs');
+const p = 'D:\\hyperframes-studio\\irena-kurzgesagt\\audio\\transcript.md';
+const t = require('D:\\hyperframes-studio\\irena-kurzgesagt\\audio\\transcript.json');
+const f = (x) => (x ? '| ' + x.text.replace(/,/g, '').replace(/;/g, '') + ' | ' + x.start.toFixed(2) + ' |' : '| — | — |');
+const tris = [];
+for (let i = 0; i < t.length; i += 3) tris.push([f(t[i]), f(t[i + 1]), f(t[i + 2])].join(''));
+const header = '| **Palabra** | **t (s)** | **Palabra** | **t (s)** | **Palabra** | **t (s)** |\n|---|---|---|---|---|---|\n';
+const body = tris.join('\n');
+let md = fs.readFileSync(p, 'utf8');
+const idx = md.indexOf('## Palabras');
+const pre = md.slice(0, idx);
+md = pre + '## Palabras con timestamp (inicio)\n\n`t` = segundos desde el inicio del audio (inicio de cada palabra, desde `audio/transcript.json`).\n\n' + header + body + '\n';
+fs.writeFileSync(p, md);
+console.log('words:', t.length, 'rows:', tris.length);

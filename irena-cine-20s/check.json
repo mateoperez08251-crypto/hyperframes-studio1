@@ -1,0 +1,251 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "composition_file_too_large",
+        "severity": "warning",
+        "message": "This HTML composition file has 966 lines. Smaller sub-compositions are easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/content/hyperframes-studio/irena-cine-20s/compositions/story.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+      }
+    ],
+    "filesScanned": 3
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 3,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 5.556,
+        "selector": "#cap-g6-w1 > span:nth-of-type(1)",
+        "message": "Nowrap text is wider than its container.",
+        "rect": {
+          "left": 119.1,
+          "top": 1369.48,
+          "right": 289.09,
+          "bottom": 1464.71,
+          "width": 169.99,
+          "height": 95.23
+        },
+        "containerSelector": "#cap-g6-w1",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 126.5,
+          "top": 1373.63,
+          "right": 281.68,
+          "bottom": 1460.56,
+          "width": 155.17,
+          "height": 86.93
+        },
+        "overflow": {
+          "left": 7.4,
+          "right": 7.41
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/captions.html",
+        "bbox": {
+          "x": 119.1,
+          "y": 1369.48,
+          "width": 169.99,
+          "height": 95.23
+        },
+        "firstSeen": 5.556,
+        "lastSeen": 5.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          5.556
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 14.444,
+        "selector": "#cap-g11-w4 > span:nth-of-type(1)",
+        "message": "Nowrap text is wider than its container.",
+        "rect": {
+          "left": 733.9,
+          "top": 1374.07,
+          "right": 963.3,
+          "bottom": 1455.93,
+          "width": 229.39,
+          "height": 81.87
+        },
+        "containerSelector": "#cap-g11-w4",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 741.91,
+          "top": 1376.92,
+          "right": 955.3,
+          "bottom": 1453.08,
+          "width": 213.39,
+          "height": 76.16
+        },
+        "overflow": {
+          "left": 8.01,
+          "right": 8
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/captions.html",
+        "bbox": {
+          "x": 733.9,
+          "y": 1374.07,
+          "width": 229.39,
+          "height": 81.87
+        },
+        "firstSeen": 14.444,
+        "lastSeen": 14.444,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          14.444
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 16.667,
+        "selector": "#cap-g13-w2 > span:nth-of-type(1)",
+        "message": "Nowrap text is wider than its container.",
+        "rect": {
+          "left": 230.02,
+          "top": 1375.13,
+          "right": 296.61,
+          "bottom": 1454.87,
+          "width": 66.59,
+          "height": 79.74
+        },
+        "containerSelector": "#cap-g13-w2",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 232.45,
+          "top": 1378.05,
+          "right": 294.17,
+          "bottom": 1451.95,
+          "width": 61.72,
+          "height": 73.91
+        },
+        "overflow": {
+          "left": 2.43,
+          "right": 2.44
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/captions.html",
+        "bbox": {
+          "x": 230.02,
+          "y": 1375.13,
+          "width": 66.59,
+          "height": 79.74
+        },
+        "firstSeen": 16.667,
+        "lastSeen": 16.667,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          16.667
+        ]
+      }
+    ],
+    "duration": 20,
+    "samples": [
+      1.111,
+      3.333,
+      5.556,
+      7.778,
+      10,
+      12.222,
+      14.444,
+      16.667,
+      18.889
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 3,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.111,
+      5.556,
+      10,
+      14.444,
+      18.889
+    ],
+    "checked": 15,
+    "passed": 15
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 160
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  },
+  "saved": {
+    "id": "11da6e49-9496-4841-ae76-1833de059535",
+    "revision": null,
+    "report": "/content/hyperframes-studio/irena-cine-20s/.hyperframes/artifacts/checks/11da6e49-9496-4841-ae76-1833de059535.json",
+    "attribution": "unversioned"
+  },
+  "_meta": {
+    "version": "0.8.193",
+    "latestVersion": "0.8.208",
+    "updateAvailable": true
+  }
+}

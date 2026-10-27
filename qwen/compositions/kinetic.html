@@ -1,0 +1,327 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #0a0e1a; font-family: "Archivo Black", sans-serif; }
+    #k-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 70% at 50% 50%, #1b1440 0%, #0d0a28 50%, #02030a 100%); }
+    #k-grid { position: absolute; inset: -140px; background-image: radial-gradient(rgba(124,92,255,0.14) 1.6px, transparent 2px); background-size: 52px 52px; }
+    #k-vig  { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.78) 100%); }
+    #k-cam  { position: absolute; inset: 0; }
+    #k-debris { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+    .k-shard  { position: absolute; left: 0; top: 0; border-radius: 3px; }
+    .phrase   { position: absolute; inset: 0; }
+    .pin      { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.06em; }
+    .line     { display: flex; align-items: baseline; justify-content: center; white-space: nowrap; line-height: 1.04; gap: 0.30em; }
+    .line.letters { gap: 0.05em; }
+    .w        { display: inline-block; }
+    .wi       { display: inline-block; color: #eef2ff; }
+    .accent   .wi { color: #22d3ee; }
+    .hot      .wi { color: #a78bfa; }
+    #k-p1 .line { font-size: 430px; }
+    #k-p2 .line { font-size: 285px; }
+    #k-p3 .line { font-size: 360px; }
+    #k-p4 .l1   { font-size: 220px; }
+    #k-p4 .l2   { font-size: 380px; }
+    #k-flash  { position: absolute; inset: 0; background: #66d0ff; opacity: 0; mix-blend-mode: screen; pointer-events: none; }
+    #k-ghost  { position: absolute; font-size: 430px; }
+    #k-ghost .wi { color: transparent; -webkit-text-stroke: 4px rgba(124,92,255,0.55); }
+  </style>
+
+  <div id="root" data-composition-id="kinetic" data-width="1920" data-height="1080">
+    <div id="k-bg"></div>
+    <div id="k-grid" data-layout-ignore></div>
+    <div id="k-vig" data-layout-ignore></div>
+
+    <div id="k-cam" data-layout-allow-overflow>
+      <div id="k-debris" data-layout-ignore></div>
+
+      <!-- Frase 1: ¡GOG! letra por letra -->
+      <div id="k-p1" class="phrase clip" data-start="0" data-duration="2.0" data-layout-allow-overflow>
+        <div class="pin" data-layout-allow-overlap>
+          <div id="k-ghost" class="line letters" data-layout-ignore>
+            <span class="w"><span class="wi">G</span></span>
+            <span class="w"><span class="wi">O</span></span>
+            <span class="w"><span class="wi">G</span></span>
+            <span class="w"><span class="wi">!</span></span>
+          </div>
+          <div class="line letters">
+            <span id="k-g1" class="w"><span class="wi">G</span></span>
+            <span id="k-g2" class="w"><span class="wi">O</span></span>
+            <span id="k-g3" class="w accent"><span class="wi">G</span></span>
+            <span id="k-gbang" class="w hot"><span class="wi">!</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frase 2: ¿QWEN 3.8? -->
+      <div id="k-p2" class="phrase clip" data-start="1.35" data-duration="1.25" data-layout-allow-overflow>
+        <div class="pin" data-layout-allow-overlap>
+          <div class="line">
+            <span id="k-wen" class="w"><span class="wi">¿QWEN</span></span>
+            <span id="k-v38" class="w accent"><span class="wi">3.8?</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frase 3: ¡LO MEJOR! -->
+      <div id="k-p3" class="phrase clip" data-start="2.45" data-duration="1.6" data-layout-allow-overflow>
+        <div class="pin" data-layout-allow-overlap>
+          <div class="line">
+            <span id="k-w-lo" class="w"><span class="wi">LO</span></span>
+            <span id="k-w-mejor" class="w hot"><span class="wi">¡MEJOR!</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frase 4: SOLO / CÓDIGO (cierre) -->
+      <div id="k-p4" class="phrase clip" data-start="4.1" data-duration="5.9" data-layout-allow-overflow>
+        <div class="pin" data-layout-allow-overlap>
+          <div class="line l1"><span id="k-w-solo" class="w"><span class="wi">SOLO</span></span></div>
+          <div class="line l2"><span id="k-w-codigo" class="w accent"><span class="wi">CÓDIGO</span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="k-flash" data-layout-allow-occlusion data-layout-ignore></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const $ = (s) => document.querySelector(s);
+
+      // RNG determinista mulberry32
+      function rng(seed) {
+        let a = seed >>> 0;
+        return function () {
+          a |= 0; a = (a + 0x6d2b79f5) | 0;
+          let t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      // Sombras: extrución dura + sombra suave
+      function hex(c){ const n = parseInt(c.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+      function mix(a,b,k){
+        const A=hex(a), B=hex(b);
+        return "rgb(" + A.map((v,i)=>Math.round(v+(B[i]-v)*k)).join(",") + ")";
+      }
+      function extrude(depth, from, to){
+        const p=[];
+        for (let i=1;i<=depth;i++) p.push(i+"px "+i+"px 0 "+mix(from,to,i/depth));
+        p.push(Math.round(depth*0.9)+"px "+Math.round(depth*1.8)+"px "+Math.round(depth*2.6)+"px rgba(0,0,0,0.72)");
+        return p.join(",");
+      }
+      document.querySelectorAll("#root .line").forEach((line)=>{
+        if (line.id === "k-ghost") return;
+        const size = parseFloat(getComputedStyle(line).fontSize) || 240;
+        const depth = Math.max(8, Math.round(size * 0.055));
+        line.querySelectorAll(".w").forEach((w)=>{
+          const cls = w.classList.contains("accent") ? 1 : (w.classList.contains("hot") ? 2 : 0);
+          const fromA= cls===1 ? "#0e6b78" : (cls===2 ? "#4c34d4" : "#757f9a");
+          const toA  = cls===1 ? "#03161a" : (cls===2 ? "#1c1248" : "#1c2036");
+          w.querySelector(".wi").style.textShadow = extrude(depth, fromA, toA);
+        });
+      });
+
+      const cam = $("#k-cam");
+      const flashEl = $("#k-flash");
+      const STEP = 1/60;
+      const debrisEl = $("#k-debris");
+
+      function bake(el, fn, ranges){
+        ranges.sort((a,b)=>a[0]-b[0]);
+        const merged = [];
+        ranges.forEach((r)=>{
+          const last = merged[merged.length-1];
+          if (last && r[0] <= last[1]) last[1] = Math.max(last[1], r[1]);
+          else merged.push([r[0], r[1]]);
+        });
+        merged.forEach(([a,b])=>{
+          let prev = fn(a);
+          for (let t=a; t<b-1e-6; t+=STEP){
+            const t2 = Math.min(b, t+STEP);
+            const next = t2 >= b-1e-6 ? {x:0,y:0,rotation:0} : fn(t2);
+            tl.fromTo(el, prev, Object.assign({duration:t2-t, ease:"none", immediateRender:false}, next), t);
+            prev = next;
+          }
+        });
+      }
+
+      // Sacudida de cámara
+      const impacts = [];
+      function shake(t, amp){
+        const r = rng(Math.round(t*1000)+11);
+        impacts.push({
+          t, amp, D: 0.32 + amp/70,
+          px: r()*6.28, py: r()*6.28,
+          fx: 11+r()*6, fy: 9+r()*6
+        });
+      }
+      function camAt(time){
+        let x=0,y=0;
+        impacts.forEach((m)=>{
+          const dt = time - m.t;
+          if (dt<0 || dt>=m.D) return;
+          const env = Math.exp(-7*dt) * Math.pow(1-dt/m.D, 2) * m.amp;
+          x += env * Math.sin(6.2832*m.fx*dt + m.px);
+          y += env * Math.sin(6.2832*m.fy*dt + m.py);
+        });
+        return { x, y, rotation: x*0.04 };
+      }
+      function bakeCamera(){ bake(cam, camAt, impacts.map(m=>[m.t, m.t+m.D])); }
+
+      function flash(t, a){
+        tl.fromTo(flashEl, { opacity:a }, { opacity:0, duration:0.34, ease:"power2.out", immediateRender:false }, t);
+      }
+
+      // Esquirlas
+      function burst(t, count, seed){
+        const r = rng(seed);
+        for (let i=0;i<count;i++){
+          const s = document.createElement("div");
+          s.className = "k-shard";
+          const size = 12 + r()*26;
+          s.style.width = size + "px";
+          s.style.height = size * (0.30 + r()*0.55) + "px";
+          s.style.background = r()<0.4 ? "#22d3ee" : (r()<0.7 ? "#7c5cff" : "#eef2ff");
+          s.style.opacity = "0";
+          debrisEl.appendChild(s);
+          const ang = r()*Math.PI*2;
+          const dist = 420 + r()*540;
+          const tx = 960 + Math.cos(ang)*dist*1.5;
+          const ty = 540 + Math.sin(ang)*dist*0.85 + 140;
+          tl.fromTo(s, {x:960, y:540, rotation:r()*360, scale:1},
+            {x:tx, y:ty, rotation:"+="+(260 + r()*420), scale:0.3,
+             duration: 0.75 + r()*0.35, ease:"power3.out"}, t);
+          tl.set(s, {opacity:1}, t);
+          tl.fromTo(s, {opacity:1}, {opacity:0, duration:0.5, ease:"power1.in", immediateRender:false}, t+0.28);
+        }
+      }
+
+      // Slam
+      function slam(id, t, o){
+        const w = $(id);
+        const wi = w.querySelector(".wi");
+        const d = o.dur || 0.20;
+        tl.fromTo(w,
+          { x:o.dx||0, y:o.dy||0, scale:o.s||1.8, rotation:o.r||0, filter:"blur(16px)" },
+          { x:0, y:0, scale:1, rotation:0, filter:"blur(0px)", duration:d, ease:"power3.in" }, t - d);
+        tl.fromTo(w, {opacity:0}, {opacity:1, duration:0.05, ease:"none"}, t-d);
+        const sx = o.big ? 1.26 : 1.16, sy = o.big ? 0.74 : 0.84;
+        const vertical = Math.abs(o.dy||0) > Math.abs(o.dx||0);
+        tl.fromTo(wi,
+          vertical ? { scaleX:sx, scaleY:sy } : { scaleX:sy, scaleY:sx },
+          { scaleX:1, scaleY:1, duration:0.55, ease:"elastic.out(1, 0.4)",
+            immediateRender:false, transformOrigin:"50% 70%" }, t);
+      }
+
+      // Recoil: palabras ya clavadas absorben el golpe
+      const RD = 0.75;
+      const recoils = new Map();
+      function recoil(ids, t, dx, dy, rot){
+        ids.forEach((id, i)=>{
+          const wi = $(id).querySelector(".wi");
+          const k = 1 - i*0.12;
+          if (!recoils.has(wi)) recoils.set(wi, []);
+          recoils.get(wi).push({t, dx:dx*k, dy:dy*k, rot:rot*k});
+        });
+      }
+      function recoilProfile(dt){
+        if (dt<0 || dt>=RD) return 0;
+        if (dt<0.06) return Math.sin((Math.PI/2)*(dt/0.06));
+        const u = dt - 0.06;
+        return Math.exp(-6*u) * Math.cos(6.2832*3*u) * Math.pow(1 - u/(RD-0.06), 2);
+      }
+      function bakeRecoils(){
+        recoils.forEach((list, wi)=>{
+          const fn = (t)=>{
+            let x=0,y=0,r=0;
+            list.forEach((h)=>{
+              const p = recoilProfile(t - h.t);
+              x += h.dx*p; y += h.dy*p; r += h.rot*p;
+            });
+            return {x, y, rotation: r};
+          };
+          bake(wi, fn, list.map(h=>[h.t, h.t+RD]));
+        });
+      }
+
+      function knock(sel, t, o){
+        tl.fromTo($(sel),
+          { x:0, y:0, rotation:0, scale:1, filter:"blur(0px)" },
+          { x:o.x||0, y:o.y||0, rotation:o.r||0, scale:0.85, filter:"blur(12px)", duration:0.5, ease:"power2.out" }, t-0.02);
+      }
+
+      // Red de fondo deriva
+      tl.fromTo("#k-grid", {x:0, y:0}, {x:-104, y:-52, duration:10, ease:"none"}, 0);
+
+      // ------ FRASE 1: ¡GOG! (letras se chocan entre sí) ------
+      slam("#k-g1", 0.30, { dx:1100, s:1.7, r:12 });
+      shake(0.30, 12);
+
+      slam("#k-g2", 0.50, { dx:1100, s:1.7, r:8 });
+      recoil(["#k-g1"], 0.50, -28, 0, -3);
+      shake(0.50, 14);
+
+      slam("#k-g3", 0.70, { dx:1200, dy:60, s:2.3, r:-12, big:true, dur:0.24 });
+      recoil(["#k-g2","#k-g1"], 0.70, -30, 0, -4);
+      shake(0.70, 30);
+      flash(0.70, 0.32);
+      burst(0.70, 22, 12);
+
+      slam("#k-gbang", 0.90, { dy:-620, s:2.6, r:-14, big:true, dur:0.22 });
+      recoil(["#k-g3","#k-g2","#k-g1"], 0.90, 0, -22, 2);
+      shake(0.90, 24);
+      flash(0.90, 0.30);
+      tl.fromTo("#k-ghost", { opacity:1 }, { opacity:0, duration:0.3, ease:"power2.out" }, 1.0);
+
+      // ------ FRASE 2: ¿QWEN 3.8? ------
+      knock("#k-p1 .pin", 1.45, { x:1500, y:-200, r:14 });
+      shake(1.45, 22);
+
+      slam("#k-wen", 1.55, { dx:-1200, s:1.8, r:-10 });
+      shake(1.55, 14);
+
+      slam("#k-v38", 1.71, { dy:760, s:2.5, r:8, big:true, dur:0.24 });
+      recoil(["#k-wen"], 1.71, -24, 0, -2);
+      shake(1.71, 28);
+      flash(1.71, 0.34);
+      burst(1.71, 24, 41);
+
+      // ------ FRASE 3: ¡LO MEJOR! ------
+      knock("#k-p2 .pin", 2.55, { x:-1400, y:80, r:-10 });
+      shake(2.55, 20);
+
+      slam("#k-w-lo", 2.60, { dx:1100, s:1.7, r:8 });
+      shake(2.60, 12);
+
+      slam("#k-w-mejor", 2.85, { dy:-780, s:2.6, r:-6, big:true, dur:0.24 });
+      recoil(["#k-w-lo"], 2.85, -28, 0, -3);
+      shake(2.85, 30);
+      flash(2.85, 0.36);
+      burst(2.85, 26, 77);
+
+      // ------ FRASE 4: SOLO / CÓDIGO (cierre) ------
+      knock("#k-p3 .pin", 4.20, { x:1500, y:220, r:12 });
+      shake(4.20, 22);
+
+      slam("#k-w-solo", 4.24, { dx:1100, s:1.8, r:-8 });
+      shake(4.24, 14);
+
+      slam("#k-w-codigo", 4.45, { dy:780, s:3.0, r:4, big:true, dur:0.26 });
+      recoil(["#k-w-solo"], 4.45, 0, -28, 0);
+      shake(4.45, 38);
+      flash(4.45, 0.46);
+      burst(4.45, 34, 99);
+
+      // Respiración final sobre CÓDIGO
+      tl.fromTo("#k-w-codigo .wi", { scale:1 },
+        { scale:1.06, duration:1.8, ease:"sine.inOut", yoyo:true, repeat:1 }, 5.0);
+
+      bakeCamera();
+      bakeRecoils();
+
+      window.__timelines["kinetic"] = tl;
+    })();
+  </script>
+</template>

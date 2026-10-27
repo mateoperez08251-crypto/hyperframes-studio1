@@ -1,0 +1,291 @@
+﻿{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "composition_file_too_large",
+        "severity": "warning",
+        "message": "This HTML composition file has 966 lines. Smaller sub-compositions are easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "D:\\hyperframes-studio\\irena-sendler\\compositions\\story.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Split this sub-composition further into smaller .html files, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+      }
+    ],
+    "filesScanned": 3
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 4,
+    "findings": [
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 5.233,
+        "selector": "#cap-g5-w3 > span:nth-of-type(1)",
+        "message": "Nowrap text is wider than its container.",
+        "rect": {
+          "left": 620.61,
+          "top": 1189.93,
+          "right": 869.45,
+          "bottom": 1280.06,
+          "width": 248.83,
+          "height": 90.13
+        },
+        "containerSelector": "#cap-g5-w3",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 624.44,
+          "top": 1191.31,
+          "right": 865.63,
+          "bottom": 1278.67,
+          "width": 241.19,
+          "height": 87.36
+        },
+        "overflow": {
+          "left": 3.83,
+          "right": 3.82
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/captions.html",
+        "bbox": {
+          "x": 620.61,
+          "y": 1189.93,
+          "width": 248.83,
+          "height": 90.13
+        },
+        "firstSeen": 5.233,
+        "lastSeen": 5.233,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          5.233
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 8.722,
+        "selector": "#cap-g8-w2 > span:nth-of-type(1)",
+        "message": "Nowrap text is wider than its container.",
+        "rect": {
+          "left": 358.77,
+          "top": 1189.3,
+          "right": 695.53,
+          "bottom": 1280.69,
+          "width": 336.76,
+          "height": 91.39
+        },
+        "containerSelector": "#cap-g8-w2",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 366.19,
+          "top": 1191.31,
+          "right": 688.11,
+          "bottom": 1278.67,
+          "width": 321.92,
+          "height": 87.36
+        },
+        "overflow": {
+          "left": 7.42,
+          "right": 7.42
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/captions.html",
+        "bbox": {
+          "x": 358.77,
+          "y": 1189.3,
+          "width": 336.76,
+          "height": 91.39
+        },
+        "firstSeen": 8.722,
+        "lastSeen": 8.722,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          8.722
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 22.678,
+        "selector": "#cap-g18-w2 > span:nth-of-type(1)",
+        "message": "Nowrap text is wider than its container.",
+        "rect": {
+          "left": 221.2,
+          "top": 1189.08,
+          "right": 516.09,
+          "bottom": 1280.91,
+          "width": 294.89,
+          "height": 91.83
+        },
+        "containerSelector": "#cap-g18-w2",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 232,
+          "top": 1192.44,
+          "right": 505.3,
+          "bottom": 1277.55,
+          "width": 273.3,
+          "height": 85.11
+        },
+        "overflow": {
+          "left": 10.8,
+          "right": 10.79
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/captions.html",
+        "bbox": {
+          "x": 221.2,
+          "y": 1189.08,
+          "width": 294.89,
+          "height": 91.83
+        },
+        "firstSeen": 22.678,
+        "lastSeen": 22.678,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.678
+        ]
+      },
+      {
+        "code": "canvas_content_at_edge",
+        "severity": "info",
+        "time": 26.167,
+        "selector": "#st-canvas",
+        "message": "Canvas content touches the frame edge (left).",
+        "rect": {
+          "left": 0,
+          "top": 0,
+          "right": 1080,
+          "bottom": 1920,
+          "width": 1080,
+          "height": 1920
+        },
+        "containerSelector": "#root",
+        "fixHint": "Keep drawn text inside the visible part of the canvas, or mark intentional full-bleed art with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1080,
+          "bottom": 1920,
+          "width": 1080,
+          "height": 1920
+        },
+        "dataAttributes": {},
+        "sourceFile": "compositions/story.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 1920
+        },
+        "firstSeen": 26.167,
+        "lastSeen": 26.167,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          26.167
+        ]
+      }
+    ],
+    "duration": 31.4,
+    "samples": [
+      1.744,
+      5.233,
+      8.722,
+      12.211,
+      15.7,
+      19.189,
+      22.678,
+      26.167,
+      29.656
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 4,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      1.744,
+      8.722,
+      15.7,
+      22.678,
+      29.656
+    ],
+    "checked": 14,
+    "passed": 14
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "step": 0.125,
+    "samples": 252
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  },
+  "saved": {
+    "id": "8e43dc39-5556-4fde-bf47-bcc63ad41fe6",
+    "revision": null,
+    "report": "D:\\hyperframes-studio\\irena-sendler\\.hyperframes\\artifacts\\checks\\8e43dc39-5556-4fde-bf47-bcc63ad41fe6.json",
+    "attribution": "unversioned"
+  },
+  "_meta": {
+    "version": "0.8.193",
+    "latestVersion": "0.8.193",
+    "updateAvailable": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "expectedVoiceStart": 0.35,
+  "measuredVoiceStart": 0.35,
+  "errorMilliseconds": 0.0,
+  "correlation": 0.9724312747782022,
+  "toleranceSeconds": 0.03333333333333333,
+  "method": "Correlaci\u00f3n del archivo de voz completo contra la mezcla final, banda 180\u20136000 Hz."
+}

@@ -1,0 +1,432 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #0e0b0a;
+      font-family: "Archivo Black", sans-serif;
+    }
+    #k-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 65% at 50% 48%, #3b2419 0%, #1b1310 48%, #0b0908 100%);
+    }
+    #k-grid {
+      position: absolute;
+      inset: -120px;
+      background-image: radial-gradient(rgba(244, 237, 228, 0.09) 1.6px, transparent 2px);
+      background-size: 48px 48px;
+    }
+    #k-vig {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 52%, rgba(0, 0, 0, 0.7) 100%);
+    }
+    #k-cam {
+      position: absolute;
+      inset: 0;
+    }
+    #k-debris {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 0;
+      height: 0;
+    }
+    .k-shard {
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 3px;
+    }
+    .phrase {
+      position: absolute;
+      inset: 0;
+    }
+    .pin {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.06em;
+    }
+    .line {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      white-space: nowrap;
+      line-height: 1.04;
+      gap: 0.24em;
+    }
+    .line.letters {
+      gap: 0.03em;
+    }
+    .w {
+      display: inline-block;
+    }
+    .wi {
+      display: inline-block;
+      color: #f4ede4;
+    }
+    .accent .wi {
+      color: #d97757;
+    }
+    #k-p1 .line { font-size: 330px; }
+    #k-p2 .l1 { font-size: 190px; }
+    #k-p2 .l2 { font-size: 330px; }
+    #k-p3 .l1, #k-p3 .l2 { font-size: 150px; }
+    #k-p3 .l3 { font-size: 270px; }
+    #k-p4 .l1 { font-size: 190px; }
+    #k-p4 .l2 { font-size: 360px; }
+    #k-flash {
+      position: absolute;
+      inset: 0;
+      background: #ffb38f;
+      opacity: 0;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    #k-ghost {
+      position: absolute;
+      font-size: 330px;
+    }
+    #k-ghost .wi {
+      color: transparent;
+      -webkit-text-stroke: 3px rgba(217, 119, 87, 0.55);
+    }
+  </style>
+
+  <div id="root" data-composition-id="kinetic" data-width="1920" data-height="1080">
+    <div id="k-bg"></div>
+    <div id="k-grid" data-layout-ignore></div>
+    <div id="k-vig" data-layout-ignore></div>
+
+    <div id="k-cam">
+      <div id="k-debris" data-layout-ignore></div>
+
+      <!-- Frase 1: CLAUDE, letra por letra -->
+      <div id="k-p1" class="phrase clip" data-start="0" data-duration="2.9" data-layout-allow-overflow>
+        <div class="pin" data-layout-allow-overlap>
+          <!-- Contorno fantasma: el frame 0 ya muestra CLAUDE -->
+          <div id="k-ghost" class="line letters" data-layout-ignore>
+            <span class="w"><span class="wi">C</span></span>
+            <span class="w"><span class="wi">L</span></span>
+            <span class="w"><span class="wi">A</span></span>
+            <span class="w"><span class="wi">U</span></span>
+            <span class="w"><span class="wi">D</span></span>
+            <span class="w"><span class="wi">E</span></span>
+          </div>
+          <div class="line letters">
+            <span id="k-c1" class="w"><span class="wi">C</span></span>
+            <span id="k-c2" class="w"><span class="wi">L</span></span>
+            <span id="k-c3" class="w"><span class="wi">A</span></span>
+            <span id="k-c4" class="w"><span class="wi">U</span></span>
+            <span id="k-c5" class="w"><span class="wi">D</span></span>
+            <span id="k-c6" class="w accent"><span class="wi">E</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frase 2: ES UNA BESTIA -->
+      <div id="k-p2" class="phrase clip" data-start="1.9" data-duration="3" data-layout-allow-overflow>
+        <div class="pin" data-layout-allow-overlap>
+          <div class="line l1">
+            <span id="k-w-es" class="w"><span class="wi">ES</span></span>
+            <span id="k-w-una" class="w"><span class="wi">UNA</span></span>
+          </div>
+          <div class="line l2">
+            <span id="k-w-bestia" class="w accent"><span class="wi">BESTIA</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frase 3: ESTO SE CREÓ SOLO CON CÓDIGO -->
+      <div id="k-p3" class="phrase clip" data-start="4" data-duration="3.85" data-layout-allow-overflow>
+        <div class="pin" data-layout-allow-overlap>
+          <div class="line l1">
+            <span id="k-w-esto" class="w"><span class="wi">ESTO</span></span>
+            <span id="k-w-se" class="w"><span class="wi">SE</span></span>
+            <span id="k-w-creo" class="w"><span class="wi">CREÓ</span></span>
+          </div>
+          <div class="line l2">
+            <span id="k-w-solo" class="w"><span class="wi">SOLO</span></span>
+            <span id="k-w-con" class="w"><span class="wi">CON</span></span>
+          </div>
+          <div class="line l3">
+            <span id="k-w-codigo" class="w accent"><span class="wi">CÓDIGO</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frase 4: ¡NO JODAS, MEN! -->
+      <div id="k-p4" class="phrase clip" data-start="7" data-duration="3" data-layout-allow-overflow>
+        <div class="pin" data-layout-allow-overlap>
+          <div class="line l1">
+            <span id="k-w-no" class="w"><span class="wi">¡NO</span></span>
+            <span id="k-w-jodas" class="w"><span class="wi">JODAS,</span></span>
+          </div>
+          <div class="line l2">
+            <span id="k-w-men" class="w accent"><span class="wi">MEN!</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="k-flash" data-layout-allow-occlusion data-layout-ignore></div>
+  </div>
+
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const $ = (s) => document.querySelector(s);
+
+      // ---------- Generador aleatorio con semilla (determinista) ----------
+      function rng(seed) {
+        let a = seed >>> 0;
+        return function () {
+          a |= 0;
+          a = (a + 0x6d2b79f5) | 0;
+          let t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      // ---------- Sombras: extrusión dura + sombra suave ----------
+      function hex(c) {
+        const n = parseInt(c.slice(1), 16);
+        return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+      }
+      function mix(a, b, k) {
+        const A = hex(a), B = hex(b);
+        return "rgb(" + A.map((v, i) => Math.round(v + (B[i] - v) * k)).join(",") + ")";
+      }
+      function extrude(depth, from, to) {
+        const p = [];
+        for (let i = 1; i <= depth; i++) p.push(i + "px " + i + "px 0 " + mix(from, to, i / depth));
+        p.push(Math.round(depth * 0.9) + "px " + Math.round(depth * 1.8) + "px " + Math.round(depth * 2.6) + "px rgba(0,0,0,0.6)");
+        return p.join(",");
+      }
+      document.querySelectorAll("#root .line:not(#k-ghost)").forEach((line) => {
+        const size = parseFloat(getComputedStyle(line).fontSize) || 200;
+        const depth = Math.max(8, Math.round(size * 0.055));
+        line.querySelectorAll(".w").forEach((w) => {
+          const accent = w.classList.contains("accent");
+          w.querySelector(".wi").style.textShadow = accent
+            ? extrude(depth, "#b05a3c", "#3a1609")
+            : extrude(depth, "#b8a796", "#2e221b");
+        });
+      });
+
+      // ---------- Piezas de movimiento ----------
+      const cam = $("#k-cam");
+      const flashEl = $("#k-flash");
+      const STEP = 1 / 60;
+
+      // Convierte una función del tiempo en tramos contiguos de 1/60 s que no se solapan
+      function bake(el, fn, ranges) {
+        ranges.sort((a, b) => a[0] - b[0]);
+        const merged = [];
+        ranges.forEach((r) => {
+          const last = merged[merged.length - 1];
+          if (last && r[0] <= last[1]) last[1] = Math.max(last[1], r[1]);
+          else merged.push([r[0], r[1]]);
+        });
+        merged.forEach(([a, b]) => {
+          let prev = fn(a);
+          for (let t = a; t < b - 1e-6; t += STEP) {
+            const t2 = Math.min(b, t + STEP);
+            const next = t2 >= b - 1e-6 ? { x: 0, y: 0, rotation: 0 } : fn(t2);
+            tl.fromTo(el, prev, Object.assign({ duration: t2 - t, ease: "none", immediateRender: false }, next), t);
+            prev = next;
+          }
+        });
+      }
+
+      // Sacudida de cámara: suma de oscilaciones amortiguadas, una por impacto
+      const impacts = [];
+      function shake(t, amp) {
+        const r = rng(Math.round(t * 1000) + 7);
+        impacts.push({ t, amp, D: 0.35 + amp / 70, px: r() * 6.28, py: r() * 6.28, fx: 11 + r() * 5, fy: 9 + r() * 5 });
+      }
+      function camAt(time) {
+        let x = 0, y = 0;
+        impacts.forEach((m) => {
+          const dt = time - m.t;
+          if (dt < 0 || dt >= m.D) return;
+          const env = Math.exp(-7 * dt) * Math.pow(1 - dt / m.D, 2) * m.amp;
+          x += env * Math.sin(6.2832 * m.fx * dt + m.px);
+          y += env * Math.sin(6.2832 * m.fy * dt + m.py);
+        });
+        return { x, y, rotation: x * 0.04 };
+      }
+      function bakeCamera() {
+        bake(cam, camAt, impacts.map((m) => [m.t, m.t + m.D]));
+      }
+
+      function flash(t, a) {
+        tl.fromTo(flashEl, { opacity: a }, { opacity: 0, duration: 0.32, ease: "power2.out", immediateRender: false }, t);
+      }
+
+      // Esquirlas que salen disparadas desde detrás de la palabra en los golpes grandes
+      const debris = $("#k-debris");
+      function burst(t, cx, cy, count, seed) {
+        const r = rng(seed);
+        for (let i = 0; i < count; i++) {
+          const s = document.createElement("div");
+          s.className = "k-shard";
+          const size = 10 + r() * 22;
+          s.style.width = size + "px";
+          s.style.height = size * (0.35 + r() * 0.5) + "px";
+          s.style.background = r() < 0.55 ? "#d97757" : "#f4ede4";
+          s.style.opacity = "0";
+          debris.appendChild(s);
+          const ang = r() * Math.PI * 2;
+          const dist = 380 + r() * 520;
+          const tx = cx + Math.cos(ang) * dist * 1.5;
+          const ty = cy + Math.sin(ang) * dist * 0.85 + 120;
+          tl.fromTo(s,
+            { x: cx, y: cy, rotation: r() * 360, scale: 1 },
+            { x: tx, y: ty, rotation: "+=" + (220 + r() * 400), scale: 0.3, duration: 0.75 + r() * 0.3, ease: "power3.out" }, t);
+          tl.set(s, { opacity: 1 }, t);
+          tl.fromTo(s, { opacity: 1 }, { opacity: 0, duration: 0.5, ease: "power1.in", immediateRender: false }, t + 0.25);
+        }
+      }
+
+      // Entrada "slam": la palabra llega acelerando y se clava con aplastamiento elástico
+      function slam(id, t, o) {
+        const w = $(id);
+        const wi = w.querySelector(".wi");
+        const d = o.dur || 0.2;
+        tl.fromTo(w,
+          { x: o.dx || 0, y: o.dy || 0, scale: o.s || 1.8, rotation: o.r || 0, filter: "blur(14px)" },
+          { x: 0, y: 0, scale: 1, rotation: 0, filter: "blur(0px)", duration: d, ease: "power3.in" }, t - d);
+        tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, t - d);
+        const sx = o.big ? 1.24 : 1.14, sy = o.big ? 0.78 : 0.86;
+        const vertical = Math.abs(o.dy || 0) > Math.abs(o.dx || 0);
+        tl.fromTo(wi,
+          vertical ? { scaleX: sx, scaleY: sy } : { scaleX: sy, scaleY: sx },
+          { scaleX: 1, scaleY: 1, duration: 0.55, ease: "elastic.out(1, 0.4)", immediateRender: false, transformOrigin: "50% 70%" }, t);
+      }
+
+      // Retroceso: las palabras ya clavadas absorben el choque de la nueva
+      const RD = 0.75;
+      const recoils = new Map();
+      function recoil(ids, t, dx, dy, rot) {
+        ids.forEach((id, i) => {
+          const wi = $(id).querySelector(".wi");
+          const k = 1 - i * 0.12;
+          if (!recoils.has(wi)) recoils.set(wi, []);
+          recoils.get(wi).push({ t, dx: dx * k, dy: dy * k, rot: rot * k });
+        });
+      }
+      function recoilProfile(dt) {
+        if (dt < 0 || dt >= RD) return 0;
+        if (dt < 0.06) return Math.sin((Math.PI / 2) * (dt / 0.06));
+        const u = dt - 0.06;
+        return Math.exp(-6 * u) * Math.cos(6.2832 * 3 * u) * Math.pow(1 - u / (RD - 0.06), 2);
+      }
+      function bakeRecoils() {
+        recoils.forEach((list, wi) => {
+          const fn = (time) => {
+            let x = 0, y = 0, rotation = 0;
+            list.forEach((h) => {
+              const p = recoilProfile(time - h.t);
+              x += h.dx * p; y += h.dy * p; rotation += h.rot * p;
+            });
+            return { x, y, rotation };
+          };
+          bake(wi, fn, list.map((h) => [h.t, h.t + RD]));
+        });
+      }
+
+      // Golpe que saca de cuadro a la frase anterior
+      function knock(pinSel, t, o) {
+        tl.fromTo($(pinSel),
+          { x: 0, y: 0, rotation: 0, scale: 1, filter: "blur(0px)" },
+          { x: o.x || 0, y: o.y || 0, rotation: o.r || 0, scale: 0.86, filter: "blur(10px)", duration: 0.5, ease: "power2.out" }, t - 0.02);
+      }
+
+      // ---------- Fondo vivo: la cuadrícula deriva todo el video ----------
+      tl.fromTo("#k-grid", { x: 0, y: 0 }, { x: -96, y: -48, duration: 10, ease: "none" }, 0);
+
+      // ---------- Frase 1: C L A U D E (cada letra choca contra la anterior desde la derecha) ----------
+      const letters = ["#k-c1", "#k-c2", "#k-c3", "#k-c4", "#k-c5", "#k-c6"];
+      letters.forEach((id, i) => {
+        const t = 0.3 + i * 0.15;
+        const last = i === letters.length - 1;
+        slam(id, t, { dx: 1100, dy: 0, s: last ? 2.2 : 1.6, r: last ? 18 : 10, big: last });
+        if (i > 0) recoil(letters.slice(0, i).reverse(), t, -26, 0, -2.5);
+        shake(t, last ? 26 : 9);
+      });
+      tl.fromTo("#k-ghost", { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.out" }, 1.1);
+      flash(1.05, 0.28);
+      burst(1.05, 560, 20, 16, 11);
+
+      // ---------- Frase 2: ES UNA / BESTIA ----------
+      slam("#k-w-es", 2.2, { dx: -1200, s: 1.7, r: -12 });
+      knock("#k-p1 .pin", 2.2, { x: 1700, y: -120, r: 14 });
+      shake(2.2, 20);
+
+      slam("#k-w-una", 2.36, { dx: 1100, s: 1.6, r: 10 });
+      recoil(["#k-w-es"], 2.36, -24, 0, -2);
+      shake(2.36, 10);
+
+      slam("#k-w-bestia", 2.56, { dy: 760, s: 2.4, r: -6, big: true, dur: 0.22 });
+      recoil(["#k-w-una", "#k-w-es"], 2.56, 0, -22, 1.5);
+      shake(2.56, 28);
+      flash(2.56, 0.3);
+      burst(2.56, 0, 150, 18, 23);
+
+      // ---------- Frase 3: ESTO SE CREÓ / SOLO CON / CÓDIGO ----------
+      slam("#k-w-esto", 4.3, { dy: -760, s: 1.8, r: 8 });
+      knock("#k-p2 .pin", 4.3, { x: 80, y: 1350, r: 9 });
+      shake(4.3, 20);
+
+      slam("#k-w-se", 4.42, { dx: 1000, s: 1.5, r: 8 });
+      recoil(["#k-w-esto"], 4.42, -22, 0, -2);
+      shake(4.42, 8);
+
+      slam("#k-w-creo", 4.54, { dx: 1000, s: 1.6, r: 10 });
+      recoil(["#k-w-se", "#k-w-esto"], 4.54, -24, 0, -2);
+      shake(4.54, 9);
+
+      slam("#k-w-solo", 4.72, { dx: -1100, s: 1.6, r: -10 });
+      recoil(["#k-w-creo", "#k-w-se", "#k-w-esto"], 4.72, 0, -18, 0);
+      shake(4.72, 9);
+
+      slam("#k-w-con", 4.84, { dx: 1000, s: 1.5, r: 8 });
+      recoil(["#k-w-solo"], 4.84, -24, 0, -2);
+      shake(4.84, 9);
+
+      slam("#k-w-codigo", 5.02, { dy: 760, s: 2.3, r: 6, big: true, dur: 0.22 });
+      recoil(["#k-w-con", "#k-w-solo", "#k-w-creo", "#k-w-se", "#k-w-esto"], 5.02, 0, -20, 0);
+      shake(5.02, 26);
+      flash(5.02, 0.26);
+      burst(5.02, 0, 230, 16, 37);
+
+      // ---------- Frase 4: ¡NO JODAS, / MEN! ----------
+      slam("#k-w-no", 7.25, { dx: 1200, s: 1.8, r: 12 });
+      knock("#k-p3 .pin", 7.25, { x: -1800, y: 60, r: -12 });
+      shake(7.25, 22);
+
+      slam("#k-w-jodas", 7.42, { dy: -800, s: 1.7, r: -8 });
+      recoil(["#k-w-no"], 7.42, -26, 0, -2.5);
+      shake(7.42, 11);
+
+      slam("#k-w-men", 7.66, { s: 5, r: -4, big: true, dur: 0.24 });
+      recoil(["#k-w-jodas", "#k-w-no"], 7.66, 0, -26, 0);
+      shake(7.66, 38);
+      flash(7.66, 0.42);
+      burst(7.66, 0, 170, 24, 53);
+
+      bakeCamera();
+      bakeRecoils();
+
+      window.__timelines["kinetic"] = tl;
+    })();
+  </script>
+</template>
